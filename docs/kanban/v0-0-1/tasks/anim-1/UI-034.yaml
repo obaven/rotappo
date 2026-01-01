@@ -1,0 +1,38 @@
+id: UI-034
+title: 'TUI Loading + Status Animations'
+type: Story
+layer: 5
+domain: core
+component: rotappo-tui-animation
+cli_surface:
+  - rotappo ui
+
+description: |
+  Add animated spinner indicators for running steps/actions and
+  refresh animations on load.
+
+deliverables:
+  - Animated spinner glyphs for running steps/actions
+  - On-load pulse/flash effect for refreshed panels
+
+acceptance_criteria:
+  - Spinner appears only for running items
+  - Refresh animation is subtle and non-blocking
+
+dependencies:
+  - UI-033
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - animation
+  - ui
+  - tui
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

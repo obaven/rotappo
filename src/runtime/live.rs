@@ -1,0 +1,115 @@
+use std::collections::HashMap;
+use std::sync::{Arc, RwLock};
+use std::thread;
+use std::time::Duration;
+
+use bootstrappo::components::registry;
+use bootstrappo::config::Config;
+use bootstrappo::ops::drivers::{DriverContext, DriverMode, HealthStatus};
+use bootstrappo::ops::k8s::cache::ClusterCache;
+use kube::Client;
+
+#[derive(Clone)]
+pub struct LiveStatus {
+    cache: Arc<RwLock<Option<ClusterCache>>>,
+    health: Arc<RwLock<HashMap<String, HealthStatus>>>,
+    error: Arc<RwLock<Option<String>>>,
+}
+
+impl LiveStatus {
+    pub fn spawn(config: Arc<Config>) -> Self {
+        let live = Self {
+            cache: Arc::new(RwLock::new(None)),
+            health: Arc::new(RwLock::new(HashMap::new())),
+            error: Arc::new(RwLock::new(None)),
+        };
+
+        if std::env::var("ROTAPPO_DISABLE_LIVE_STATUS")
+            .map(|v| v == "1" || v.eq_ignore_ascii_case("true"))
+            .unwrap_or(false)
+        {
+            return live;
+        }
+
+        let cache = Arc::clone(&live.cache);
+        let health = Arc::clone(&live.health);
+        let error = Arc::clone(&live.error);
+
+        thread::spawn(move || {
+            let runtime = tokio::runtime::Builder::new_multi_thread()
+                .enable_all()
+                .build();
+
+            let runtime = match runtime {
+                Ok(rt) => rt,
+                Err(err) => {
+                    if let Ok(mut guard) = error.write() {
+                        *guard = Some(format!("Failed to build tokio runtime: {}", err));
+                    }
+                    return;
+                }
+            };
+
+            runtime.block_on(async move {
+                if let Err(err) = init_cache(&cache).await {
+                    if let Ok(mut guard) = error.write() {
+                        *guard = Some(err);
+                    }
+                }
+
+                let mut interval = tokio::time::interval(Duration::from_secs(15));
+                loop {
+                    interval.tick().await;
+                    let ctx = DriverContext::new(Arc::clone(&config), DriverMode::Render);
+                    let drivers = registry::get_all_drivers(config.as_ref());
+                    let mut results = HashMap::new();
+
+                    for driver in drivers {
+                        if !driver.enabled(&ctx) {
+                            continue;
+                        }
+                        let name = driver.spec().name.to_string();
+                        let status = match driver.check().await {
+                            Ok(status) => status,
+                            Err(err) => HealthStatus::Unhealthy(err.to_string()),
+                        };
+                        results.insert(name, status);
+                    }
+
+                    if let Ok(mut guard) = health.write() {
+                        *guard = results;
+                    }
+                }
+            });
+        });
+
+        live
+    }
+
+    pub fn cache(&self) -> Option<ClusterCache> {
+        self.cache.read().ok().and_then(|guard| guard.clone())
+    }
+
+    pub fn health(&self) -> HashMap<String, HealthStatus> {
+        self.health
+            .read()
+            .map(|guard| guard.clone())
+            .unwrap_or_default()
+    }
+
+    pub fn last_error(&self) -> Option<String> {
+        self.error.read().ok().and_then(|guard| guard.clone())
+    }
+}
+
+async fn init_cache(cache: &Arc<RwLock<Option<ClusterCache>>>) -> Result<(), String> {
+    let client = Client::try_default()
+        .await
+        .map_err(|err| format!("Failed to init kube client: {}", err))?;
+    let cluster_cache = ClusterCache::new(client);
+    cluster_cache.start_watchers().await;
+    if let Ok(mut guard) = cache.write() {
+        *guard = Some(cluster_cache.clone());
+    }
+    Ok(())
+}

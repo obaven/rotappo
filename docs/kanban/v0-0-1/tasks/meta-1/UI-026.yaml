@@ -1,0 +1,41 @@
+id: UI-026
+title: 'Rotappo TUI Module Decomposition'
+type: Story
+layer: 5
+domain: core
+component: rotappo-tui-modules
+cli_surface:
+  - rotappo ui
+
+description: |
+  Split the TUI into smaller modules by panel and state so each panel
+  can evolve independently. Extract panel rendering and input handling
+  into dedicated files.
+
+deliverables:
+  - ui/panels module (plan, actions, logs, problems, tooltip)
+  - ui/state module for hover/scroll/selection state
+  - ui/input module for key + mouse routing
+
+acceptance_criteria:
+  - UI renders the same layout as before the refactor
+  - Panels can be tested independently with mock state
+
+dependencies:
+  - UI-025
+  - UI-004
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - tui
+  - refactor
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

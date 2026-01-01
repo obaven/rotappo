@@ -1,0 +1,51 @@
+id: UI-025
+title: 'META-1: Rotappo Ports + Adapters Refactor'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-architecture
+cli_surface:
+  - rotappo ui
+  - rotappo
+
+description: |
+  Restructure the Rotappo codebase into smaller modules following
+  ports-and-adapters. Reduce boilerplate and centralize shared UI
+  patterns while keeping behavior stable.
+
+deliverables:
+  - Port traits for runtime status, health, and logs
+  - Adapters implementing ports (Bootstrappo + in-memory)
+  - TUI modules split by panel and state
+  - Shared UI utilities to reduce duplication
+
+acceptance_criteria:
+  - No visible behavior regressions in the TUI or CLI output
+  - Runtime depends on port traits instead of concrete adapters
+  - UI modules stay under 200 LOC per file on average
+
+dependencies:
+  - UI-002
+  - UI-003
+  - UI-004
+
+children:
+  - UI-026
+  - UI-027
+  - UI-028
+  - UI-029
+
+phase_gate: gitops
+effort: L
+risk: med
+
+labels:
+  - meta
+  - refactor
+  - architecture
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

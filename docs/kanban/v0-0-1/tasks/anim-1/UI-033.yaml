@@ -1,0 +1,50 @@
+id: UI-033
+title: 'ANIM-1: Rotappo TUI Animation Pass'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-tui-animation
+cli_surface:
+  - rotappo ui
+
+description: |
+  Add motion and visual affordances to the TUI: loading spinners,
+  hover/selection cues, click feedback, and scrollbars. Improve
+  tooltip presentation with stacked, non-intrusive overlays.
+
+deliverables:
+  - Animated loading indicators for running steps/actions
+  - Hover and click animations with visual feedback
+  - Scrollbar rendering for scrollable panels
+  - Tooltip stacking with pin/unpin support
+
+acceptance_criteria:
+  - Animations render at a stable frame rate without flicker
+  - Hover and click states are visually distinct
+  - Scrollbars reflect position for plan/logs panels
+  - Tooltips do not obscure primary content
+
+dependencies:
+  - UI-004
+  - UI-025
+
+children:
+  - UI-034
+  - UI-035
+  - UI-036
+  - UI-037
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - animation
+  - ui
+  - tui
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

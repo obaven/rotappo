@@ -1,0 +1,81 @@
+use ratatui::{
+    layout::{Margin, Rect},
+    prelude::Frame,
+    style::{Color, Modifier, Style},
+    widgets::{Block, Borders, List, ListItem, Scrollbar, ScrollbarOrientation, ScrollbarState},
+};
+
+use crate::ui::app::App;
+use crate::ui::state::HoverPanel;
+use crate::ui::util::{plan_lines, traveling_glow};
+
+pub fn render_plan_steps(frame: &mut Frame, area: Rect, app: &mut App) {
+    app.ui.plan_area = area;
+    if app.ui.collapsed_plan_steps {
+        let mut block = Block::default().title("Plan Steps").borders(Borders::ALL);
+        if app.ui.hover_panel == HoverPanel::Plan {
+            block = block.style(Style::default().bg(Color::Rgb(0, 90, 90)));
+        }
+        frame.render_widget(block, area);
+        return;
+    }
+    let snapshot = app.runtime.snapshot();
+    let items: Vec<ListItem> = if snapshot.plan_steps.is_empty() {
+        vec![ListItem::new("No plan steps loaded")]
+    } else {
+        let lines = plan_lines(snapshot);
+        let total_lines = lines.len();
+        lines
+            .into_iter()
+            .skip(app.ui.plan_scroll as usize)
+            .enumerate()
+            .map(|(offset, line)| {
+                let line_index = app.ui.plan_scroll as usize + offset;
+                let mut line_style = Style::default();
+                if let Some(color) = traveling_glow(line_index, total_lines) {
+                    line_style = line_style.fg(color);
+                }
+                let mut item = ListItem::new(line.line).style(line_style);
+                if let Some(step_index) = line.step_index {
+                    if app.ui.hover_plan_index == Some(step_index) {
+                        item = item.style(Style::default().bg(Color::DarkGray));
+                    }
+                }
+                item
+            })
+            .collect()
+    };
+
+    let mut list_block = Block::default().title("Plan Steps").borders(Borders::ALL);
+    if app.refresh_pulse_active() {
+        list_block = list_block.style(Style::default().fg(Color::Cyan));
+    }
+    if app.ui.hover_panel == HoverPanel::Plan {
+        let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
+        list_block = list_block.style(active_style);
+    }
+    let mut list = List::new(items)
+        .block(list_block)
+        .highlight_style(Style::default().add_modifier(Modifier::BOLD));
+    if app.ui.hover_panel == HoverPanel::Plan {
+        let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
+        list = list.style(active_style);
+    }
+    frame.render_widget(list, area);
+
+    let total_lines = plan_lines(snapshot).len();
+    let view_height = area.height.saturating_sub(2) as usize;
+    if total_lines > view_height && view_height > 0 {
+        let mut state = ScrollbarState::new(total_lines).position(app.ui.plan_scroll as usize);
+        let bar =
+            Scrollbar::new(ScrollbarOrientation::VerticalRight).style(Style::default().fg(Color::Cyan));
+        frame.render_stateful_widget(
+            bar,
+            area.inner(Margin {
+                horizontal: 0,
+                vertical: 1,
+            }),
+            &mut state,
+        );
+    }
+}

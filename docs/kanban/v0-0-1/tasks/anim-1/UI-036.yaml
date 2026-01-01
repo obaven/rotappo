@@ -1,0 +1,39 @@
+id: UI-036
+title: 'TUI Scrollbars'
+type: Task
+layer: 5
+domain: core
+component: rotappo-tui-animation
+cli_surface:
+  - rotappo ui
+
+description: |
+  Add scrollbars for plan steps and logs panels to indicate scroll
+  position and total length.
+
+deliverables:
+  - Scrollbar for plan steps panel
+  - Scrollbar for logs panel
+  - Scrollbar color aligned with panel theme
+
+acceptance_criteria:
+  - Scrollbar reflects content length accurately
+  - Scrollbar hidden when content fits panel
+
+dependencies:
+  - UI-033
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - animation
+  - ui
+  - tui
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

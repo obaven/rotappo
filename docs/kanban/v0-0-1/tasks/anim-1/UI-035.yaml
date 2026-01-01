@@ -1,0 +1,38 @@
+id: UI-035
+title: 'TUI Hover + Click Feedback'
+type: Story
+layer: 5
+domain: core
+component: rotappo-tui-animation
+cli_surface:
+  - rotappo ui
+
+description: |
+  Add hover and click feedback across panels: highlight rows on hover
+  and brief click flash for actions.
+
+deliverables:
+  - Hover highlight for plan/actions/problems rows
+  - Click flash animation for action triggers
+
+acceptance_criteria:
+  - Hover state visible without impacting selection highlight
+  - Click feedback visible for mouse and keyboard actions
+
+dependencies:
+  - UI-033
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - animation
+  - ui
+  - tui
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

@@ -1,0 +1,39 @@
+id: UI-028
+title: 'Rotappo Adapter Module Cleanup'
+type: Task
+layer: 5
+domain: core
+component: rotappo-adapters
+cli_surface:
+  - rotappo ui
+
+description: |
+  Split Bootstrappo adapter logic into focused modules and remove
+  duplicated data mapping. Align adapter layout with ports definitions.
+
+deliverables:
+  - adapters/bootstrappo/{plan,health,k8s} modules
+  - Shared mapping helpers for plan/capability status
+  - Clear separation between IO and domain logic
+
+acceptance_criteria:
+  - Adapter modules compile without warnings
+  - Mapping logic reused by runtime and UI
+
+dependencies:
+  - UI-025
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - adapters
+  - refactor
+  - cleanup
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

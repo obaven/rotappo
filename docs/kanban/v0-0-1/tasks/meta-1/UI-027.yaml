@@ -1,0 +1,42 @@
+id: UI-027
+title: 'Rotappo Runtime Ports + Status Abstractions'
+type: Story
+layer: 5
+domain: core
+component: rotappo-runtime-ports
+cli_surface:
+  - rotappo
+  - rotappo ui
+
+description: |
+  Define ports for plan status, health checks, and log streaming so the
+  runtime can swap adapters without refactors. Provide in-memory and
+  Bootstrappo implementations.
+
+deliverables:
+  - Port traits for plan status and health reporting
+  - In-memory adapter for tests and offline use
+  - Bootstrappo adapter implementing the ports
+
+acceptance_criteria:
+  - Runtime depends on trait objects or generics, not concrete adapters
+  - Adapters can be swapped via configuration
+
+dependencies:
+  - UI-025
+  - UI-002
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - runtime
+  - ports
+  - refactor
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

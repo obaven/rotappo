@@ -1,0 +1,39 @@
+id: UI-032
+title: 'FIX-1: Shared Plan/Problem Formatting'
+type: Task
+layer: 5
+domain: core
+component: rotappo-formatting
+cli_surface:
+  - rotappo ui
+  - rotappo
+
+description: |
+  Reduce formatting duplication by extracting shared plan and problem
+  formatting utilities for TUI and CLI output.
+
+deliverables:
+  - Formatter helpers for plan groups and problem lists
+  - Shared formatter module used by TUI and CLI
+
+acceptance_criteria:
+  - No duplicated plan formatting logic in UI modules
+  - CLI and TUI formatters share the same output helpers
+
+dependencies:
+  - UI-025
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - fix
+  - formatting
+  - cleanup
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

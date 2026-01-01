@@ -1,0 +1,40 @@
+id: UI-030
+title: 'FIX-1: TUI State Deduplication'
+type: Task
+layer: 5
+domain: core
+component: rotappo-ui-state
+cli_surface:
+  - rotappo ui
+
+description: |
+  Consolidate hover, scroll, tooltip, and selection logic into a shared
+  UI state module to reduce duplication and make testing easier.
+
+deliverables:
+  - ui/state module with hover/scroll/tooltip structs
+  - Shared helpers for hit-testing and scroll bounds
+  - Updated panels to use shared state
+
+acceptance_criteria:
+  - No duplicate hover/scroll logic across panels
+  - UI behavior unchanged from user perspective
+
+dependencies:
+  - UI-025
+  - UI-026
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - fix
+  - ui
+  - cleanup
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

@@ -1,0 +1,41 @@
+id: UI-029
+title: 'Rotappo UI Macro Helpers'
+type: Task
+layer: 5
+domain: core
+component: rotappo-ui-macros
+cli_surface:
+  - rotappo ui
+
+description: |
+  Add macro helpers to reduce boilerplate in TUI rendering and layout
+  composition. Focus on repeated widget/block patterns and layout
+  scaffolding.
+
+deliverables:
+  - macro_rules! helpers for standard panel blocks
+  - macro_rules! helpers for layout splits
+  - Documentation for macro usage in ui modules
+
+acceptance_criteria:
+  - At least 3 panels use the macros
+  - Macros are documented and lint clean
+
+dependencies:
+  - UI-025
+  - UI-026
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - ui
+  - macros
+  - cleanup
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

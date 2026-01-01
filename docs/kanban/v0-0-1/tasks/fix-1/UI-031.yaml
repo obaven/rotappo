@@ -1,0 +1,40 @@
+id: UI-031
+title: 'FIX-1: Log Stream Configuration Cleanup'
+type: Task
+layer: 5
+domain: core
+component: rotappo-logging
+cli_surface:
+  - rotappo ui
+  - rotappo
+
+description: |
+  Centralize log stream interval and filtering configuration so UI and
+  CLI share consistent defaults and settings.
+
+deliverables:
+  - Shared log stream config struct
+  - Single source of truth for default intervals
+  - UI and CLI read from shared config
+
+acceptance_criteria:
+  - Log interval configured in one place
+  - UI and CLI output share default filtering settings
+
+dependencies:
+  - UI-025
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - fix
+  - logging
+  - cleanup
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned

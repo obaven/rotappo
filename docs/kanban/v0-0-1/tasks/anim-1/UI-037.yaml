@@ -1,0 +1,39 @@
+id: UI-037
+title: 'Tooltip Stacking + Non-Intrusive Layout'
+type: Task
+layer: 5
+domain: core
+component: rotappo-tui-animation
+cli_surface:
+  - rotappo ui
+
+description: |
+  Rework tooltip presentation to support stacking and pinned overlays
+  that do not block primary content.
+
+deliverables:
+  - Tooltip stack model (hover + pinned)
+  - Render offset and transparency rules
+  - Pin/unpin behavior updated
+
+acceptance_criteria:
+  - Pinned tooltips remain visible without covering key panels
+  - Hover tooltips collapse cleanly
+
+dependencies:
+  - UI-033
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - animation
+  - ui
+  - tui
+  - rotappo
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+assignee: unassigned
