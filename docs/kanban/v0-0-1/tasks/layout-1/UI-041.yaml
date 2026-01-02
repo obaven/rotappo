@@ -43,6 +43,6 @@ labels:
   - locking
 
 status: MustHaves
-state: Backlog
-status_capsule: (owner:@antigravity, updated:2026-01-01, status:backlog)
+state: InProgress
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:in_progress)
 assignee: unassigned

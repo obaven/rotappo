@@ -18,10 +18,20 @@ impl BootstrappoBackend {
     pub fn from_env() -> Result<Self> {
         let config_path = std::env::var("BOOTSTRAPPO_CONFIG_PATH")
             .map(PathBuf::from)
-            .unwrap_or_else(|_| {
-                PathBuf::from("../bootstrappo/data/configs/bootstrap-config.yaml")
-            });
+            .ok();
+        let plan_path = std::env::var("BOOTSTRAPPO_PLAN_PATH")
+            .map(PathBuf::from)
+            .ok();
+        Self::from_paths(config_path, plan_path)
+    }
 
+    pub fn from_paths(
+        config_path: Option<PathBuf>,
+        plan_path: Option<PathBuf>,
+    ) -> Result<Self> {
+        let config_path = config_path.unwrap_or_else(|| {
+            PathBuf::from("../bootstrappo/data/configs/bootstrap-config.yaml")
+        });
         let config = bootstrappo::config::load_from_file(&config_path).with_context(|| {
             format!(
                 "Failed to load Bootstrappo config at {}",
@@ -29,9 +39,9 @@ impl BootstrappoBackend {
             )
         })?;
 
-        let plan_path = std::env::var("BOOTSTRAPPO_PLAN_PATH")
-            .map(PathBuf::from)
-            .unwrap_or_else(|_| PathBuf::from("../bootstrappo/data/plans/bootstrap.v0-0-3.yaml"));
+        let plan_path = plan_path.unwrap_or_else(|| {
+            PathBuf::from("../bootstrappo/data/plans/bootstrap.v0-0-3.yaml")
+        });
         let (plan, plan_error) = match bootstrappo::ops::reconciler::plan::Plan::load(&plan_path) {
             Ok(plan) => (Some(plan), None),
             Err(err) => (None, Some(err.to_string())),

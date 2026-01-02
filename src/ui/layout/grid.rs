@@ -1,9 +1,9 @@
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 use std::collections::HashMap;
+use std::borrow::Borrow;
 use std::ops::{Deref, DerefMut};
-use std::sync::{Arc, RwLock};
+use std::sync::{Arc, Mutex, RwLock};
 use std::time::Instant;
-use std::{cell::UnsafeCell, sync::atomic::{AtomicBool, Ordering}};
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct SlotId(String);
@@ -21,6 +21,12 @@ impl SlotId {
 impl From<&str> for SlotId {
     fn from(value: &str) -> Self {
         Self::new(value)
+    }
+}
+
+impl Borrow<str> for SlotId {
+    fn borrow(&self) -> &str {
+        &self.0
     }
 }
 
@@ -53,6 +59,13 @@ pub struct GridSlot {
     pub row_span: usize,
     pub col_span: usize,
     pub visible: bool,
+    pub movable: bool,
+    pub min_width: Option<u16>,
+    pub min_height: Option<u16>,
+    pub max_width: Option<u16>,
+    pub max_height: Option<u16>,
+    pub offset_x: i16,
+    pub offset_y: i16,
 }
 
 impl GridSlot {
@@ -64,6 +77,13 @@ impl GridSlot {
             row_span: 1,
             col_span: 1,
             visible: true,
+            movable: false,
+            min_width: None,
+            min_height: None,
+            max_width: None,
+            max_height: None,
+            offset_x: 0,
+            offset_y: 0,
         }
     }
 
@@ -75,6 +95,29 @@ impl GridSlot {
 
     pub fn hidden(mut self) -> Self {
         self.visible = false;
+        self
+    }
+
+    pub fn movable(mut self, value: bool) -> Self {
+        self.movable = value;
+        self
+    }
+
+    pub fn with_min_size(mut self, width: u16, height: u16) -> Self {
+        self.min_width = Some(width);
+        self.min_height = Some(height);
+        self
+    }
+
+    pub fn with_max_size(mut self, width: u16, height: u16) -> Self {
+        self.max_width = Some(width);
+        self.max_height = Some(height);
+        self
+    }
+
+    pub fn offset(mut self, x: i16, y: i16) -> Self {
+        self.offset_x = x;
+        self.offset_y = y;
         self
     }
 }
@@ -129,7 +172,7 @@ impl GridResolver {
             if !slot.visible {
                 continue;
             }
-            if let Some(rect) = slot_rect(slot, &rows, &cols) {
+            if let Some(rect) = slot_rect(area, slot, &rows, &cols) {
                 rects.insert(slot.id.clone(), rect);
             }
         }
@@ -213,10 +256,14 @@ fn resolve_tracks(area: Rect, direction: Direction, tracks: &[TrackSize]) -> Vec
         return Vec::new();
     }
     let constraints: Vec<Constraint> = tracks.iter().map(|track| track.to_constraint()).collect();
-    Layout::default().direction(direction).constraints(constraints).split(area)
+    Layout::default()
+        .direction(direction)
+        .constraints(constraints)
+        .split(area)
+        .to_vec()
 }
 
-fn slot_rect(slot: &GridSlot, rows: &[Rect], cols: &[Rect]) -> Option<Rect> {
+fn slot_rect(area: Rect, slot: &GridSlot, rows: &[Rect], cols: &[Rect]) -> Option<Rect> {
     if slot.row >= rows.len() || slot.col >= cols.len() {
         return None;
     }
@@ -229,58 +276,91 @@ fn slot_rect(slot: &GridSlot, rows: &[Rect], cols: &[Rect]) -> Option<Rect> {
     let left = cols[slot.col].x;
     let bottom = rows[row_end - 1].y.saturating_add(rows[row_end - 1].height);
     let right = cols[col_end - 1].x.saturating_add(cols[col_end - 1].width);
-    Some(Rect::new(left, top, right.saturating_sub(left), bottom.saturating_sub(top)))
+    let cell_width = right.saturating_sub(left);
+    let cell_height = bottom.saturating_sub(top);
+    let mut width = cell_width;
+    let mut height = cell_height;
+    if let Some(max_width) = slot.max_width {
+        width = width.min(max_width);
+    }
+    if let Some(max_height) = slot.max_height {
+        height = height.min(max_height);
+    }
+    if let Some(min_width) = slot.min_width {
+        width = width.max(min_width).min(cell_width);
+    }
+    if let Some(min_height) = slot.min_height {
+        height = height.max(min_height).min(cell_height);
+    }
+    let mut x = left;
+    let mut y = top;
+    if slot.movable && (slot.offset_x != 0 || slot.offset_y != 0) {
+        let mut new_x = (x as i32).saturating_add(slot.offset_x as i32);
+        let mut new_y = (y as i32).saturating_add(slot.offset_y as i32);
+        let min_x = area.x as i32;
+        let min_y = area.y as i32;
+        let max_x = area
+            .x
+            .saturating_add(area.width)
+            .saturating_sub(width) as i32;
+        let max_y = area
+            .y
+            .saturating_add(area.height)
+            .saturating_sub(height) as i32;
+        if new_x < min_x {
+            new_x = min_x;
+        }
+        if new_x > max_x {
+            new_x = max_x;
+        }
+        if new_y < min_y {
+            new_y = min_y;
+        }
+        if new_y > max_y {
+            new_y = max_y;
+        }
+        x = new_x.max(0) as u16;
+        y = new_y.max(0) as u16;
+    }
+    Some(Rect::new(x, y, width, height))
 }
 
 pub struct SpinLock<T> {
-    locked: AtomicBool,
-    value: UnsafeCell<T>,
+    inner: Mutex<T>,
 }
-
-unsafe impl<T: Send> Send for SpinLock<T> {}
-unsafe impl<T: Send> Sync for SpinLock<T> {}
 
 impl<T> SpinLock<T> {
     pub fn new(value: T) -> Self {
         Self {
-            locked: AtomicBool::new(false),
-            value: UnsafeCell::new(value),
+            inner: Mutex::new(value),
         }
     }
 
     pub fn lock(&self) -> SpinGuard<'_, T> {
-        while self
-            .locked
-            .compare_exchange(false, true, Ordering::Acquire, Ordering::Relaxed)
-            .is_err()
-        {
+        loop {
+            if let Ok(guard) = self.inner.try_lock() {
+                return SpinGuard { guard };
+            }
             std::hint::spin_loop();
         }
-        SpinGuard { lock: self }
     }
 }
 
 pub struct SpinGuard<'a, T> {
-    lock: &'a SpinLock<T>,
+    guard: std::sync::MutexGuard<'a, T>,
 }
 
 impl<T> Deref for SpinGuard<'_, T> {
     type Target = T;
 
     fn deref(&self) -> &Self::Target {
-        unsafe { &*self.lock.value.get() }
+        &self.guard
     }
 }
 
 impl<T> DerefMut for SpinGuard<'_, T> {
     fn deref_mut(&mut self) -> &mut Self::Target {
-        unsafe { &mut *self.lock.value.get() }
-    }
-}
-
-impl<T> Drop for SpinGuard<'_, T> {
-    fn drop(&mut self) {
-        self.lock.locked.store(false, Ordering::Release);
+        &mut self.guard
     }
 }
 
@@ -321,5 +401,38 @@ mod tests {
         .with_slots(vec![GridSlot::new("hidden", 0, 0).hidden()]);
         let layout = GridResolver::resolve(Rect::new(0, 0, 4, 4), &spec);
         assert!(layout.rect("hidden").is_none());
+    }
+
+    #[test]
+    fn applies_min_max_and_offsets() {
+        let spec = GridSpec::new(vec![TrackSize::Fixed(10)], vec![TrackSize::Fixed(10)])
+            .with_slots(vec![GridSlot::new("slot", 0, 0)
+                .movable(true)
+                .with_min_size(6, 6)
+                .with_max_size(8, 8)
+                .offset(3, 4)]);
+        let area = Rect::new(0, 0, 10, 10);
+        let layout = GridResolver::resolve(area, &spec);
+        let rect = layout.rect("slot").expect("slot rect");
+        assert_eq!(rect.width, 8);
+        assert_eq!(rect.height, 8);
+        assert_eq!(rect.x, 2);
+        assert_eq!(rect.y, 2);
+    }
+
+    #[test]
+    fn clamps_offsets_to_area() {
+        let spec = GridSpec::new(vec![TrackSize::Fixed(6)], vec![TrackSize::Fixed(6)])
+            .with_slots(vec![GridSlot::new("slot", 0, 0)
+                .movable(true)
+                .with_max_size(4, 4)
+                .offset(10, 10)]);
+        let area = Rect::new(0, 0, 6, 6);
+        let layout = GridResolver::resolve(area, &spec);
+        let rect = layout.rect("slot").expect("slot rect");
+        assert_eq!(rect.width, 4);
+        assert_eq!(rect.height, 4);
+        assert_eq!(rect.x, 2);
+        assert_eq!(rect.y, 2);
     }
 }

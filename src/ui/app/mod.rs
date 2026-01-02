@@ -9,6 +9,11 @@ use std::time::{Duration, Instant};
 use crate::adapters::bootstrappo::BootstrappoBackend;
 use crate::runtime::{ActionId, ActionSafety, Event, EventLevel, Runtime};
 use crate::ui::state::UiState;
+use crate::ui::layout::{
+    SLOT_ACTIONS, SLOT_CAPABILITIES, SLOT_FOOTER_HELP, SLOT_FOOTER_SETTINGS,
+    SLOT_LOGS, SLOT_LOG_CONTROLS, SLOT_PLAN_PROGRESS, SLOT_PLAN_STEPS,
+    SLOT_PROBLEMS, SLOT_SNAPSHOT,
+};
 
 mod actions;
 mod collapse;
@@ -38,6 +43,23 @@ pub(crate) enum PanelId {
     Help,
 }
 
+impl PanelId {
+    pub fn slot_id(self) -> Option<&'static str> {
+        match self {
+            PanelId::PlanProgress => Some(SLOT_PLAN_PROGRESS),
+            PanelId::Snapshot => Some(SLOT_SNAPSHOT),
+            PanelId::Capabilities => Some(SLOT_CAPABILITIES),
+            PanelId::PlanSteps => Some(SLOT_PLAN_STEPS),
+            PanelId::Actions => Some(SLOT_ACTIONS),
+            PanelId::Settings => Some(SLOT_FOOTER_SETTINGS),
+            PanelId::LogControls => Some(SLOT_LOG_CONTROLS),
+            PanelId::Problems => Some(SLOT_PROBLEMS),
+            PanelId::Logs => Some(SLOT_LOGS),
+            PanelId::Help => Some(SLOT_FOOTER_HELP),
+        }
+    }
+}
+
 pub struct App {
     pub backend: BootstrappoBackend,
     pub runtime: Runtime,
@@ -46,6 +68,7 @@ pub struct App {
     pub last_refresh: Instant,
     pub should_quit: bool,
     pub ui: UiState,
+    pub layout_policy: crate::ui::layout::LayoutPolicy,
 }
 
 #[derive(Debug, Clone)]
@@ -97,7 +120,9 @@ impl App {
             last_refresh: Instant::now(),
             should_quit: false,
             ui: UiState::new(),
+            layout_policy: crate::ui::layout::LayoutPolicy::new(),
         };
+        app.sync_layout_policy();
         app.refresh_log_cache(true);
         app
     }
@@ -164,7 +189,7 @@ impl App {
     }
 
     fn handle_settings_shortcut(&mut self, apply: bool) {
-        if self.ui.collapsed_settings {
+        if self.panel_collapsed(PanelId::Settings) {
             return;
         }
         self.ui.settings_selected = if apply { 0 } else { 1 };
@@ -186,8 +211,31 @@ impl App {
         self.ui.log_menu_hover_index = None;
     }
 
+    pub fn sync_layout_policy(&mut self) {
+        let panels = [
+            PanelId::PlanProgress,
+            PanelId::Snapshot,
+            PanelId::Capabilities,
+            PanelId::PlanSteps,
+            PanelId::Actions,
+            PanelId::Settings,
+            PanelId::LogControls,
+            PanelId::Problems,
+            PanelId::Logs,
+            PanelId::Help,
+        ];
+        for panel in panels {
+            if let Some(slot) = panel.slot_id() {
+                let slot_id = slot.into();
+                self.layout_policy.clear_override(&slot_id);
+                self.layout_policy
+                    .set_collapsed(slot, self.is_collapsed(panel));
+            }
+        }
+    }
+
     pub fn log_controls_height(&self) -> u16 {
-        if self.ui.collapsed_log_controls {
+        if self.panel_collapsed(PanelId::LogControls) {
             return COLLAPSED_HEIGHT;
         }
         let menu_items = if self.ui.log_menu_pinned {
@@ -201,6 +249,24 @@ impl App {
         };
         let menu_height = if menu_items > 0 { menu_items + 2 } else { 0 };
         LOG_CONTROLS_BASE_HEIGHT.saturating_add(menu_height)
+    }
+
+    pub fn panel_visible(&self, panel: PanelId) -> bool {
+        if let Some(slot) = panel.slot_id() {
+            if let Some(visible) = self.layout_policy.visibility_for(slot) {
+                return visible;
+            }
+        }
+        true
+    }
+
+    pub fn panel_collapsed(&self, panel: PanelId) -> bool {
+        if let Some(slot) = panel.slot_id() {
+            if let Some(collapsed) = self.layout_policy.collapsed_for(slot) {
+                return collapsed;
+            }
+        }
+        self.is_collapsed(panel)
     }
 
     fn log_menu_trigger_contains(&self, pos: Position) -> bool {

@@ -1,6 +1,6 @@
 use ratatui::layout::Rect;
 
-use super::{App, PanelId, COLLAPSED_HEIGHT};
+use super::{App, PanelId};
 
 impl App {
     pub fn handle_header_click(&mut self, column: u16, row: u16) -> bool {
@@ -53,7 +53,7 @@ impl App {
         }
     }
 
-    fn is_collapsed(&self, panel: PanelId) -> bool {
+    pub(crate) fn is_collapsed(&self, panel: PanelId) -> bool {
         match panel {
             PanelId::PlanProgress => self.ui.collapsed_plan_progress,
             PanelId::Snapshot => self.ui.collapsed_snapshot,
@@ -81,85 +81,34 @@ impl App {
             PanelId::Logs => self.ui.collapsed_logs = value,
             PanelId::Help => self.ui.collapsed_help = value,
         }
+        if let Some(slot) = panel.slot_id() {
+            self.layout_policy.set_collapsed(slot, value);
+        }
         if !value {
             if matches!(panel, PanelId::Help | PanelId::Logs) {
                 self.ui.collapsed_plan_steps = true;
+                if let Some(slot) = PanelId::PlanSteps.slot_id() {
+                    self.layout_policy.set_collapsed(slot, true);
+                }
             }
             self.mark_opened(panel);
         }
     }
 
-    fn desired_height(panel: PanelId) -> u16 {
-        match panel {
-            PanelId::PlanProgress => 3,
-            PanelId::Snapshot => 6,
-            PanelId::Capabilities => 6,
-            PanelId::PlanSteps => 6,
-            PanelId::Actions => 8,
-            PanelId::Settings => 6,
-            PanelId::LogControls => 3,
-            PanelId::Problems => 4,
-            PanelId::Logs => 8,
-            PanelId::Help => 2,
-        }
-    }
-
     fn ensure_space_for(&mut self, panel: PanelId) {
-        match panel {
-            PanelId::PlanProgress | PanelId::Snapshot | PanelId::Capabilities => {
-                let column_height = self.ui.plan_progress_area.height
-                    + self.ui.snapshot_area.height
-                    + self.ui.capabilities_area.height;
-                let panels = [PanelId::PlanProgress, PanelId::Snapshot, PanelId::Capabilities];
-                self.collapse_if_needed(panel, column_height, &panels);
-            }
-            PanelId::PlanSteps => {}
-            PanelId::Actions | PanelId::Problems => {
-                let column_height =
-                    self.ui.actions_area.height + self.ui.problems_area.height;
-                let panels = [PanelId::Actions, PanelId::Problems];
-                self.collapse_if_needed(panel, column_height, &panels);
-            }
-            PanelId::LogControls | PanelId::Logs => {
-                let column_height =
-                    self.ui.log_controls_area.height + self.ui.logs_area.height;
-                let panels = [PanelId::LogControls, PanelId::Logs];
-                self.collapse_if_needed(panel, column_height, &panels);
-            }
-            PanelId::Settings => {}
-            PanelId::Help => {
-                if self.ui.screen_area.height < 20 {
-                    self.ui.collapsed_plan_progress = true;
-                    self.ui.collapsed_snapshot = true;
-                    self.ui.collapsed_capabilities = true;
-                    self.ui.collapsed_plan_steps = true;
-                    self.ui.collapsed_actions = true;
-                    self.ui.collapsed_settings = true;
-                    self.ui.collapsed_log_controls = true;
-                    self.ui.collapsed_problems = true;
-                    self.ui.collapsed_logs = true;
-                }
-            }
+        if panel != PanelId::Help {
+            return;
         }
-    }
-
-    fn collapse_if_needed(&mut self, target: PanelId, column_height: u16, panels: &[PanelId]) {
-        let mut needed = 0u16;
-        for panel in panels {
-            if *panel == target {
-                needed = needed.saturating_add(Self::desired_height(*panel));
-            } else if self.is_collapsed(*panel) {
-                needed = needed.saturating_add(COLLAPSED_HEIGHT);
-            } else {
-                needed = needed.saturating_add(Self::desired_height(*panel));
-            }
-        }
-        if needed > column_height {
-            for panel in panels {
-                if *panel != target {
-                    self.set_collapsed(*panel, true);
-                }
-            }
+        if self.ui.screen_area.height < 20 {
+            self.set_collapsed(PanelId::PlanProgress, true);
+            self.set_collapsed(PanelId::Snapshot, true);
+            self.set_collapsed(PanelId::Capabilities, true);
+            self.set_collapsed(PanelId::PlanSteps, true);
+            self.set_collapsed(PanelId::Actions, true);
+            self.set_collapsed(PanelId::Settings, true);
+            self.set_collapsed(PanelId::LogControls, true);
+            self.set_collapsed(PanelId::Problems, true);
+            self.set_collapsed(PanelId::Logs, true);
         }
     }
 
@@ -173,11 +122,11 @@ impl App {
     }
 
     pub fn middle_aux_panel(&self) -> Option<PanelId> {
-        if !self.ui.collapsed_plan_steps {
+        if !self.panel_collapsed(PanelId::PlanSteps) {
             return None;
         }
-        let help_open = !self.ui.collapsed_help;
-        let logs_open = !self.ui.collapsed_logs;
+        let help_open = !self.panel_collapsed(PanelId::Help);
+        let logs_open = !self.panel_collapsed(PanelId::Logs);
         match (help_open, logs_open) {
             (true, false) => Some(PanelId::Help),
             (false, true) => Some(PanelId::Logs),

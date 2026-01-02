@@ -9,21 +9,14 @@ use ratatui::{
 use crate::ui::app::App;
 use crate::ui::util::format_age;
 
-pub fn render_plan(frame: &mut Frame, area: Rect, app: &mut App) {
+pub fn render_plan(frame: &mut Frame, plan_progress_area: Rect, snapshot_area: Rect, app: &mut App) {
     let snapshot = app.runtime.snapshot();
-    let chunks = ratatui::layout::Layout::default()
-        .direction(ratatui::layout::Direction::Vertical)
-        .constraints([
-            ratatui::layout::Constraint::Length(if app.ui.collapsed_plan_progress { 2 } else { 3 }),
-            ratatui::layout::Constraint::Min(0),
-        ])
-        .split(area);
-    app.ui.plan_progress_area = chunks[0];
-    app.ui.snapshot_area = chunks[1];
+    app.ui.plan_progress_area = plan_progress_area;
+    app.ui.snapshot_area = snapshot_area;
 
     if app.ui.collapsed_plan_progress {
         let block = Block::default().title("Plan Progress").borders(Borders::ALL);
-        frame.render_widget(block, chunks[0]);
+        frame.render_widget(block, plan_progress_area);
     } else {
         let percent = snapshot.plan.percent_complete();
         let mut gauge_block = Block::default().title("Plan Progress").borders(Borders::ALL);
@@ -35,7 +28,7 @@ pub fn render_plan(frame: &mut Frame, area: Rect, app: &mut App) {
             .gauge_style(Style::default().fg(Color::Green))
             .percent(percent)
             .label(format!("{}%", percent));
-        frame.render_widget(gauge, chunks[0]);
+        frame.render_widget(gauge, plan_progress_area);
     }
 
     let age = format_age(snapshot.last_updated_ms);
@@ -64,7 +57,7 @@ pub fn render_plan(frame: &mut Frame, area: Rect, app: &mut App) {
             let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
             block = block.style(active_style);
         }
-        frame.render_widget(block, chunks[1]);
+        frame.render_widget(block, snapshot_area);
     } else {
         let mut summary_block = Block::default().title("Snapshot").borders(Borders::ALL);
         if app.refresh_pulse_active() {
@@ -81,6 +74,6 @@ pub fn render_plan(frame: &mut Frame, area: Rect, app: &mut App) {
             let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
             summary = summary.style(active_style);
         }
-        frame.render_widget(summary, chunks[1]);
+        frame.render_widget(summary, snapshot_area);
     }
 }

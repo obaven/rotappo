@@ -12,7 +12,7 @@ use crossterm::{
 };
 use ratatui::{
     backend::{Backend, CrosstermBackend},
-    layout::{Constraint, Direction, Layout},
+    layout::Rect,
     prelude::Frame,
     widgets::Clear,
     Terminal,
@@ -22,6 +22,15 @@ use std::time::Duration;
 
 use crate::adapters::bootstrappo::BootstrappoBackend;
 use crate::ui::app::App;
+use crate::ui::layout::{
+    footer_spec, left_column_spec, middle_column_spec, plan_header_spec,
+    right_columns_spec, right_left_spec, right_right_spec,
+    tui_shell_spec_with_footer, GridResolver, SLOT_ACTIONS, SLOT_AUX, SLOT_BODY,
+    SLOT_CAPABILITIES, SLOT_FOOTER, SLOT_FOOTER_HELP, SLOT_FOOTER_SETTINGS,
+    SLOT_HEADER, SLOT_LEFT, SLOT_LOGS, SLOT_LOG_CONTROLS, SLOT_MIDDLE,
+    SLOT_PLAN, SLOT_PLAN_PROGRESS, SLOT_PLAN_STEPS, SLOT_PROBLEMS, SLOT_RIGHT,
+    SLOT_RIGHT_LEFT, SLOT_RIGHT_RIGHT, SLOT_SNAPSHOT,
+};
 
 pub fn start() -> Result<()> {
     let backend = BootstrappoBackend::from_env()?;
@@ -89,112 +98,202 @@ fn render(frame: &mut Frame, app: &mut App) {
     } else {
         size.height.saturating_mul(30).saturating_div(100).max(6)
     };
-    let layout = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints([Constraint::Length(3), Constraint::Min(0), Constraint::Length(help_height)])
-        .split(size);
-    app.ui.body_area = layout[1];
+    let shell = GridResolver::resolve(size, &tui_shell_spec_with_footer(help_height));
+    let header_area = shell
+        .rect(SLOT_HEADER)
+        .unwrap_or_else(|| Rect::new(0, 0, size.width, 3));
+    let body_area = shell.rect(SLOT_BODY).unwrap_or_else(|| {
+        Rect::new(0, 3, size.width, size.height.saturating_sub(help_height + 3))
+    });
+    let left_area = shell
+        .rect(SLOT_LEFT)
+        .unwrap_or_else(|| Rect::new(body_area.x, body_area.y, body_area.width / 3, body_area.height));
+    let middle_area = shell.rect(SLOT_MIDDLE).unwrap_or_else(|| {
+        Rect::new(
+            body_area.x + body_area.width / 3,
+            body_area.y,
+            body_area.width / 3,
+            body_area.height,
+        )
+    });
+    let right_area = shell.rect(SLOT_RIGHT).unwrap_or_else(|| {
+        Rect::new(
+            body_area.x + (body_area.width / 3) * 2,
+            body_area.y,
+            body_area.width / 3,
+            body_area.height,
+        )
+    });
+    let footer_area = shell
+        .rect(SLOT_FOOTER)
+        .unwrap_or_else(|| Rect::new(0, size.height.saturating_sub(help_height), size.width, help_height));
+    app.ui.body_area = body_area;
 
-    panels::render_header(frame, layout[0], app);
-
-    let body = Layout::default()
-        .direction(Direction::Horizontal)
-        .constraints([
-            Constraint::Percentage(30),
-            Constraint::Percentage(35),
-            Constraint::Percentage(35),
-        ])
-        .split(layout[1]);
+    panels::render_header(frame, header_area, app);
 
     let collapsed = 2u16;
-    let plan_progress_height = if app.ui.collapsed_plan_progress { collapsed } else { 3 };
-    let snapshot_height = if app.ui.collapsed_snapshot { collapsed } else { 4 };
-    let left_top_height = plan_progress_height.saturating_add(snapshot_height);
-    let capabilities_constraint = if app.ui.collapsed_capabilities {
-        Constraint::Length(collapsed)
-    } else {
-        Constraint::Min(0)
-    };
-    let left = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints([Constraint::Length(left_top_height), capabilities_constraint])
-        .split(body[0]);
+    let plan_progress_collapsed = app.panel_collapsed(crate::ui::app::PanelId::PlanProgress);
+    let snapshot_collapsed = app.panel_collapsed(crate::ui::app::PanelId::Snapshot);
+    let capabilities_collapsed = app.panel_collapsed(crate::ui::app::PanelId::Capabilities);
+    let plan_steps_collapsed = app.panel_collapsed(crate::ui::app::PanelId::PlanSteps);
+    let actions_collapsed = app.panel_collapsed(crate::ui::app::PanelId::Actions);
+    let problems_collapsed = app.panel_collapsed(crate::ui::app::PanelId::Problems);
+    let log_controls_collapsed = app.panel_collapsed(crate::ui::app::PanelId::LogControls);
+    let logs_collapsed = app.panel_collapsed(crate::ui::app::PanelId::Logs);
+    let help_open = !app.panel_collapsed(crate::ui::app::PanelId::Help);
+    let settings_open = !app.panel_collapsed(crate::ui::app::PanelId::Settings);
 
-    panels::render_plan(frame, left[0], app);
-    panels::render_capabilities(frame, left[1], app);
+    let left_spec = left_column_spec(
+        plan_progress_collapsed,
+        snapshot_collapsed,
+        capabilities_collapsed,
+        collapsed,
+    );
+    let left_layout = GridResolver::resolve(
+        left_area,
+        &app.layout_policy.apply(&left_spec, left_area),
+    );
+    let left_plan_area = left_layout.rect(SLOT_PLAN).unwrap_or(left_area);
+    let left_cap_area = left_layout
+        .rect(SLOT_CAPABILITIES)
+        .unwrap_or_else(|| Rect::default());
+
+    let plan_header_spec =
+        plan_header_spec(plan_progress_collapsed, snapshot_collapsed, collapsed);
+    let plan_header_layout = GridResolver::resolve(
+        left_plan_area,
+        &app.layout_policy.apply(&plan_header_spec, left_plan_area),
+    );
+    let plan_progress_area = plan_header_layout
+        .rect(SLOT_PLAN_PROGRESS)
+        .unwrap_or(left_plan_area);
+    let snapshot_area = plan_header_layout
+        .rect(SLOT_SNAPSHOT)
+        .unwrap_or_else(|| Rect::default());
+
+    panels::render_plan(frame, plan_progress_area, snapshot_area, app);
+    panels::render_capabilities(frame, left_cap_area, app);
     let middle_panel = app.middle_aux_panel();
-    if app.ui.collapsed_plan_steps {
-        let middle = Layout::default()
-            .direction(Direction::Vertical)
-            .constraints([Constraint::Min(0), Constraint::Length(collapsed)])
-            .split(body[1]);
+    let middle_spec = middle_column_spec(plan_steps_collapsed, collapsed);
+    let middle_layout = GridResolver::resolve(
+        middle_area,
+        &app.layout_policy.apply(&middle_spec, middle_area),
+    );
+    let middle_plan_area = middle_layout
+        .rect(SLOT_PLAN_STEPS)
+        .unwrap_or(middle_area);
+    if plan_steps_collapsed {
+        let middle_aux_area = middle_layout.rect(SLOT_AUX).unwrap_or(middle_area);
         match middle_panel {
-            Some(crate::ui::app::PanelId::Logs) => panels::render_logs(frame, middle[0], app),
-            Some(crate::ui::app::PanelId::Help) => panels::render_footer(frame, middle[0], app),
-            _ => frame.render_widget(Clear, middle[0]),
+            Some(crate::ui::app::PanelId::Logs) => panels::render_logs(frame, middle_aux_area, app),
+            Some(crate::ui::app::PanelId::Help) => {
+                panels::render_footer(frame, middle_aux_area, app)
+            }
+            _ => frame.render_widget(Clear, middle_aux_area),
         }
-        panels::render_plan_steps(frame, middle[1], app);
+        panels::render_plan_steps(frame, middle_plan_area, app);
     } else {
-        panels::render_plan_steps(frame, body[1], app);
+        panels::render_plan_steps(frame, middle_plan_area, app);
     }
 
-    let right = Layout::default()
-        .direction(Direction::Horizontal)
-        .constraints([Constraint::Percentage(45), Constraint::Percentage(55)])
-        .split(body[2]);
-    let actions_constraint = if app.ui.collapsed_actions {
-        Constraint::Length(collapsed)
-    } else {
-        Constraint::Min(8)
-    };
-    let problems_constraint = if app.ui.collapsed_problems {
-        Constraint::Length(collapsed)
-    } else {
-        Constraint::Min(4)
-    };
-    let log_controls_constraint = Constraint::Length(app.log_controls_height());
-    let logs_constraint = if app.ui.collapsed_logs {
-        Constraint::Length(collapsed)
-    } else {
-        Constraint::Min(6)
-    };
-    let right_left = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints([actions_constraint, problems_constraint])
-        .split(right[0]);
-    let right_right = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints([log_controls_constraint, logs_constraint])
-        .split(right[1]);
+    let right_spec = right_columns_spec();
+    let right_layout = GridResolver::resolve(right_area, &right_spec);
+    let right_left_area = right_layout.rect(SLOT_RIGHT_LEFT).unwrap_or(right_area);
+    let right_right_area = right_layout.rect(SLOT_RIGHT_RIGHT).unwrap_or(right_area);
+    let right_left_spec = right_left_spec(actions_collapsed, problems_collapsed, collapsed);
+    let right_left_layout = GridResolver::resolve(
+        right_left_area,
+        &app.layout_policy.apply(&right_left_spec, right_left_area),
+    );
+    let actions_area = right_left_layout
+        .rect(SLOT_ACTIONS)
+        .unwrap_or(right_left_area);
+    let problems_area = right_left_layout
+        .rect(SLOT_PROBLEMS)
+        .unwrap_or_else(|| Rect::default());
+    let right_right_spec = right_right_spec(
+        app.log_controls_height(),
+        log_controls_collapsed,
+        logs_collapsed,
+        collapsed,
+    );
+    let right_right_layout = GridResolver::resolve(
+        right_right_area,
+        &app.layout_policy.apply(&right_right_spec, right_right_area),
+    );
+    let log_controls_area = right_right_layout
+        .rect(SLOT_LOG_CONTROLS)
+        .unwrap_or(right_right_area);
+    let logs_area = right_right_layout
+        .rect(SLOT_LOGS)
+        .unwrap_or_else(|| Rect::default());
 
-    panels::render_actions(frame, right_left[0], app);
-    panels::render_problems(frame, right_left[1], app);
-    panels::render_log_controls(frame, right_right[0], app);
+    panels::render_actions(frame, actions_area, app);
+    panels::render_problems(frame, problems_area, app);
+    panels::render_log_controls(frame, log_controls_area, app);
     if middle_panel != Some(crate::ui::app::PanelId::Logs) {
-        panels::render_logs(frame, right_right[1], app);
+        panels::render_logs(frame, logs_area, app);
     }
     app.ui.help_area = ratatui::layout::Rect::default();
     app.ui.settings_area = ratatui::layout::Rect::default();
     app.ui.settings_controls_row = None;
-    if middle_panel == Some(crate::ui::app::PanelId::Help) {
-        if !app.ui.collapsed_settings {
-            panels::render_settings(frame, layout[2], app);
-        } else if !app.ui.collapsed_help {
-            panels::render_footer(frame, layout[2], app);
+    let render_help = middle_panel != Some(crate::ui::app::PanelId::Help);
+    let render_settings = true;
+    let footer_spec = footer_spec();
+    let footer_policy = app.layout_policy.clone();
+    if let Some(slot) = crate::ui::app::PanelId::Help.slot_id() {
+        let slot_id = slot.into();
+        footer_policy.clear_override(&slot_id);
+    }
+    if let Some(slot) = crate::ui::app::PanelId::Settings.slot_id() {
+        let slot_id = slot.into();
+        footer_policy.clear_override(&slot_id);
+    }
+    if let Some(slot) = crate::ui::app::PanelId::Help.slot_id() {
+        footer_policy.set_visibility(slot, render_help);
+    }
+    if let Some(slot) = crate::ui::app::PanelId::Settings.slot_id() {
+        footer_policy.set_visibility(slot, render_settings);
+    }
+    if render_help && !render_settings {
+        if let Some(slot) = crate::ui::app::PanelId::Help.slot_id() {
+            footer_policy.set_position(slot, 0, 0);
+            footer_policy.set_span(slot, 1, 2);
         }
-    } else if !app.ui.collapsed_help && !app.ui.collapsed_settings {
-        let footer = Layout::default()
-            .direction(Direction::Horizontal)
-            .constraints([Constraint::Percentage(35), Constraint::Percentage(65)])
-            .split(layout[2]);
-        panels::render_footer(frame, footer[0], app);
-        panels::render_settings(frame, footer[1], app);
-    } else if !app.ui.collapsed_help {
-        panels::render_footer(frame, layout[2], app);
-    } else if !app.ui.collapsed_settings {
-        panels::render_settings(frame, layout[2], app);
-    } else {
-        panels::render_footer(frame, layout[2], app);
+    }
+    if render_settings && !render_help {
+        if let Some(slot) = crate::ui::app::PanelId::Settings.slot_id() {
+            footer_policy.set_position(slot, 0, 0);
+            footer_policy.set_span(slot, 1, 2);
+        }
+    }
+    if render_help && render_settings {
+        if help_open && !settings_open {
+            if let Some(slot) = crate::ui::app::PanelId::Help.slot_id() {
+                footer_policy.set_position(slot, 0, 0);
+                footer_policy.set_span(slot, 1, 2);
+            }
+        }
+        if settings_open && !help_open {
+            if let Some(slot) = crate::ui::app::PanelId::Settings.slot_id() {
+                footer_policy.set_position(slot, 0, 0);
+                footer_policy.set_span(slot, 1, 2);
+            }
+        }
+    }
+    let footer_layout =
+        GridResolver::resolve(footer_area, &footer_policy.apply(&footer_spec, footer_area));
+    let footer_help_area = footer_layout
+        .rect(SLOT_FOOTER_HELP)
+        .unwrap_or(footer_area);
+    let footer_settings_area = footer_layout
+        .rect(SLOT_FOOTER_SETTINGS)
+        .unwrap_or(footer_area);
+    if render_help {
+        panels::render_footer(frame, footer_help_area, app);
+    }
+    if render_settings {
+        panels::render_settings(frame, footer_settings_area, app);
     }
 
     panels::render_confirmation(frame, app);
