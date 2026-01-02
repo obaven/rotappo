@@ -44,6 +44,6 @@ labels:
   - locking
 
 status: MustHaves
-state: InProgress
-status_capsule: (owner:@antigravity, updated:2026-01-01, status:in_progress)
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:done)
 assignee: unassigned

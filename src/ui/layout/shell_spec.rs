@@ -28,6 +28,16 @@ pub fn tui_shell_spec() -> GridSpec {
 }
 
 pub fn tui_shell_spec_with_footer(footer_height: u16) -> GridSpec {
+    let mut slots = crate::grid_slots!(
+        crate::grid_slot!(SLOT_HEADER, 0, 0, span: (1, 3), min: (20, 3)),
+        crate::grid_slot!(SLOT_BODY, 1, 0, span: (1, 3), min: (20, 8)),
+        crate::grid_slot!(SLOT_LEFT, 1, 0, min: (12, 8)),
+        crate::grid_slot!(SLOT_MIDDLE, 1, 1, min: (16, 8)),
+        crate::grid_slot!(SLOT_RIGHT, 1, 2, min: (16, 8)),
+    );
+    slots.extend(crate::grid_slots!(
+        crate::grid_slot!(SLOT_FOOTER, 2, 0, span: (1, 3), min: (20, 4)),
+    ));
     crate::grid_spec!(
         rows: [
             TrackSize::Fixed(3),
@@ -39,14 +49,7 @@ pub fn tui_shell_spec_with_footer(footer_height: u16) -> GridSpec {
             TrackSize::Percent(35),
             TrackSize::Percent(35),
         ],
-        slots: [
-            crate::grid_slot!(SLOT_HEADER, 0, 0, span: (1, 3), min: (20, 3)),
-            crate::grid_slot!(SLOT_BODY, 1, 0, span: (1, 3), min: (20, 8)),
-            crate::grid_slot!(SLOT_LEFT, 1, 0, min: (12, 8)),
-            crate::grid_slot!(SLOT_MIDDLE, 1, 1, min: (16, 8)),
-            crate::grid_slot!(SLOT_RIGHT, 1, 2, min: (16, 8)),
-            crate::grid_slot!(SLOT_FOOTER, 2, 0, span: (1, 3), min: (20, 4)),
-        ]
+        slots: slots
     )
 }
 
