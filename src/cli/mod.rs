@@ -1,6 +1,7 @@
 use anyhow::{anyhow, Result};
 use serde::Serialize;
 
+use crate::formatting;
 use crate::runtime::{Action, Event, Snapshot};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -77,6 +78,44 @@ pub fn format_events(mode: OutputMode, events: &[Event]) -> Result<String> {
             .join("\n")),
         OutputMode::Json => Ok(serde_json::to_string_pretty(events)?),
         OutputMode::Ndjson => to_ndjson(events),
+    }
+}
+
+pub fn format_plan(mode: OutputMode, snapshot: &Snapshot) -> Result<String> {
+    let groups = formatting::plan_groups(snapshot);
+    match mode {
+        OutputMode::Plain => {
+            let mut lines = Vec::new();
+            for group in groups {
+                lines.push(format!("{} domain", group.domain));
+                for step_info in group.steps {
+                    let step = step_info.step;
+                    let pod_text = step
+                        .pod
+                        .as_deref()
+                        .map(|pod| format!(" pod: {}", pod))
+                        .unwrap_or_else(|| " pod: -".to_string());
+                    lines.push(format!(
+                        "[{:<9}] {} {}{}",
+                        step.status.as_str(),
+                        step.id,
+                        step.kind,
+                        pod_text
+                    ));
+                }
+            }
+            Ok(lines.join("\n"))
+        }
+        OutputMode::Json => Ok(serde_json::to_string_pretty(&groups)?),
+        OutputMode::Ndjson => to_ndjson(&groups),
+    }
+}
+
+pub fn format_problems(mode: OutputMode, problems: &[String]) -> Result<String> {
+    match mode {
+        OutputMode::Plain => Ok(problems.join("\n")),
+        OutputMode::Json => Ok(serde_json::to_string_pretty(problems)?),
+        OutputMode::Ndjson => to_ndjson(problems),
     }
 }
 

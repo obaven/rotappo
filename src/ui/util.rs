@@ -4,7 +4,7 @@ use ratatui::{
     text::{Line, Span},
 };
 
-use crate::adapters::bootstrappo::mapping;
+use crate::formatting;
 use crate::runtime::{now_millis, CapabilityStatus, PlanStepStatus};
 
 pub struct PlanLine {
@@ -100,27 +100,19 @@ pub fn format_age(timestamp_ms: u64) -> String {
 }
 
 pub fn plan_lines(snapshot: &crate::runtime::Snapshot) -> Vec<PlanLine> {
-    let mut grouped: std::collections::BTreeMap<&str, Vec<(usize, &crate::runtime::PlanStep)>> =
-        std::collections::BTreeMap::new();
-    for (index, step) in snapshot.plan_steps.iter().enumerate() {
-        grouped
-            .entry(step.domain.as_str())
-            .or_default()
-            .push((index, step));
-    }
-
     let mut lines = Vec::new();
-    for (domain, steps) in grouped {
+    for group in formatting::plan_groups(snapshot) {
         lines.push(PlanLine {
             line: Line::from(Span::styled(
-                format!("{} domain", domain),
+                format!("{} domain", group.domain),
                 Style::default()
                     .fg(Color::Cyan)
                     .add_modifier(Modifier::BOLD),
             )),
             step_index: None,
         });
-        for (index, step) in steps {
+        for step_info in group.steps {
+            let step = &step_info.step;
             let status_style = match step.status {
                 PlanStepStatus::Succeeded => Style::default().fg(Color::Green),
                 PlanStepStatus::Running => Style::default().fg(Color::Yellow),
@@ -148,7 +140,7 @@ pub fn plan_lines(snapshot: &crate::runtime::Snapshot) -> Vec<PlanLine> {
             ]);
             lines.push(PlanLine {
                 line,
-                step_index: Some(index),
+                step_index: Some(step_info.index),
             });
         }
     }
@@ -156,27 +148,7 @@ pub fn plan_lines(snapshot: &crate::runtime::Snapshot) -> Vec<PlanLine> {
 }
 
 pub fn collect_problems(app: &crate::ui::app::App) -> Vec<String> {
-    let mut problems = Vec::new();
-    if let Some(live) = &app.backend.live_status {
-        if let Some(error) = live.last_error() {
-            problems.push(format!("kube: {}", error));
-        }
-        let health = live.health();
-        problems.extend(mapping::health_problem_lines(&health));
-        if live.cache().is_none() {
-            problems.push("kube cache not ready".to_string());
-        }
-    } else {
-        problems.push("live status disabled".to_string());
-    }
-
-    for step in &app.runtime.snapshot().plan_steps {
-        if step.status == PlanStepStatus::Blocked {
-            problems.push(format!("blocked: {} waiting on {:?}", step.id, step.depends_on));
-        }
-    }
-
-    problems
+    formatting::problem_lines(app.runtime.snapshot(), app.backend.live_status.as_ref())
 }
 
 pub fn centered_rect(percent_x: u16, percent_y: u16, area: Rect) -> Rect {

@@ -3,7 +3,10 @@ use std::env;
 use std::path::PathBuf;
 
 use rotappo::adapters::bootstrappo::BootstrappoBackend;
-use rotappo::cli::{format_actions, format_events, format_snapshot, OutputMode};
+use rotappo::cli::{
+    format_actions, format_events, format_plan, format_problems, format_snapshot, OutputMode,
+};
+use rotappo::formatting;
 use rotappo::logging::LogStreamConfig;
 
 fn main() -> Result<()> {
@@ -21,7 +24,7 @@ fn main() -> Result<()> {
     let mut i = 0;
     while i < args.len() {
         match args[i].as_str() {
-            "actions" | "snapshot" | "logs" => {
+            "actions" | "snapshot" | "logs" | "plan" | "problems" => {
                 command = args[i].clone();
             }
             "--output" | "-o" => {
@@ -52,6 +55,12 @@ fn main() -> Result<()> {
     let output_text = match command.as_str() {
         "actions" => format_actions(output, runtime.registry().actions())?,
         "snapshot" => format_snapshot(output, runtime.snapshot())?,
+        "plan" => format_plan(output, runtime.snapshot())?,
+        "problems" => {
+            let problems =
+                formatting::problem_lines(runtime.snapshot(), backend.live_status.as_ref());
+            format_problems(output, &problems)?
+        }
         "logs" => {
             let events = runtime
                 .events()
@@ -69,7 +78,5 @@ fn main() -> Result<()> {
 }
 
 fn print_help() {
-    println!(
-        "rotappo [actions|snapshot|logs] [--output plain|json|ndjson] [--config PATH] [--plan PATH]"
-    );
+    println!("rotappo [actions|snapshot|plan|problems|logs] [--output plain|json|ndjson] [--config PATH] [--plan PATH]");
 }
