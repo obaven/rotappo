@@ -1,0 +1,46 @@
+id: ARCH-018
+title: 'ARCH-2D: CLI-Specific UI Helpers Isolation'
+type: Task
+layer: 5
+domain: core
+component: interface-cli-ui
+cli_surface: []
+
+description: |
+  Isolate any CLI-specific helpers or behaviors used by the TUI into a
+  dedicated abstraction so other UI surfaces are not required to adopt
+  CLI-driven models or formatting conventions.
+
+deliverables:
+  - CLI-specific UI helper module (if applicable)
+  - Explicit interface boundary between CLI helpers and ui-core
+  - Documentation of CLI-only UI behaviors
+
+acceptance_criteria:
+  - UI-core has no references to CLI output or flags
+  - CLI-specific helpers are optional and adapter-scoped
+  - Web/Desktop UI layers can ignore CLI-only helpers
+
+dependencies:
+  - ARCH-016
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - architecture
+  - interfaces
+  - cli
+  - ui
+
+source_files:
+  - file: src/interfaces/terminal
+    context: "CLI helpers to isolate"
+  - file: src/interfaces/tui
+    context: "TUI helpers that might be CLI-specific"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

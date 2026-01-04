@@ -1,0 +1,51 @@
+id: ARCH-016
+title: 'ARCH-2B: UI Core Contracts (Framework-Agnostic)'
+type: Story
+layer: 5
+domain: core
+component: interface-ui-core
+cli_surface: []
+
+description: |
+  Introduce UI core contracts that define interface-level state,
+  events, and rendering inputs without depending on ratatui or CLI
+  logic. These contracts should be reusable by web and desktop UIs.
+
+deliverables:
+  - New ui-core module (interfaces/ui_core or equivalent)
+  - Core types for view state, input events, and UI actions
+  - Documentation for UI-core contracts
+  - Architecture doc at docs/architecture/ARCH-2-ui-core-contracts.md
+
+acceptance_criteria:
+  - UI core compiles without ratatui or CLI dependencies
+  - Types are reusable across TUI/Web/Desktop layers
+  - No ratatui types leak into the ui-core API
+
+dependencies:
+  - ARCH-015
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - interfaces
+  - ui
+  - contracts
+
+source_files:
+  - file: src/interfaces/tui
+    context: "Current UI types to split"
+  - file: src/interfaces/ui_core
+    context: "New UI-core contract module"
+  - file: src/domain
+    context: "Domain types for UI models"
+  - file: src/presentation
+    context: "Shared formatting helpers"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

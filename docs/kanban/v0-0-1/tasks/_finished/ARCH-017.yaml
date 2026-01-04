@@ -1,0 +1,48 @@
+id: ARCH-017
+title: 'ARCH-2C: Ratatui Adapter Extraction'
+type: Story
+layer: 5
+domain: core
+component: interface-tui-adapter
+cli_surface:
+  - tui
+
+description: |
+  Move ratatui-specific rendering, layout, and terminal wiring behind
+  a dedicated adapter module so it can implement the ui-core contracts
+  without being required by other UI surfaces.
+
+deliverables:
+  - Ratatui adapter module at interfaces/tui
+  - TUI entry point wired to the adapter
+  - Clear boundary between ui-core and ratatui layers
+  - Architecture doc at docs/architecture/ARCH-2-tui-adapter.md
+
+acceptance_criteria:
+  - Ratatui types are confined to the adapter module
+  - TUI continues to run via tui binary
+  - UI-core is ratatui-free
+
+dependencies:
+  - ARCH-016
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - interfaces
+  - tui
+  - ratatui
+
+source_files:
+  - file: src/interfaces/tui
+    context: "Current ratatui implementation"
+  - file: src/bin/tui.rs
+    context: "TUI entry point"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

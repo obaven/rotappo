@@ -1,0 +1,49 @@
+id: ARCH-026
+title: 'ARCH-3E: Dense Documentation + Boundary Tests'
+type: Task
+layer: 5
+domain: core
+component: documentation-tests
+cli_surface: []
+
+description: |
+  Produce detailed documentation and tests for the new crate layout,
+  including migration guides and boundary assertions. Keep the docs
+  dense and actionable for multi-agent development.
+
+deliverables:
+  - Architecture doc detailing crate layout and migration steps
+  - Docbook updates for build commands and dependency rules
+  - Boundary tests that cover crate import direction and feature flags
+  - Updated testing checklist for multi-agent work
+
+acceptance_criteria:
+  - Docs describe crate purpose, allowed dependencies, and build commands
+  - Tests cover crate boundaries and feature gating
+  - Docbook reflects the new crate layout
+
+dependencies:
+  - ARCH-025
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - architecture
+  - documentation
+  - testing
+  - guardrails
+
+source_files:
+  - file: docs/architecture
+    context: "Architecture documentation"
+  - file: docs/book
+    context: "Docbook content"
+  - file: tests
+    context: "Boundary tests"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

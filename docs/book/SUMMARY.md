@@ -1,0 +1,18 @@
+# Summary
+
+- [Introduction](introduction.md)
+- [Architecture Overview](architecture/overview.md)
+  - [Layered Map](architecture/layered-map.md)
+  - [System Diagrams](architecture/diagrams.md)
+  - [Data Models](architecture/data-models.md)
+  - [Runtime Flow](architecture/runtime-sequence.md)
+  - [Ports and Adapters](architecture/ports-adapters.md)
+  - [Presentation and Interfaces](architecture/presentation-interfaces.md)
+- [Domain and Application](domain-application.md)
+- [Runtime Data Flow](runtime-flow.md)
+- [Interfaces](interfaces/index.md)
+  - [Terminal](interfaces/terminal.md)
+  - [TUI](interfaces/ui.md)
+- [Development Workflow](development.md)
+- [Testing and Validation](testing.md)
+- [Migration and Guardrails](migration-guardrails.md)

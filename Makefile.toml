@@ -1,0 +1,71 @@
+[config]
+skip_core_tasks = true
+
+[tasks.check]
+command = "cargo"
+args = ["check"]
+
+[tasks.build]
+command = "cargo"
+args = ["build"]
+
+[tasks.fmt]
+command = "cargo"
+args = ["fmt"]
+
+[tasks.clippy]
+command = "cargo"
+args = ["clippy", "--all-targets"]
+
+[tasks.test]
+command = "cargo"
+args = ["test"]
+
+[tasks.doc]
+command = "cargo"
+args = ["doc", "--no-deps"]
+
+[tasks.docbook]
+command = "mdbook"
+args = ["build", "docs/book"]
+
+[tasks.docbook-serve]
+command = "mdbook"
+args = ["serve", "docs/book", "-p", "3000", "-n", "127.0.0.1"]
+
+[tasks.docbook-setup-mdbook-0-4]
+command = "cargo"
+args = ["install", "mdbook-graphviz", "--version", "0.2.1", "--force"]
+
+[tasks.docbook-setup-mdbook-0-5]
+command = "cargo"
+args = ["install", "mdbook-graphviz", "--version", "0.3.1", "--force"]
+
+[tasks.check-ui-core]
+command = "cargo"
+args = ["check", "--no-default-features", "--features", "ui-core"]
+
+[tasks.check-cli]
+command = "cargo"
+args = ["check", "--no-default-features", "--features", "cli"]
+
+[tasks.check-tui]
+command = "cargo"
+args = ["check", "--no-default-features", "--features", "tui-ratatui"]
+
+[tasks.check-interfaces]
+dependencies = ["check-ui-core", "check-cli", "check-tui"]
+
+[tasks.check-interface-boundaries]
+command = "cargo"
+args = ["test", "--test", "interface_boundaries"]
+
+[tasks.check-crate-boundaries]
+command = "cargo"
+args = ["test", "--test", "crate_boundaries"]
+
+[tasks.check-boundaries]
+dependencies = ["check-interface-boundaries", "check-crate-boundaries"]
+
+[tasks.check-guardrails]
+dependencies = ["check-interfaces", "check-boundaries"]

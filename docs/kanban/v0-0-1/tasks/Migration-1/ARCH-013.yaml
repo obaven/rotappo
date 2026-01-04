@@ -1,0 +1,48 @@
+id: ARCH-013
+title: 'MIG-1E: CLI Stability Test Harness + CI Gate'
+type: Task
+layer: 5
+domain: core
+component: migration-cli-ci
+cli_surface: []
+
+description: |
+  Add a test harness and CI gate that run the CLI golden tests and
+  boundary checks as part of the migration guardrails.
+
+deliverables:
+  - cargo-make task that runs CLI golden tests + boundary checks
+  - CI job or local script entrypoint
+  - Documentation for updating snapshots
+
+acceptance_criteria:
+  - A single command runs all CLI stability checks
+  - CI fails on CLI drift or boundary violations
+  - Developers can update snapshots intentionally
+
+dependencies:
+  - ARCH-009
+  - ARCH-010
+  - ARCH-011
+  - ARCH-012
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - migration
+  - cli
+  - ci
+  - testing
+
+source_files:
+  - file: Makefile.toml
+    context: "CLI test harness wiring"
+  - file: docs/book/development.md
+    context: "Developer runbook"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:backlog)
+assignee: unassigned

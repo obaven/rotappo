@@ -1,0 +1,49 @@
+id: ARCH-010
+title: 'MIG-1B: Bootstrappo CLI Contract Snapshots + Golden Tests'
+type: Story
+layer: 5
+domain: core
+component: migration-cli-bootstrappo
+cli_surface:
+  - bootstrappo [plan|reconcile|rotate|debug|nuke|cache|generate|visualize]
+
+description: |
+  Record bootstrappo CLI outputs and help text to prevent accidental
+  drift during rotappo refactors. Tests live alongside bootstrappo but
+  are tracked here to keep parity with rotappo expectations.
+
+deliverables:
+  - CLI help/usage snapshots for bootstrappo commands
+  - Optional fixture-driven outputs for non-destructive commands
+  - Test harness that diffs current output against snapshots
+
+acceptance_criteria:
+  - Tests detect CLI text or flag drift
+  - Fixtures avoid touching live clusters
+  - Updates require explicit approval
+
+dependencies:
+  - ARCH-008
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - migration
+  - cli
+  - testing
+  - bootstrappo
+
+source_files:
+  - file: ../bootstrappo/src/cli
+    context: "Bootstrappo CLI surface"
+  - file: ../bootstrappo/src/main.rs
+    context: "Bootstrappo CLI entry"
+  - file: ../bootstrappo/tests
+    context: "Golden tests and fixtures"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:backlog)
+assignee: unassigned

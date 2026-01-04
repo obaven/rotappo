@@ -1,0 +1,49 @@
+id: ARCH-012
+title: 'MIG-1D: CLI Surface Inventory + Mapping Doc'
+type: Task
+layer: 5
+domain: core
+component: migration-cli-inventory
+cli_surface:
+  - terminal [actions|snapshot|plan|problems|logs]
+  - bootstrappo [plan|reconcile|rotate|debug|nuke|cache|generate|visualize]
+
+description: |
+  Document the CLI surfaces for rotappo and bootstrappo, including
+  commands, flags, and output modes. This inventory serves as the
+  reference for parity reviews and test updates.
+
+deliverables:
+  - CLI inventory doc with command/flag lists
+  - Mapping table between rotappo and bootstrappo actions
+  - Update checklist for CLI changes
+
+acceptance_criteria:
+  - Inventory doc is the single source of CLI surface truth
+  - Changes require updating the inventory and snapshots
+  - Review checklist references the inventory
+
+dependencies:
+  - ARCH-008
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - migration
+  - cli
+  - documentation
+
+source_files:
+  - file: docs/architecture
+    context: "CLI inventory documentation"
+  - file: src/bin/terminal.rs
+    context: "Rotappo CLI entry"
+  - file: ../bootstrappo/src/cli/commands
+    context: "Bootstrappo CLI commands"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:backlog)
+assignee: unassigned

@@ -1,0 +1,14 @@
+[package]
+name = "rotappo-adapter-bootstrappo"
+version = "0.0.1"
+edition = "2024"
+publish = false
+
+[dependencies]
+anyhow = "1.0.100"
+bootstrappo = { path = "../../../bootstrappo" }
+kube = { version = "2.0.1", features = ["runtime", "client"] }
+rotappo-domain = { path = "../rotappo-domain" }
+rotappo-ports = { path = "../rotappo-ports" }
+tokio = { version = "1.48.0", features = ["rt-multi-thread", "time"] }
+validator = "0.20.0"

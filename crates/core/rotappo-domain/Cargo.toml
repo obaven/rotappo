@@ -1,0 +1,8 @@
+[package]
+name = "rotappo-domain"
+version = "0.0.1"
+edition = "2024"
+publish = false
+
+[dependencies]
+serde = { version = "1.0.210", features = ["derive"] }

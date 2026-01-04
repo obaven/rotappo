@@ -1,0 +1,57 @@
+id: ARCH-022
+title: 'ARCH-3A: Dependency Audit + Crate Map'
+type: Story
+layer: 5
+domain: core
+component: crate-audit
+cli_surface: []
+
+description: |
+  Audit current module dependencies and assign each module to a target
+  crate. Identify non-tightly bound logic that can be extracted with
+  minimal coupling to speed up parallel development.
+
+deliverables:
+  - Dependency inventory of src modules
+  - Target crate map (domain/ports/application/presentation/interfaces/adapters)
+  - List of decoupling candidates with rationale
+  - Architecture doc at docs/architecture/ARCH-3-crate-map.md
+
+acceptance_criteria:
+  - Every src module is mapped to a target crate
+  - Dependency direction is stated per module
+  - Non-tightly bound logic is explicitly listed for extraction
+
+dependencies:
+  - ARCH-021
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - architecture
+  - crates
+  - audit
+  - dependencies
+
+source_files:
+  - file: src/adapters
+    context: "External integration adapters"
+  - file: src/application
+    context: "Runtime orchestration"
+  - file: src/domain
+    context: "Domain models"
+  - file: src/interfaces
+    context: "Terminal/TUI interfaces"
+  - file: src/presentation
+    context: "Shared formatting helpers"
+  - file: src/ports
+    context: "Port definitions"
+  - file: src/bin
+    context: "Composition roots"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

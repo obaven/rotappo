@@ -1,0 +1,37 @@
+digraph CrateMap {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#f5f5f5"];
+
+  domain [label="rotappo-domain"];
+  ports [label="rotappo-ports"];
+  application [label="rotappo-application"];
+  presentation [label="rotappo-ui-presentation"];
+  ui_core [label="rotappo-ui-core"];
+  terminal_iface [label="rotappo-ui-terminal"];
+  tui_iface [label="rotappo-ui-tui"];
+  adapter_bootstrappo [label="rotappo-adapter-bootstrappo"];
+  bin_terminal [label="terminal (bin)"];
+  bin_tui [label="tui (bin)"];
+
+  ports -> domain;
+  application -> domain;
+  application -> ports;
+  presentation -> domain;
+  ui_core -> domain;
+  ui_core -> presentation;
+  terminal_iface -> domain;
+  terminal_iface -> presentation;
+  tui_iface -> application;
+  tui_iface -> domain;
+  tui_iface -> ports;
+  tui_iface -> presentation;
+  tui_iface -> ui_core;
+  adapter_bootstrappo -> domain;
+  adapter_bootstrappo -> ports;
+  bin_terminal -> terminal_iface;
+  bin_terminal -> adapter_bootstrappo;
+  bin_terminal -> application;
+  bin_tui -> tui_iface;
+  bin_tui -> adapter_bootstrappo;
+  bin_tui -> application;
+}

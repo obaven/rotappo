@@ -1,0 +1,47 @@
+id: ARCH-033
+title: 'ARCH-3L: Bootstrappo Adapter Crate Migration'
+type: Story
+layer: 5
+domain: core
+component: adapter-bootstrappo-migration
+cli_surface: []
+
+description: |
+  Move the Bootstrappo adapter into rotappo-adapter-bootstrappo so
+  external integration stays isolated from UI and application layers.
+
+deliverables:
+  - Bootstrappo adapter moved into `crates/core/rotappo-adapter-bootstrappo`
+  - `rotappo-adapter-bootstrappo` depends on `rotappo-domain` and `rotappo-ports`
+  - Imports updated to use `rotappo_adapter_bootstrappo`
+
+acceptance_criteria:
+  - No `src/adapters/bootstrappo` module remains in the root crate
+  - Adapter compiles without depending on interface or application crates
+  - `cargo check -p rotappo` succeeds after migration
+
+dependencies:
+  - ARCH-027
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - crates
+  - migration
+  - adapters
+
+source_files:
+  - file: src/adapters/bootstrappo
+    context: "Adapter implementation to migrate"
+  - file: crates/core/rotappo-adapter-bootstrappo
+    context: "Target crate for bootstrappo adapter"
+  - file: src/bin
+    context: "Composition roots that wire the adapter"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

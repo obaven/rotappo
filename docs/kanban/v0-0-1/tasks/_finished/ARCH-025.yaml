@@ -1,0 +1,48 @@
+id: ARCH-025
+title: 'ARCH-3D: Directional Import Guardrails'
+type: Task
+layer: 5
+domain: core
+component: import-guardrails
+cli_surface: []
+
+description: |
+  Enforce directional imports between crates so layering cannot regress.
+  Add automated checks that fail when dependencies go in the wrong
+  direction.
+
+deliverables:
+  - Boundary checks for crate dependencies (deny/allow list)
+  - Cargo-make tasks to run boundary checks
+  - CI documentation for enforcing the checks
+
+acceptance_criteria:
+  - Checks fail if a lower layer imports a higher layer
+  - Checks run locally via cargo-make and in CI
+  - Documented workflow for updating allowed dependencies
+
+dependencies:
+  - ARCH-024
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - architecture
+  - guardrails
+  - testing
+  - tooling
+
+source_files:
+  - file: Cargo.toml
+    context: "Dependency definitions to enforce"
+  - file: Makefile.toml
+    context: "Check task wiring"
+  - file: tests
+    context: "Boundary test implementation"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

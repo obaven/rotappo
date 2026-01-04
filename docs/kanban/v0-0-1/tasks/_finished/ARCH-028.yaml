@@ -1,0 +1,47 @@
+id: ARCH-028
+title: 'ARCH-3G: Application Crate Migration'
+type: Story
+layer: 5
+domain: core
+component: application-migration
+cli_surface: []
+
+description: |
+  Move the runtime orchestration logic into rotappo-application and
+  update consumers to import the new crate.
+
+deliverables:
+  - Runtime module moved into `crates/core/rotappo-application`
+  - `rotappo-application` depends on `rotappo-domain` and `rotappo-ports`
+  - Imports updated to use `rotappo_application` in adapters/interfaces/bins
+
+acceptance_criteria:
+  - No `src/application` module remains in the root crate
+  - `rotappo-application` builds with only domain and ports deps
+  - `cargo check -p rotappo` succeeds after migration
+
+dependencies:
+  - ARCH-027
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - crates
+  - migration
+  - application
+
+source_files:
+  - file: src/application
+    context: "Runtime module to migrate"
+  - file: crates/core/rotappo-application
+    context: "Target crate for application logic"
+  - file: Cargo.toml
+    context: "Workspace and dependency wiring"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

@@ -73,11 +73,100 @@
 ### Backlog
 ### Ready
 ### In Progress
-- UI-041 — [Story] LAYOUT-1C: Collapse/Open Policy Engine
 ### Review
 ### Blocked
 ### Done
 - UI-038 — [Epic] LAYOUT-1: Rotappo TUI Grid Layout System
 - UI-039 — [Story] LAYOUT-1A: Grid Model + Rect Resolver
 - UI-040 — [Story] LAYOUT-1B: Layout Macro DSL + Composition
+- UI-041 — [Story] LAYOUT-1C: Collapse/Open Policy Engine
 - UI-042 — [Task] LAYOUT-1D: Migrate TUI Panels to Grid Layout
+
+## F. v0.0.1 Architecture Board (ARCH-1) Layered Architecture
+### Backlog
+### Ready
+### In Progress
+### Review
+### Blocked
+### Done
+- ARCH-001 — [Epic] ARCH-1: Layered Architecture + UI/CLI Separation
+
+## G. v0.0.1 Architecture Board (ARCH-1A) Structure
+### Backlog
+### Ready
+### In Progress
+### Review
+### Blocked
+### Done
+- ARCH-002 — [Story] ARCH-1A: Layered Module Map + Target Tree
+- ARCH-003 — [Story] ARCH-1A: Domain + Application Layer Extraction
+
+## H. v0.0.1 Architecture Board (ARCH-1B) Process
+### Backlog
+### Ready
+### In Progress
+### Review
+### Blocked
+### Done
+- ARCH-004 — [Task] ARCH-1B: Shared Presentation + Formatting Boundary
+- ARCH-005 — [Story] ARCH-1B: Adapter Boundary + Port Wiring
+- ARCH-006 — [Task] ARCH-1B: Migration Plan (No Shims)
+
+## I. v0.0.1 Architecture Board (ARCH-1C) Caveats
+### Backlog
+### Ready
+### In Progress
+### Review
+### Blocked
+### Done
+- ARCH-007 — [Task] ARCH-1C: Caveats + Guardrails Checklist
+
+## J. v0.0.1 Migration Board (MIG-1) CLI Stability
+### Backlog
+- ARCH-008 — [Epic] MIG-1: CLI Stability + Non-Migration Guardrails
+- ARCH-009 — [Story] MIG-1A: Rotappo CLI Contract Snapshots + Golden Tests
+- ARCH-010 — [Story] MIG-1B: Bootstrappo CLI Contract Snapshots + Golden Tests
+- ARCH-011 — [Task] MIG-1C: CLI Boundary Checks (No Cross-Migration)
+- ARCH-012 — [Task] MIG-1D: CLI Surface Inventory + Mapping Doc
+- ARCH-013 — [Task] MIG-1E: CLI Stability Test Harness + CI Gate
+### Ready
+### In Progress
+### Review
+### Blocked
+### Done
+
+## K. v0.0.1 Architecture Board (ARCH-2) Interface Abstraction
+### Backlog
+### Ready
+### In Progress
+### Review
+### Blocked
+### Done
+- ARCH-018 — [Task] ARCH-2D: CLI-Specific UI Helpers Isolation
+- ARCH-019 — [Task] ARCH-2E: Interface Feature Flags + Build Matrix
+- ARCH-020 — [Task] ARCH-2F: Interface Boundary Tests + Docs
+- ARCH-014 — [Epic] ARCH-2: Interface Abstraction (UI Core + Adapters)
+- ARCH-015 — [Story] ARCH-2A: Interface/UI Dependency Audit
+- ARCH-016 — [Story] ARCH-2B: UI Core Contracts (Framework-Agnostic)
+- ARCH-017 — [Story] ARCH-2C: Ratatui Adapter Extraction
+
+## L. v0.0.1 Architecture Board (ARCH-3) Crate Decomposition
+### Backlog
+- ARCH-021 — [Epic] ARCH-3: Crate Decomposition + Directional Boundaries
+### Ready
+### In Progress
+### Review
+### Blocked
+### Done
+- ARCH-022 — [Story] ARCH-3A: Dependency Audit + Crate Map
+- ARCH-023 — [Story] ARCH-3B: Composition Root Extraction
+- ARCH-024 — [Story] ARCH-3C: Workspace + Crate Scaffolding
+- ARCH-025 — [Task] ARCH-3D: Directional Import Guardrails
+- ARCH-026 — [Task] ARCH-3E: Dense Documentation + Boundary Tests
+- ARCH-027 — [Story] ARCH-3F: Ports Crate Migration
+- ARCH-028 — [Story] ARCH-3G: Application Crate Migration
+- ARCH-029 — [Story] ARCH-3H: UI Presentation Crate Migration
+- ARCH-030 — [Story] ARCH-3I: UI Core Crate Migration
+- ARCH-031 — [Story] ARCH-3J: Terminal Interface Crate Migration
+- ARCH-032 — [Story] ARCH-3K: TUI Interface Crate Migration
+- ARCH-033 — [Story] ARCH-3L: Bootstrappo Adapter Crate Migration

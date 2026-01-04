@@ -1,0 +1,53 @@
+id: ARCH-005
+title: 'ARCH-1B: Adapter Boundary + Port Wiring'
+type: Story
+layer: 5
+domain: core
+component: architecture-ports
+cli_surface: []
+
+description: |
+  Align adapters with ports so interface layers (UI/CLI) do not
+  reach directly into external dependencies. Runtime/application
+  code should consume ports and let adapters provide implementations.
+
+deliverables:
+  - Clarified port interfaces for runtime data sources
+  - Adapter wiring consolidated under adapters/ with clear boundaries
+  - UI/CLI entry points that depend on runtime + ports, not adapters
+
+acceptance_criteria:
+  - UI and CLI compile without importing adapter internals
+  - Runtime uses PortSet for external data access
+  - Adapter modules do not depend on UI/CLI
+
+dependencies:
+  - ARCH-002
+  - ARCH-003
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - ports
+  - adapters
+  - boundaries
+
+source_files:
+  - file: src/ports
+    context: "Ports surface"
+  - file: src/adapters
+    context: "Adapter implementations"
+  - file: src/application
+    context: "Runtime port usage"
+  - file: src/interfaces/tui
+    context: "TUI entry points"
+  - file: src/interfaces/terminal
+    context: "CLI entry points"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

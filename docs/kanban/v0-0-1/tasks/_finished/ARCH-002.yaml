@@ -1,0 +1,64 @@
+id: ARCH-002
+title: 'ARCH-1A: Layered Module Map + Target Tree'
+type: Story
+layer: 5
+domain: core
+component: architecture-map
+cli_surface: []
+
+description: |
+  Define the target layered architecture and a concrete module tree
+  for rotappo. The map should clarify which modules are domain,
+  application/runtime, ports, adapters, and interface layers, and
+  make explicit where shared presentation helpers live.
+
+deliverables:
+  - Architecture map with layers and dependency arrows
+  - Proposed module tree under src/ (domain, application, ports, adapters, interfaces)
+  - Guiding rules for cross-layer imports and re-exports
+  - Architecture map document at docs/architecture/ARCH-1A-layered-map.md
+
+acceptance_criteria:
+  - Domain layer has no UI/CLI dependencies
+  - Ports/adapters boundaries are explicit and documented
+  - UI/CLI only depend on application/presentation layers
+
+dependencies:
+  - ARCH-001
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - architecture
+  - refactor
+  - map
+  - domain
+  - ports
+  - adapters
+
+source_files:
+  - file: src/application
+    context: "Runtime orchestration and flows"
+  - file: src/domain
+    context: "Domain types and snapshots"
+  - file: src/ports
+    context: "Ports surface"
+  - file: src/adapters
+    context: "Bootstrappo adapters"
+  - file: src/interfaces/tui
+    context: "TUI interface layer"
+  - file: src/interfaces/terminal
+    context: "CLI interface layer"
+  - file: src/presentation/formatting
+    context: "Shared formatting candidates"
+  - file: src/presentation/logging.rs
+    context: "Shared log configuration"
+  - file: src/lib.rs
+    context: "Public exports for the crate"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

@@ -1,0 +1,49 @@
+id: ARCH-015
+title: 'ARCH-2A: Interface/UI Dependency Audit'
+type: Story
+layer: 5
+domain: core
+component: interface-audit
+cli_surface: []
+
+description: |
+  Audit the interface layer for CLI- and ratatui-specific dependencies.
+  Produce an inventory that clearly marks which modules are UI-core,
+  which are ratatui-specific, and which are CLI-specific.
+
+deliverables:
+  - Inventory document of interface modules and dependencies
+  - Classification table (ui-core vs ratatui vs cli)
+  - Proposed module boundaries for the refactor
+  - Audit document at docs/architecture/ARCH-2-interface-audit.md
+
+acceptance_criteria:
+  - Every interface module is classified with a dependency scope
+  - CLI-specific code is identified for isolation
+  - Ratatui dependencies are isolated to adapter candidates
+
+dependencies:
+  - ARCH-014
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - architecture
+  - interfaces
+  - audit
+  - ui
+
+source_files:
+  - file: src/interfaces/tui
+    context: "Ratatui-based TUI code"
+  - file: src/interfaces/terminal
+    context: "CLI formatting code"
+  - file: docs/architecture
+    context: "Inventory output"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

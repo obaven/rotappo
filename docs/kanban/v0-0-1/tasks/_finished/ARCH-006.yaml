@@ -1,0 +1,48 @@
+id: ARCH-006
+title: 'ARCH-1B: Migration Plan (No Shims)'
+type: Task
+layer: 5
+domain: core
+component: architecture-migration
+cli_surface: []
+
+description: |
+  Define a staged migration plan for the refactor. Update call sites
+  directly when module paths move so no compatibility shims remain.
+
+deliverables:
+  - Staged move plan with ordering and checkpoints
+  - Call-site update checklist for moved modules
+  - Rollback strategy if a stage introduces regressions
+  - Documentation at docs/architecture/ARCH-1B-migration-plan.md
+
+acceptance_criteria:
+  - Each stage compiles independently
+  - Public API changes are explicit and documented
+  - CLI and TUI continue to run after each stage
+  - No compatibility shims remain after migration
+
+dependencies:
+  - ARCH-002
+  - ARCH-003
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - architecture
+  - migration
+
+source_files:
+  - file: src/lib.rs
+    context: "Re-exports and module layout"
+  - file: src/interfaces/tui
+    context: "Interface layer usage"
+  - file: src/interfaces/terminal
+    context: "Interface layer usage"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

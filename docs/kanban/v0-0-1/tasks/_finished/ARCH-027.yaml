@@ -1,0 +1,47 @@
+id: ARCH-027
+title: 'ARCH-3F: Ports Crate Migration'
+type: Story
+layer: 5
+domain: core
+component: ports-migration
+cli_surface: []
+
+description: |
+  Move the ports layer into the new rotappo-ports crate and update
+  all consumers to depend on the crate instead of the root module.
+
+deliverables:
+  - Port traits and PortSet moved into `crates/core/rotappo-ports`
+  - Root crate depends on or re-exports `rotappo-ports`
+  - Imports updated to use `rotappo_ports` across application/adapters
+
+acceptance_criteria:
+  - No `src/ports` module remains in the root crate
+  - `rotappo-ports` depends only on `rotappo-domain`
+  - `cargo check -p rotappo` succeeds after migration
+
+dependencies:
+  - ARCH-024
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - architecture
+  - crates
+  - migration
+  - ports
+
+source_files:
+  - file: src/ports
+    context: "Ports module to migrate"
+  - file: crates/core/rotappo-ports
+    context: "Target crate for port traits"
+  - file: Cargo.toml
+    context: "Workspace and dependency wiring"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

@@ -1,0 +1,191 @@
+//! CLI formatting helpers for runtime data.
+
+use anyhow::{anyhow, Result};
+use serde::Serialize;
+
+use rotappo_ui_presentation::formatting;
+use rotappo_domain::{Action, Event, Snapshot};
+
+use super::OutputMode;
+
+/// Format a collection of actions for CLI output.
+///
+/// # Examples
+/// ```rust
+/// use rotappo_ui_terminal::{format_actions, OutputMode};
+/// use rotappo_domain::{Action, ActionId, ActionSafety};
+///
+/// let actions = [Action::new(
+///     ActionId::Validate,
+///     "Plan Validate",
+///     "Validate desired state.",
+///     false,
+///     ActionSafety::Safe,
+/// )];
+/// let output = format_actions(OutputMode::Plain, &actions).unwrap();
+/// assert_eq!(output, "validate - Plan Validate (safe)");
+/// ```
+pub fn format_actions(mode: OutputMode, actions: &[Action]) -> Result<String> {
+    match mode {
+        OutputMode::Plain => Ok(actions
+            .iter()
+            .map(|action| {
+                format!(
+                    "{} - {} ({})",
+                    action.id,
+                    action.label,
+                    action.safety.as_str()
+                )
+            })
+            .collect::<Vec<_>>()
+            .join("\n")),
+        OutputMode::Json => Ok(serde_json::to_string_pretty(actions)?),
+        OutputMode::Ndjson => to_ndjson(actions),
+    }
+}
+
+/// Format a runtime snapshot for CLI output.
+///
+/// # Examples
+/// ```rust
+/// use rotappo_ui_terminal::{format_snapshot, OutputMode};
+/// use rotappo_domain::Snapshot;
+///
+/// let snapshot = Snapshot::new_default();
+/// let output = format_snapshot(OutputMode::Plain, &snapshot).unwrap();
+/// assert_eq!(output, "Plan 3/12 complete | Health: degraded");
+/// ```
+pub fn format_snapshot(mode: OutputMode, snapshot: &Snapshot) -> Result<String> {
+    match mode {
+        OutputMode::Plain => Ok(format!(
+            "Plan {}/{} complete | Health: {}",
+            snapshot.plan.completed,
+            snapshot.plan.total,
+            snapshot.health.as_str()
+        )),
+        OutputMode::Json => Ok(serde_json::to_string_pretty(snapshot)?),
+        OutputMode::Ndjson => to_ndjson(snapshot),
+    }
+}
+
+/// Format event messages for CLI output.
+///
+/// # Examples
+/// ```rust
+/// use rotappo_ui_terminal::{format_events, OutputMode};
+/// use rotappo_domain::{Event, EventLevel};
+///
+/// let events = [Event::new(EventLevel::Info, "ready")];
+/// let output = format_events(OutputMode::Plain, &events).unwrap();
+/// assert!(output.contains("info"));
+/// assert!(output.contains("ready"));
+/// ```
+pub fn format_events(mode: OutputMode, events: &[Event]) -> Result<String> {
+    match mode {
+        OutputMode::Plain => Ok(events
+            .iter()
+            .map(|event| {
+                format!(
+                    "[{}] {} {}",
+                    event.level.as_str(),
+                    event.timestamp_ms,
+                    event.message
+                )
+            })
+            .collect::<Vec<_>>()
+            .join("\n")),
+        OutputMode::Json => Ok(serde_json::to_string_pretty(events)?),
+        OutputMode::Ndjson => to_ndjson(events),
+    }
+}
+
+/// Format the current plan view for CLI output.
+///
+/// # Examples
+/// ```rust
+/// use rotappo_ui_terminal::{format_plan, OutputMode};
+/// use rotappo_domain::{HealthStatus, PlanStep, PlanStepStatus, PlanSummary, Snapshot};
+///
+/// let snapshot = Snapshot {
+///     plan: PlanSummary {
+///         total: 1,
+///         completed: 0,
+///         in_progress: 1,
+///         blocked: 0,
+///         pending: 0,
+///     },
+///     plan_steps: vec![PlanStep {
+///         id: "boot".to_string(),
+///         kind: "apply".to_string(),
+///         depends_on: vec![],
+///         provides: vec![],
+///         status: PlanStepStatus::Running,
+///         domain: "core".to_string(),
+///         pod: None,
+///     }],
+///     capabilities: vec![],
+///     health: HealthStatus::Healthy,
+///     last_updated_ms: 0,
+///     last_action: None,
+///     last_action_status: None,
+/// };
+/// let output = format_plan(OutputMode::Plain, &snapshot).unwrap();
+/// assert!(output.contains("core domain"));
+/// assert!(output.contains("boot apply"));
+/// ```
+pub fn format_plan(mode: OutputMode, snapshot: &Snapshot) -> Result<String> {
+    let groups = formatting::plan_groups(snapshot);
+    match mode {
+        OutputMode::Plain => {
+            let mut lines = Vec::new();
+            for group in groups {
+                lines.push(format!("{} domain", group.domain));
+                for step_info in group.steps {
+                    let step = step_info.step;
+                    let pod_text = step
+                        .pod
+                        .as_deref()
+                        .map(|pod| format!(" pod: {}", pod))
+                        .unwrap_or_else(|| " pod: -".to_string());
+                    lines.push(format!(
+                        "[{:<9}] {} {}{}",
+                        step.status.as_str(),
+                        step.id,
+                        step.kind,
+                        pod_text
+                    ));
+                }
+            }
+            Ok(lines.join("\n"))
+        }
+        OutputMode::Json => Ok(serde_json::to_string_pretty(&groups)?),
+        OutputMode::Ndjson => to_ndjson(&groups),
+    }
+}
+
+/// Format problem strings for CLI output.
+///
+/// # Examples
+/// ```rust
+/// use rotappo_ui_terminal::{format_problems, OutputMode};
+///
+/// let problems = vec!["one".to_string(), "two".to_string()];
+/// let output = format_problems(OutputMode::Plain, &problems).unwrap();
+/// assert_eq!(output, "one\ntwo");
+/// ```
+pub fn format_problems(mode: OutputMode, problems: &[String]) -> Result<String> {
+    match mode {
+        OutputMode::Plain => Ok(problems.join("\n")),
+        OutputMode::Json => Ok(serde_json::to_string_pretty(problems)?),
+        OutputMode::Ndjson => to_ndjson(problems),
+    }
+}
+
+/// Serialize a value as single-line JSON suitable for NDJSON output.
+fn to_ndjson<T: Serialize + ?Sized>(value: &T) -> Result<String> {
+    let json = serde_json::to_string(value)?;
+    if json.contains('\n') {
+        return Err(anyhow!("NDJSON payload contains newlines"));
+    }
+    Ok(json)
+}

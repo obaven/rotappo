@@ -1,0 +1,12 @@
+[package]
+name = "rotappo-ui-terminal"
+version = "0.0.1"
+edition = "2024"
+publish = false
+
+[dependencies]
+anyhow = "1.0.100"
+rotappo-domain = { path = "../../core/rotappo-domain" }
+rotappo-ui-presentation = { path = "../rotappo-ui-presentation" }
+serde = { version = "1.0.210", features = ["derive"] }
+serde_json = "1.0.128"

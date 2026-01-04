@@ -1,0 +1,45 @@
+id: ARCH-020
+title: 'ARCH-2F: Interface Boundary Tests + Docs'
+type: Task
+layer: 5
+domain: core
+component: interface-guardrails
+cli_surface: []
+
+description: |
+  Add guardrail tests and documentation to ensure interface boundaries
+  stay clean as new UI surfaces are added.
+
+deliverables:
+  - Tests that assert ui-core is ratatui/cli-free
+  - Doc updates describing the interface layering
+  - Checklist for new UI surfaces (web/desktop)
+
+acceptance_criteria:
+  - Tests fail if ratatui or CLI deps leak into ui-core
+  - Docbook reflects the new interface layering
+  - Interface guardrails are referenced in PR checklists
+
+dependencies:
+  - ARCH-019
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - architecture
+  - interfaces
+  - guardrails
+  - documentation
+
+source_files:
+  - file: docs/book/architecture
+    context: "Interface layering documentation"
+  - file: tests
+    context: "Boundary tests"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

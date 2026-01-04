@@ -1,0 +1,48 @@
+id: ARCH-029
+title: 'ARCH-3H: UI Presentation Crate Migration'
+type: Story
+layer: 5
+domain: core
+component: presentation-migration
+cli_surface: []
+
+description: |
+  Move presentation formatting and logging helpers into
+  rotappo-ui-presentation so UI and terminal interfaces can depend
+  on a single UI-focused crate.
+
+deliverables:
+  - Presentation helpers moved into `crates/ui/rotappo-ui-presentation`
+  - `rotappo-ui-presentation` depends on `rotappo-domain`
+  - Imports updated to use `rotappo_ui_presentation`
+
+acceptance_criteria:
+  - No `src/presentation` module remains in the root crate
+  - UI and terminal modules compile against `rotappo-ui-presentation`
+  - `cargo check -p rotappo` succeeds after migration
+
+dependencies:
+  - ARCH-024
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - architecture
+  - crates
+  - migration
+  - presentation
+
+source_files:
+  - file: src/presentation
+    context: "Presentation helpers to migrate"
+  - file: crates/ui/rotappo-ui-presentation
+    context: "Target crate for presentation logic"
+  - file: Cargo.toml
+    context: "Workspace and dependency wiring"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

@@ -1,0 +1,62 @@
+id: ARCH-001
+title: 'ARCH-1: Layered Architecture + UI/CLI Separation'
+type: Epic
+layer: 5
+domain: core
+component: architecture
+cli_surface: []
+
+description: |
+  Establish a layered architecture that separates domain logic from
+  UI/CLI presentation. The current UI module includes CLI-specific
+  concerns; introduce UI-agnostic view models and presentation helpers
+  outside of ui/cli, and align with ports/adapters where possible.
+
+deliverables:
+  - Proposed layered module map (domain, ports, adapters, interfaces)
+  - Relocated UI-agnostic formatting/state helpers into core modules
+  - Clear boundaries for CLI vs TUI responsibilities
+  - Updated public exports and documentation of module layering
+
+acceptance_criteria:
+  - UI module contains only TUI-specific rendering and input handling
+  - CLI module contains only CLI formatting and output handlers
+  - Domain/runtime code has no dependency on UI/CLI details
+  - Ports/adapters are explicit and used by runtime where applicable
+
+dependencies: []
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - refactor
+  - ports
+  - adapters
+  - ui
+  - cli
+
+source_files:
+  - file: src/interfaces/tui
+    context: "TUI logic and view composition to isolate"
+  - file: src/interfaces/terminal
+    context: "CLI output formatting to isolate"
+  - file: src/application
+    context: "Runtime orchestration and port wiring"
+  - file: src/domain
+    context: "Domain models and snapshots"
+  - file: src/ports
+    context: "Ports abstraction surface"
+  - file: src/adapters
+    context: "Infrastructure adapters for runtime data"
+  - file: src/presentation/formatting
+    context: "Shared formatting candidates"
+  - file: src/presentation/logging.rs
+    context: "Shared log config and filtering"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

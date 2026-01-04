@@ -1,0 +1,60 @@
+id: ARCH-014
+title: 'ARCH-2: Interface Abstraction (UI Core + Adapters)'
+type: Epic
+layer: 5
+domain: core
+component: interface-abstraction
+cli_surface:
+  - tui
+
+description: |
+  Separate CLI- and ratatui-specific concerns from the interface/ui
+  layer so future UI surfaces (web, desktop, etc.) can reuse the
+  interface contracts without pulling in CLI or ratatui dependencies.
+  Keep bootstrappo structure unchanged.
+
+deliverables:
+  - UI core contracts that are UI-framework agnostic
+  - Ratatui adapter module for TUI rendering
+  - CLI-specific UI helpers isolated behind a separate abstraction
+  - Feature flags/build matrix to compile UI cores without ratatui
+  - Tests that enforce interface boundaries
+  - Architecture plan at docs/architecture/ARCH-2-interface-abstraction.md
+
+acceptance_criteria:
+  - Non-ratatui UI surfaces can build without ratatui dependencies
+  - CLI surface remains stable and unchanged
+  - Bootstrappo codebase remains untouched for this refactor
+  - UI core layer has no CLI-specific dependencies
+
+dependencies: []
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - interfaces
+  - ui
+  - refactor
+  - guardrails
+
+source_files:
+  - file: src/interfaces
+    context: "Current interface layer"
+  - file: src/presentation
+    context: "Shared presentation helpers"
+  - file: src/application
+    context: "Runtime orchestration"
+  - file: src/bin/tui.rs
+    context: "TUI entry point"
+  - file: Cargo.toml
+    context: "Feature flags for UI surfaces"
+  - file: Makefile.toml
+    context: "Build matrix tasks"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

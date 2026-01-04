@@ -1,0 +1,56 @@
+id: ARCH-021
+title: 'ARCH-3: Crate Decomposition + Directional Boundaries'
+type: Epic
+layer: 5
+domain: core
+component: crate-decomposition
+cli_surface:
+  - terminal
+  - tui
+
+description: |
+  Split the monolithic crate into focused crates so independent agents
+  can work in parallel, while enforcing strict dependency direction.
+  Target: domain/ports/application/presentation/interfaces/adapters
+  split with composition roots in binaries or a thin composition layer.
+
+deliverables:
+  - Crate map + dependency rules
+  - Workspace plan and staged migration checklist
+  - Decoupling of non-tightly bound logic
+  - Guardrail tests + linting for directional imports
+  - Documentation updates (book + architecture docs)
+
+acceptance_criteria:
+  - Each src module is assigned to a target crate with dependency rules
+  - Directional imports are enforced via tests or tooling
+  - Composition roots are isolated to bins (terminal/tui)
+  - Docs describe the crate layout and build strategy
+
+dependencies: []
+
+phase_gate: gitops
+effort: L
+risk: med
+
+labels:
+  - architecture
+  - crates
+  - boundaries
+  - documentation
+  - testing
+
+source_files:
+  - file: src
+    context: "Current module tree to split"
+  - file: Cargo.toml
+    context: "Workspace + crate definitions"
+  - file: docs/architecture
+    context: "Architecture documentation"
+  - file: Makefile.toml
+    context: "Build + test tasks"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:backlog)
+assignee: unassigned

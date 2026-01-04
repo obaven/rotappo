@@ -1,0 +1,49 @@
+id: ARCH-024
+title: 'ARCH-3C: Workspace + Crate Scaffolding'
+type: Story
+layer: 5
+domain: core
+component: crate-scaffold
+cli_surface: []
+
+description: |
+  Create a workspace layout and scaffold the new crates so each layer
+  can be worked on independently. Keep migration incremental and
+  track which modules move where.
+
+deliverables:
+  - Workspace Cargo.toml with member crates
+  - New crates for domain, ports, application, ui-presentation, ui-core,
+    ui-terminal, ui-tui, adapter-bootstrappo
+  - Incremental migration checklist and staging plan
+
+acceptance_criteria:
+  - Workspace builds with at least one crate migrated
+  - Crate boundaries match the ARCH-3 crate map
+  - Binaries compile against new crate paths
+
+dependencies:
+  - ARCH-023
+
+phase_gate: gitops
+effort: L
+risk: med
+
+labels:
+  - architecture
+  - crates
+  - workspace
+  - migration
+
+source_files:
+  - file: Cargo.toml
+    context: "Workspace root and crate definitions"
+  - file: src
+    context: "Modules to migrate into crates"
+  - file: Makefile.toml
+    context: "Build tasks to update"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

@@ -12,11 +12,11 @@ description: |
   Create a shared runtime that exposes actions, state snapshots, and
   event streams for all UI surfaces. This runtime becomes the single
   source of truth for UI data and command execution. Implement the
-  runtime inside lib/rotappo so it can be developed independently and
+  runtime inside rotappo so it can be developed independently and
   adapted for Bootstrappo and Rotato.
 
 deliverables:
-  - Rotappo runtime modules under lib/rotappo/src/runtime
+  - Rotappo runtime modules under rotappo/src/runtime
   - Action router and command registry used by all surfaces
   - State snapshot model aggregating plan, capabilities, and health
   - Event bus for logs and step transitions
@@ -28,7 +28,7 @@ acceptance_criteria:
   - State snapshot can be fetched without heavy cluster polling
   - Log and event streams support live UIs (TUI/Web/Desktop)
   - Runtime remains usable without any UI (headless CLI mode)
-  - Runtime compiles as an independent crate under lib/rotappo
+  - Runtime compiles as an independent crate under rotappo
 
 dependencies:
   - UI-001
@@ -49,6 +49,34 @@ labels:
   - api
   - core
   - rotappo
+
+source_files:
+  - file: ../bootstrappo/src/main.rs
+    context: "CLI entry point; invokes bootstrappo::cli::Cli::run"
+  - file: ../bootstrappo/src/cli/mod.rs
+    context: "CLI parser and dispatch wiring"
+  - file: ../bootstrappo/src/cli/context.rs
+    context: "CLI context/config wiring"
+  - file: ../bootstrappo/src/cli/commands/mod.rs
+    context: "CLI command registry"
+  - file: ../bootstrappo/src/cli/commands/plan.rs
+    context: "bootstrappo plan command handler"
+  - file: ../bootstrappo/src/cli/commands/reconcile.rs
+    context: "bootstrappo reconcile command handler"
+  - file: ../bootstrappo/src/cli/commands/rotate.rs
+    context: "bootstrappo rotate command handler"
+  - file: ../bootstrappo/src/cli/commands/nuke.rs
+    context: "bootstrappo nuke command handler"
+  - file: ../bootstrappo/src/cli/commands/debug.rs
+    context: "bootstrappo debug command handler"
+  - file: ../bootstrappo/src/cli/commands/cache.rs
+    context: "bootstrappo cache command handler"
+  - file: ../bootstrappo/src/cli/commands/generate.rs
+    context: "bootstrappo generate command handler"
+  - file: ../bootstrappo/src/cli/commands/visualize.rs
+    context: "bootstrappo visualize command handler"
+  - file: ../bootstrappo/src/bin/test_plan_load.rs
+    context: "CLI test harness for plan loading"
 
 status: MustHaves
 state: Backlog

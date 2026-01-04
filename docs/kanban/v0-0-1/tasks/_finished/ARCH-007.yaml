@@ -1,0 +1,54 @@
+id: ARCH-007
+title: 'ARCH-1C: Caveats + Guardrails Checklist'
+type: Task
+layer: 5
+domain: core
+component: architecture-guardrails
+cli_surface: []
+
+description: |
+  Capture refactor caveats and guardrails to prevent regressions.
+  This includes risks around serialization, UI/CLI output parity,
+  and accidental cross-layer dependencies.
+
+deliverables:
+  - Checklist of guardrails for refactor PRs
+  - Incorporation of Rust import boundaries as enforcement mechanism
+  - Incorporation at git {commit, pull, pr, etc.} level where possible
+  - Known-risk list (serialization, output formats, runtime behavior)
+  - Suggested tests/validation steps for each stage
+  - Doc-test guardrail for public path changes (runtime -> domain)
+  - Documentation at docs/architecture/ARCH-1C-guardrails.md
+
+acceptance_criteria:
+  - Guardrail checklist referenced by all architecture PRs
+  - Known risks documented with mitigations
+  - Testing steps include CLI output parity and TUI smoke checks
+  - Doc tests updated alongside any public path changes
+
+dependencies:
+  - ARCH-002
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - architecture
+  - caveats
+  - guardrails
+
+source_files:
+  - file: src/interfaces/terminal
+    context: "Output formats and CLI behavior"
+  - file: src/interfaces/tui
+    context: "UI state and rendering behavior"
+  - file: src/application
+    context: "Runtime behavior and flows"
+  - file: src/domain
+    context: "Snapshot models and invariants"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

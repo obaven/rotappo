@@ -1,0 +1,52 @@
+id: ARCH-023
+title: 'ARCH-3B: Composition Root Extraction'
+type: Story
+layer: 5
+domain: core
+component: composition-roots
+cli_surface:
+  - terminal
+  - tui
+
+description: |
+  Move wiring and backend construction out of shared modules so bins
+  are the only composition roots. This keeps adapters independent of
+  application code and allows multiple agents to work in parallel.
+
+deliverables:
+  - Composition wiring moved to bin crates (terminal/tui)
+  - Adapters expose ports without constructing application runtime
+  - UI adapters accept injected runtime/ports instead of concrete backends
+  - Updated architecture doc describing composition boundaries
+
+acceptance_criteria:
+  - Adapters compile without depending on application or interfaces
+  - Binaries are the only place that construct Runtime
+  - TUI/terminal can be composed with alternate adapters in tests
+
+dependencies:
+  - ARCH-022
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - composition
+  - decoupling
+
+source_files:
+  - file: src/adapters/bootstrappo
+    context: "Backend wiring to extract"
+  - file: src/application
+    context: "Runtime construction"
+  - file: src/interfaces/tui
+    context: "TUI wiring and App construction"
+  - file: src/bin
+    context: "Composition roots"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

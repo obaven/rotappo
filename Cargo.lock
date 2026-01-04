@@ -2047,8 +2047,78 @@ dependencies = [
  "crossterm",
  "kube",
  "ratatui",
+ "rotappo-domain",
  "serde",
  "serde_json",
+ "tokio",
+ "validator",
+]
+
+[[package]]
+name = "rotappo-adapter-bootstrappo"
+version = "0.0.1"
+
+[[package]]
+name = "rotappo-application"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "rotappo-domain",
+ "rotappo-ports",
+]
+
+[[package]]
+name = "rotappo-domain"
+version = "0.0.1"
+dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "rotappo-ports"
+version = "0.0.1"
+dependencies = [
+ "rotappo-domain",
+]
+
+[[package]]
+name = "rotappo-ui-core"
+version = "0.0.1"
+dependencies = [
+ "rotappo-domain",
+ "rotappo-ui-presentation",
+]
+
+[[package]]
+name = "rotappo-ui-presentation"
+version = "0.0.1"
+dependencies = [
+ "rotappo-domain",
+ "serde",
+]
+
+[[package]]
+name = "rotappo-ui-terminal"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "rotappo-domain",
+ "rotappo-ui-presentation",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "rotappo-ui-tui"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "crossterm",
+ "ratatui",
+ "rotappo-application",
+ "rotappo-domain",
+ "rotappo-ui-core",
+ "rotappo-ui-presentation",
  "tokio",
 ]
 

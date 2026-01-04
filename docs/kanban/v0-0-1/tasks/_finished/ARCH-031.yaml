@@ -1,0 +1,48 @@
+id: ARCH-031
+title: 'ARCH-3J: Terminal Interface Crate Migration'
+type: Story
+layer: 5
+domain: core
+component: ui-terminal-migration
+cli_surface:
+  - terminal
+
+description: |
+  Move terminal formatting and output logic into rotappo-ui-terminal
+  so CLI logic can be reused outside the root crate.
+
+deliverables:
+  - Terminal interface modules moved into `crates/ui/rotappo-ui-terminal`
+  - `rotappo-ui-terminal` depends on `rotappo-domain` and `rotappo-ui-presentation`
+  - Imports updated to use `rotappo_ui_terminal`
+
+acceptance_criteria:
+  - No `src/interfaces/terminal` module remains in the root crate
+  - Terminal bin compiles against the new crate
+  - `cargo check --no-default-features --features cli` succeeds
+
+dependencies:
+  - ARCH-029
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - architecture
+  - crates
+  - migration
+  - terminal
+
+source_files:
+  - file: src/interfaces/terminal
+    context: "Terminal interface to migrate"
+  - file: crates/ui/rotappo-ui-terminal
+    context: "Target crate for terminal logic"
+  - file: src/bin/terminal.rs
+    context: "Terminal composition root"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

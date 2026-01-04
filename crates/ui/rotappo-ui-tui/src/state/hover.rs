@@ -1,0 +1,21 @@
+//! Hover context tracking.
+
+/// Panel currently under the mouse cursor.
+///
+/// # Examples
+/// ```rust
+/// use rotappo_ui_tui::state::HoverPanel;
+///
+/// assert_eq!(HoverPanel::None, HoverPanel::None);
+/// ```
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum HoverPanel {
+    None,
+    Plan,
+    Capabilities,
+    Actions,
+    Logs,
+    Problems,
+    Help,
+    Settings,
+}

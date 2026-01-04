@@ -1,0 +1,13 @@
+[book]
+title = "Rotappo Architecture and Development Guide"
+authors = ["Rotappo"]
+language = "en"
+src = "."
+
+[build]
+build-dir = "target/book"
+create-missing = false
+
+[preprocessor.graphviz]
+command = "mdbook-graphviz"
+renderers = ["html"]

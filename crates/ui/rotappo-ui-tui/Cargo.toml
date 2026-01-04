@@ -1,0 +1,16 @@
+[package]
+name = "rotappo-ui-tui"
+version = "0.0.1"
+edition = "2024"
+publish = false
+
+[dependencies]
+anyhow = "1.0.100"
+crossterm = "0.28.1"
+ratatui = "0.29.0"
+rotappo-application = { path = "../../core/rotappo-application" }
+rotappo-domain = { path = "../../core/rotappo-domain" }
+rotappo-ports = { path = "../../core/rotappo-ports" }
+rotappo-ui-core = { path = "../rotappo-ui-core" }
+rotappo-ui-presentation = { path = "../rotappo-ui-presentation" }
+tokio = { version = "1.48.0", features = ["rt-multi-thread", "time"] }

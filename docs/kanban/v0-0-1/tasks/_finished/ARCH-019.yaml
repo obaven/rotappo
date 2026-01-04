@@ -1,0 +1,48 @@
+id: ARCH-019
+title: 'ARCH-2E: Interface Feature Flags + Build Matrix'
+type: Task
+layer: 5
+domain: core
+component: interface-build-matrix
+cli_surface: []
+
+description: |
+  Add feature flags and build checks so ui-core can compile without
+  ratatui or CLI components. This protects non-TUI surfaces from
+  unwanted dependencies.
+
+deliverables:
+  - Cargo features for ui-core, tui, and terminal
+  - Build matrix tasks in cargo-make
+  - Documentation for feature usage
+
+acceptance_criteria:
+  - `cargo check --features ui-core` works without ratatui
+  - TUI builds only when tui feature is enabled
+  - CLI builds only when terminal feature is enabled
+
+dependencies:
+  - ARCH-016
+  - ARCH-017
+  - ARCH-018
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - architecture
+  - interfaces
+  - build
+  - features
+
+source_files:
+  - file: Cargo.toml
+    context: "Feature flag definitions"
+  - file: Makefile.toml
+    context: "Build matrix tasks"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

@@ -1,0 +1,50 @@
+id: ARCH-009
+title: 'MIG-1A: Rotappo CLI Contract Snapshots + Golden Tests'
+type: Story
+layer: 5
+domain: core
+component: migration-cli-rotappo
+cli_surface:
+  - terminal [actions|snapshot|plan|problems|logs]
+
+description: |
+  Capture stable CLI outputs for rotappo and lock them in with golden
+  tests. This ensures CLI formatting and text remain unchanged unless
+  intentionally updated.
+
+deliverables:
+  - Fixture inputs for plan, health, and events
+  - Expected output snapshots for each output mode
+  - Test harness to compare current output vs fixtures
+  - Update instructions for intentional changes
+
+acceptance_criteria:
+  - Tests fail on any CLI output drift
+  - Fixtures run without live cluster access
+  - Plain/json/ndjson formats are covered
+
+dependencies:
+  - ARCH-008
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - migration
+  - cli
+  - testing
+  - snapshots
+
+source_files:
+  - file: src/interfaces/terminal
+    context: "Rotappo CLI formatting helpers"
+  - file: src/bin/terminal.rs
+    context: "Rotappo CLI entry"
+  - file: tests
+    context: "Golden tests and fixtures"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:backlog)
+assignee: unassigned

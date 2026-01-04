@@ -38,7 +38,7 @@ labels:
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/bin/rotappo-tui.rs
+  - file: lib/rotappo/src/bin/tui.rs
     context: "Define TUI entrypoint"
   - file: lib/rotappo/src/tui/mod.rs
     context: "Set up layout and event loop"

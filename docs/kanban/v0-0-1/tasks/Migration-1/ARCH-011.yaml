@@ -1,0 +1,48 @@
+id: ARCH-011
+title: 'MIG-1C: CLI Boundary Checks (No Cross-Migration)'
+type: Task
+layer: 5
+domain: core
+component: migration-cli-boundary
+cli_surface: []
+
+description: |
+  Enforce that rotappo does not depend on bootstrappo CLI modules and
+  bootstrappo does not import rotappo CLI logic. Add automated checks
+  so accidental cross-repo coupling is caught early.
+
+deliverables:
+  - Boundary check scripts (rg-based or lint tasks)
+  - cargo-make task to run boundary checks
+  - Documentation for allowed and forbidden imports
+
+acceptance_criteria:
+  - Checks fail if rotappo references bootstrappo CLI modules
+  - Checks fail if bootstrappo references rotappo CLI modules
+  - Boundary checks run in CI and locally
+
+dependencies:
+  - ARCH-008
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - migration
+  - cli
+  - guardrails
+  - lint
+
+source_files:
+  - file: Makefile.toml
+    context: "Guardrail task wiring"
+  - file: src
+    context: "Rotappo codebase"
+  - file: ../bootstrappo/src/cli
+    context: "Bootstrappo CLI modules"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:backlog)
+assignee: unassigned

@@ -1,0 +1,51 @@
+id: ARCH-004
+title: 'ARCH-1B: Shared Presentation + Formatting Boundary'
+type: Task
+layer: 5
+domain: core
+component: architecture-presentation
+cli_surface: []
+
+description: |
+  Extract UI/CLI-agnostic presentation helpers (formatting, log
+  filters, view models) into a shared layer. This keeps interfaces
+  focused on rendering and I/O, while shared presentation logic
+  lives in a neutral module.
+
+deliverables:
+  - Shared presentation module for formatting and log config
+  - Updated UI and CLI imports using the shared layer
+  - Documentation of what is considered presentation vs interface logic
+
+acceptance_criteria:
+  - CLI output remains unchanged after the move
+  - UI uses shared presentation helpers without UI-specific types
+  - Domain/application layers remain free of UI/CLI concerns
+
+dependencies:
+  - ARCH-002
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - presentation
+  - formatting
+  - logging
+
+source_files:
+  - file: src/presentation/formatting
+    context: "Plan grouping and problem formatting"
+  - file: src/presentation/logging.rs
+    context: "Log filter and stream configuration"
+  - file: src/interfaces/tui
+    context: "TUI format usage"
+  - file: src/interfaces/terminal
+    context: "CLI format usage"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned

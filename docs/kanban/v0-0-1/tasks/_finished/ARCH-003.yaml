@@ -1,0 +1,52 @@
+id: ARCH-003
+title: 'ARCH-1A: Domain + Application Layer Extraction'
+type: Story
+layer: 5
+domain: core
+component: architecture-layers
+cli_surface: []
+
+description: |
+  Separate domain data models from application/runtime orchestration.
+  The goal is to keep pure domain types independent, while runtime
+  logic coordinates ports and adapters in an application layer.
+
+deliverables:
+  - New domain module tree (actions, events, snapshot, models)
+  - Application/runtime layer that owns orchestration and port wiring
+  - Updated crate exports to preserve public API stability
+
+acceptance_criteria:
+  - Domain types have zero dependencies on UI/CLI and adapters
+  - Runtime/application layer depends on ports and adapters only
+  - No cyclic dependencies between layers
+
+dependencies:
+  - ARCH-002
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - domain
+  - runtime
+  - refactor
+
+source_files:
+  - file: src/application
+    context: "Runtime orchestration and state types"
+  - file: src/domain
+    context: "Domain models and events"
+  - file: src/ports
+    context: "Ports used by runtime"
+  - file: src/adapters
+    context: "Adapter entry points into runtime"
+  - file: src/lib.rs
+    context: "Re-exports and module layout"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
+assignee: unassigned
