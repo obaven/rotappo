@@ -15,12 +15,12 @@ impl App {
                 title: "Snapshot".to_string(),
                 lines: vec![
                     format!(
-                        "Plan: {}/{} complete",
-                        snapshot.plan.completed, snapshot.plan.total
+                        "Assembly: {}/{} complete",
+                        snapshot.action.completed, snapshot.action.total
                     ),
-                    format!("In progress: {}", snapshot.plan.in_progress),
-                    format!("Blocked: {}", snapshot.plan.blocked),
-                    format!("Pending: {}", snapshot.plan.pending),
+                    format!("In progress: {}", snapshot.action.in_progress),
+                    format!("Blocked: {}", snapshot.action.blocked),
+                    format!("Pending: {}", snapshot.action.pending),
                     format!("Health: {}", snapshot.health.as_str()),
                     format!(
                         "Last action: {}",
@@ -32,8 +32,8 @@ impl App {
                 ],
             });
         }
-        if let Some(index) = self.ui.hover_plan_index {
-            let step = self.runtime.snapshot().plan_steps.get(index)?;
+        if let Some(index) = self.ui.hover_action_index {
+            let step = self.runtime.snapshot().action_steps.get(index)?;
             return Some(Tooltip {
                 title: format!("Step {}", step.id),
                 lines: vec![

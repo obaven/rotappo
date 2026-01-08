@@ -1,0 +1,49 @@
+id: DRIFT-003
+title: 'Catalog Export (YAML)'
+type: Story
+layer: 5
+domain: core
+component: rotappo-adapter-bootstrappo
+cli_surface:
+  - bootstrappo [catalog]
+
+description: |
+  Add the catalog command to list all registered bootstrappo modules
+  and export their ModuleSpec metadata as YAML. Support stdout output
+  and an optional --output path.
+
+deliverables:
+  - Adapter controller that returns ModuleSpec metadata
+  - YAML mapping for ModuleSpec + EngineMeta
+  - CLI support for --output file path
+  - Deterministic ordering (stable module list)
+
+acceptance_criteria:
+  - `rotappo catalog` prints YAML to stdout
+  - `rotappo catalog --output catalog.yaml` writes the file
+  - Output includes name/domain/kind/engine/required/provides/checks
+  - YAML ordering is stable across runs
+
+dependencies:
+  - DRIFT-001
+
+phase_gate: gitops
+effort: M
+risk: low
+
+labels:
+  - cli
+  - bootstrappo
+  - catalog
+  - yaml
+
+source_files:
+  - file: crates/core/rotappo-adapter-bootstrappo/src/controller/
+    context: "Catalog controller"
+  - file: crates/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs
+    context: "Catalog command wiring"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-07, status:backlog)
+assignee: unassigned

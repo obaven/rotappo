@@ -5,8 +5,8 @@ layer: 5
 domain: core
 component: migration-cli-inventory
 cli_surface:
-  - terminal [actions|snapshot|plan|problems|logs]
-  - bootstrappo [plan|reconcile|rotate|debug|nuke|cache|generate|visualize]
+  - terminal [actions|snapshot|action|problems|logs]
+  - bootstrappo [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
 
 description: |
   Document the CLI surfaces for rotappo and bootstrappo, including
@@ -44,6 +44,6 @@ source_files:
     context: "Bootstrappo CLI commands"
 
 status: MustHaves
-state: Backlog
-status_capsule: (owner:@antigravity, updated:2026-01-04, status:backlog)
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
 assignee: unassigned

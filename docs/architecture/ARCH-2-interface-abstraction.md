@@ -1,4 +1,4 @@
-# ARCH-2 Interface Abstraction Plan
+# ARCH-2 Interface Abstraction Action
 
 ## Goal
 Separate CLI- and ratatui-specific concerns from the interface layer so
@@ -44,22 +44,24 @@ allows additional adapters (web, desktop) without naming conflicts.
 - `ui_core` may depend on `domain`, `application`, and `presentation`.
 - `ui_core` must not depend on ratatui, crossterm, or CLI helpers.
 - `tui` depends on `ui_core` and ratatui/crossterm.
-- `terminal` remains independent; no `ui_core` imports required.
+- CLI formatting helpers remain independent; no `ui_core` imports required.
 
 ## Feature flags
 - `ui-core`: builds framework-agnostic UI contracts only
-- `tui-ratatui`: builds the TUI adapter (depends on `ui-core`)
-- `cli`: builds CLI helpers and formatter output
+- `tui-ratatui`: builds the TUI adapter (depends on `ui-core`; requires a module feature)
+- `cli`: builds CLI helpers and formatter output (requires a module feature)
+- `module-bootstrappo`: enables the bootstrappo CLI surface (with `cli`)
+- `module-rotato`: enables the rotato CLI surface (with `cli`)
 
 Examples:
 - `cargo check --no-default-features --features ui-core`
-- `cargo check --no-default-features --features tui-ratatui`
-- `cargo check --no-default-features --features cli`
+- `cargo check --no-default-features --features tui-ratatui,module-bootstrappo`
+- `cargo check --no-default-features --features cli,module-bootstrappo`
 
 ## Guardrail tests
 - Ensure `ui_core` compiles without ratatui/crossterm.
 - Static check to prevent `ui_core` importing `rotappo-ui-terminal`.
-- Build matrix tasks for `ui-core`, `tui-ratatui`, `cli` features.
+- Build matrix tasks for `ui-core`, `tui-ratatui + module-bootstrappo`, `cli + module-bootstrappo` features.
 
 ## Migration steps (high level)
 1) Extract UI-core contracts (state/events/models) from `rotappo-ui-tui`.

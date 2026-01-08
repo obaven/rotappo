@@ -1,7 +1,7 @@
 use ratatui::layout::Margin;
 
 use crate::state::HoverPanel;
-use crate::util::{collect_problems, plan_lines};
+use crate::util::{collect_problems, action_lines};
 
 use super::App;
 
@@ -17,7 +17,7 @@ impl App {
             }
         }
         self.ui.hover_panel = HoverPanel::None;
-        self.ui.hover_plan_index = None;
+        self.ui.hover_action_index = None;
         self.ui.hover_capability_index = None;
         self.ui.hover_action_index = None;
         self.ui.hover_problem_index = None;
@@ -28,9 +28,9 @@ impl App {
             self.ui.hover_snapshot = true;
         }
 
-        if self.ui.plan_area.contains(pos) && !self.ui.collapsed_plan_steps {
-            self.ui.hover_panel = HoverPanel::Plan;
-            self.ui.hover_plan_index = self.hover_index_in_plan(row);
+        if self.ui.assembly_area.contains(pos) && !self.ui.collapsed_action_steps {
+            self.ui.hover_panel = HoverPanel::Action;
+            self.ui.hover_action_index = self.hover_index_in_action(row);
         } else if self.ui.capabilities_area.contains(pos) && !self.ui.collapsed_capabilities {
             self.ui.hover_panel = HoverPanel::Capabilities;
             self.ui.hover_capability_index = self.hover_index_in_capabilities(row);
@@ -54,8 +54,8 @@ impl App {
         }
     }
 
-    pub fn hover_index_in_plan(&self, row: u16) -> Option<usize> {
-        let inner = self.ui.plan_area.inner(Margin {
+    pub fn hover_index_in_action(&self, row: u16) -> Option<usize> {
+        let inner = self.ui.assembly_area.inner(Margin {
             horizontal: 1,
             vertical: 1,
         });
@@ -63,8 +63,8 @@ impl App {
             return None;
         }
         let offset = row.saturating_sub(inner.y) as usize;
-        let lines = plan_lines(self.runtime.snapshot());
-        let line_index = offset + self.ui.plan_scroll as usize;
+        let lines = action_lines(self.runtime.snapshot());
+        let line_index = offset + self.ui.action_scroll as usize;
         lines.get(line_index).and_then(|line| line.step_index)
     }
 

@@ -1,0 +1,58 @@
+[
+  {
+    "domain": "core",
+    "steps": [
+      {
+        "index": 0,
+        "step": {
+          "id": "bootstrap",
+          "kind": "apply",
+          "depends_on": [],
+          "provides": [
+            "cluster"
+          ],
+          "status": "Succeeded",
+          "domain": "core",
+          "pod": "kube-system/boot-0"
+        }
+      },
+      {
+        "index": 1,
+        "step": {
+          "id": "secrets",
+          "kind": "rotate",
+          "depends_on": [
+            "bootstrap"
+          ],
+          "provides": [
+            "vault"
+          ],
+          "status": "Running",
+          "domain": "core",
+          "pod": null
+        }
+      }
+    ]
+  },
+  {
+    "domain": "edge",
+    "steps": [
+      {
+        "index": 2,
+        "step": {
+          "id": "apps",
+          "kind": "apply",
+          "depends_on": [
+            "secrets"
+          ],
+          "provides": [
+            "apps"
+          ],
+          "status": "Blocked",
+          "domain": "edge",
+          "pod": "apps/app-1"
+        }
+      }
+    ]
+  }
+]

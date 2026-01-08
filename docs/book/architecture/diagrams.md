@@ -9,7 +9,7 @@ preprocessor renders fenced `dot` blocks marked with `process`.
 digraph LayeredArchitecture {
   rankdir=TB;
   node [shape=box, style="rounded,filled", fillcolor="#f5f5f5"];
-  interfaces [label="ui interfaces\nterminal / tui"];
+  interfaces [label="ui interfaces\ncli formatting / tui"];
   presentation [label="ui-presentation"];
   application [label="application"];
   domain [label="domain"];
@@ -33,16 +33,17 @@ digraph RuntimeComponents {
   subgraph cluster_interfaces {
     label="ui interfaces";
     style="rounded";
-    terminal [label="ui/rotappo-ui-terminal\nformat output\nparse args"];
+    terminal [label="ui/rotappo-ui-terminal\nformat output\ncli dispatch"];
     ui [label="ui/rotappo-ui-tui\nrender panels\nhandle input"];
   }
 
   presentation [label="ui/rotappo-ui-presentation\nformatting\nlogging cfg"];
   application [label="core/rotappo-application\nruntime loop"];
-  ports [label="core/rotappo-ports\nPlanPort\nHealthPort\nLogPort"];
+  ports [label="core/rotappo-ports\nAssemblyPort\nHealthPort\nLogPort"];
   adapters [label="core/rotappo-adapter-bootstrappo"];
 
   terminal -> presentation;
+  terminal -> adapters;
   ui -> presentation;
   presentation -> application;
   application -> ports;

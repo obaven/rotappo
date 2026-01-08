@@ -14,10 +14,10 @@ adapter/UI dependencies from core logic.
 | `rotappo-application` | Runtime orchestration and state update logic | domain, ports | 
 | `rotappo-ui-presentation` | UI/CLI-agnostic formatting + view models | domain | 
 | `rotappo-ui-core` | Framework-agnostic UI contracts | domain, ui-presentation | 
-| `rotappo-ui-terminal` | Terminal formatting + output modes | domain, ui-presentation | 
+| `rotappo-ui-terminal` | CLI formatting + command dispatch | domain, ui-presentation, adapter-bootstrappo | 
 | `rotappo-ui-tui` | TUI adapter (ratatui/crossterm) | domain, ports, application, ui-presentation, ui-core | 
 | `rotappo-adapter-bootstrappo` | Bootstrappo integration + port impls | domain, ports, bootstrappo | 
-| `terminal` (bin) | Terminal composition root | ui-terminal, adapter-bootstrappo, application | 
+| `bootstrappo` (bin) | Bootstrappo CLI entrypoint | ui-terminal | 
 | `tui` (bin) | TUI composition root | ui-tui, adapter-bootstrappo, application | 
 
 Notes:
@@ -51,7 +51,8 @@ Allowed edges:
 - `application` -> `ports`
 - `adapters-*` -> `ports` + `domain`
 - `ui-core` must not import `ratatui`, `crossterm`, or terminal helpers
-- `terminal` must not import TUI or adapters
+- `ui-terminal` may call adapter CLI handlers; keep it TUI-free
+- `bootstrappo` CLI must stay thin and defer to `rotappo-ui-terminal`
 
 Disallowed edges (examples):
 - `domain` -> any interface, adapter, or presentation crate
@@ -63,14 +64,16 @@ Disallowed edges (examples):
 | Path | Target crate | Notes |
 | --- | --- | --- |
 | `crates/core/rotappo-domain/src/*` | `rotappo-domain` | Core model types + snapshot state. |
-| `crates/core/rotappo-ports/src/*` | `rotappo-ports` | Plan/Health/Log ports. |
+| `crates/core/rotappo-ports/src/*` | `rotappo-ports` | Action/Health/Log ports. |
 | `crates/core/rotappo-application/src/*` | `rotappo-application` | Runtime orchestration. |
 | `crates/ui/rotappo-ui-presentation/src/*` | `rotappo-ui-presentation` | Shared formatting + logging config. |
 | `crates/ui/rotappo-ui-core/src/*` | `rotappo-ui-core` | Framework-agnostic UI types. |
-| `crates/ui/rotappo-ui-terminal/src/*` | `rotappo-ui-terminal` | Terminal formatting + output modes. |
+| `crates/ui/rotappo-ui-terminal/src/*` | `rotappo-ui-terminal` | CLI formatting + dispatch. |
+| `crates/ui/rotappo-ui-terminal/src/cli/*` | `rotappo-ui-terminal` | Bootstrappo CLI clap surface. |
 | `crates/ui/rotappo-ui-tui/src/*` | `rotappo-ui-tui` | Ratatui adapter and TUI logic. |
 | `crates/core/rotappo-adapter-bootstrappo/src/*` | `rotappo-adapter-bootstrappo` | Port impls + bootstrappo mapping. |
-| `src/bin/terminal.rs` | `terminal` | Composition root for terminal. |
+| `crates/core/rotappo-adapter-bootstrappo/src/controller/*` | `rotappo-adapter-bootstrappo` | Bootstrappo command handlers. |
+| `src/bin/cli.rs` | `cli` | Composition root for bootstrappo CLI. |
 | `src/bin/tui.rs` | `tui` | Composition root for TUI. |
 | `src/lib.rs` | Workspace root or thin re-export | Prefer thin re-export only. |
 
@@ -84,16 +87,16 @@ Disallowed edges (examples):
    - Previous: `rotappo-ui-tui/app` depended on `BootstrappoBackend`.
    - Now: `App::new` accepts injected `Runtime` + `AppContext`.
 
-3) **Terminal formatting is pure**
-   - Confirm `rotappo-ui-terminal` only touches domain + presentation.
-   - Keep it adapter-free and suitable for reuse in other CLIs.
+3) **CLI formatting remains pure**
+   - Keep formatters in `rotappo-ui-terminal` limited to domain + presentation.
+   - CLI dispatch lives alongside formatters and may call adapter handlers.
 
 4) **UI-core independence**
    - Keep `rotappo-ui-core` free of ratatui/crossterm and terminal deps.
    - Enforced by boundary tests.
 
 ## Implementation notes (initial)
-- Composition roots now live in `src/bin/terminal.rs` and `src/bin/tui.rs`.
+- Composition roots now live in `src/bin/cli.rs` and `src/bin/tui.rs`.
 - `BootstrappoBackend` exposes ports only; runtime construction happens in bins.
 - TUI `start` accepts injected `Runtime` + `AppContext` instead of a backend.
 - Domain types now live in `crates/core/rotappo-domain`.

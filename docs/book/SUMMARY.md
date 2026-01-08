@@ -2,7 +2,7 @@
 
 - [Introduction](introduction.md)
 - [Architecture Overview](architecture/overview.md)
-  - [Layered Map](architecture/layered-map.md)
+  - [Layered Map](architecture/layered-crates-map.md)
   - [System Diagrams](architecture/diagrams.md)
   - [Data Models](architecture/data-models.md)
   - [Runtime Flow](architecture/runtime-sequence.md)
@@ -13,6 +13,8 @@
 - [Interfaces](interfaces/index.md)
   - [Terminal](interfaces/terminal.md)
   - [TUI](interfaces/ui.md)
+- [Runbooks](runbooks/index.md)
+  - [CLI](runbooks/cli.md)
 - [Development Workflow](development.md)
 - [Testing and Validation](testing.md)
 - [Migration and Guardrails](migration-guardrails.md)

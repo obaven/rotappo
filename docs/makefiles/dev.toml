@@ -1,0 +1,63 @@
+[tasks.check]
+workspace = false
+command = "cargo"
+args = ["check"]
+
+[tasks.build]
+workspace = false
+command = "cargo"
+args = ["build"]
+
+[tasks.fmt]
+workspace = false
+command = "cargo"
+args = ["fmt"]
+
+[tasks.clippy]
+workspace = false
+command = "cargo"
+args = ["clippy", "--all-targets"]
+
+[tasks.doc]
+workspace = false
+command = "cargo"
+args = ["doc", "--no-deps"]
+
+[tasks.docbook]
+workspace = false
+command = "mdbook"
+args = ["build", "docs/book"]
+
+[tasks.docbook-serve]
+workspace = false
+command = "mdbook"
+args = ["serve", "docs/book", "-p", "3000", "-n", "127.0.0.1"]
+
+[tasks.docbook-setup-mdbook-0-4]
+workspace = false
+command = "cargo"
+args = ["install", "mdbook-graphviz", "--version", "0.2.1", "--force"]
+
+[tasks.docbook-setup-mdbook-0-5]
+workspace = false
+command = "cargo"
+args = ["install", "mdbook-graphviz", "--version", "0.3.1", "--force"]
+
+[tasks.check-ui-core]
+workspace = false
+command = "cargo"
+args = ["check", "--no-default-features", "--features", "ui-core"]
+
+[tasks.check-cli]
+workspace = false
+command = "cargo"
+args = ["check", "--no-default-features", "--features", "cli,module-bootstrappo"]
+
+[tasks.check-tui]
+workspace = false
+command = "cargo"
+args = ["check", "--no-default-features", "--features", "tui-ratatui,module-bootstrappo"]
+
+[tasks.check-interfaces]
+workspace = false
+dependencies = ["check-ui-core", "check-cli", "check-tui"]

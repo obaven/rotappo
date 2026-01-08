@@ -18,26 +18,35 @@ members = [
 resolver = "2"
 
 [features]
-default = ["ui-core"]
+module-bootstrappo = [
+  "dep:rotappo-adapter-bootstrappo",
+  "rotappo-ui-terminal/bootstrappo-cli",
+]
+module-rotato = ["rotappo-ui-terminal/rotato-cli"]
+cli = ["dep:rotappo-ui-terminal", "dep:tokio"]
 ui-core = ["dep:rotappo-ui-core"]
-cli = ["dep:rotappo-ui-terminal"]
-tui-ratatui = ["ui-core", "dep:rotappo-ui-tui"]
+tui = ["ui-core", "dep:rotappo-ui-tui"]
 
 [[bin]]
-name = "terminal"
-path = "src/bin/terminal.rs"
-required-features = ["cli"]
+name = "cli"
+path = "src/bin/cli.rs"
+required-features = ["cli", "module-bootstrappo"]
 
 [[bin]]
 name = "tui"
 path = "src/bin/tui.rs"
-required-features = ["tui-ratatui"]
+required-features = ["tui", "module-bootstrappo"]
 
 [dependencies]
 anyhow = "1.0.100"
-rotappo-adapter-bootstrappo = { path = "crates/core/rotappo-adapter-bootstrappo" }
+rotappo-adapter-bootstrappo = { path = "crates/core/rotappo-adapter-bootstrappo", optional = true }
 rotappo-application = { path = "crates/core/rotappo-application" }
 rotappo-domain = { path = "crates/core/rotappo-domain" }
 rotappo-ui-core = { path = "crates/ui/rotappo-ui-core", optional = true }
 rotappo-ui-terminal = { path = "crates/ui/rotappo-ui-terminal", optional = true }
 rotappo-ui-tui = { path = "crates/ui/rotappo-ui-tui", optional = true }
+tokio = { version = "1.48.0", features = ["full"], optional = true }
+
+[dev-dependencies]
+rotappo-ui-presentation = { path = "crates/ui/rotappo-ui-presentation" }
+rotappo-ui-terminal = { path = "crates/ui/rotappo-ui-terminal" }

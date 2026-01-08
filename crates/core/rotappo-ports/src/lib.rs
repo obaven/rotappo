@@ -1,11 +1,11 @@
 use std::collections::VecDeque;
 use std::sync::{Arc, Mutex};
 
-use rotappo_domain::{Event, HealthSnapshot, Plan};
+use rotappo_domain::{Assembly, Event, HealthSnapshot};
 
-pub trait PlanPort: Send + Sync {
-    fn plan(&self) -> Option<Plan>;
-    fn plan_error(&self) -> Option<String>;
+pub trait AssemblyPort: Send + Sync {
+    fn assembly(&self) -> Option<Assembly>;
+    fn assembly_error(&self) -> Option<String>;
     fn step_readiness(&self) -> std::collections::HashMap<String, bool>;
 }
 
@@ -19,7 +19,7 @@ pub trait LogPort: Send + Sync {
 
 #[derive(Clone)]
 pub struct PortSet {
-    pub plan: Arc<dyn PlanPort>,
+    pub assembly: Arc<dyn AssemblyPort>,
     pub health: Arc<dyn HealthPort>,
     pub logs: Arc<dyn LogPort>,
 }
@@ -27,7 +27,7 @@ pub struct PortSet {
 impl PortSet {
     pub fn empty() -> Self {
         Self {
-            plan: Arc::new(NullPlanPort),
+            assembly: Arc::new(NullAssemblyPort),
             health: Arc::new(NullHealthPort),
             logs: Arc::new(NullLogPort),
         }
@@ -35,14 +35,14 @@ impl PortSet {
 }
 
 #[derive(Clone, Default)]
-struct NullPlanPort;
+struct NullAssemblyPort;
 
-impl PlanPort for NullPlanPort {
-    fn plan(&self) -> Option<Plan> {
+impl AssemblyPort for NullAssemblyPort {
+    fn assembly(&self) -> Option<Assembly> {
         None
     }
 
-    fn plan_error(&self) -> Option<String> {
+    fn assembly_error(&self) -> Option<String> {
         None
     }
 

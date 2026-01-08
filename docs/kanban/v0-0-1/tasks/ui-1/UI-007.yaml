@@ -7,20 +7,20 @@ component: rotappo-runtime-state
 cli_surface: []
 
 description: |
-  Define a state snapshot model that aggregates plan execution status,
+  Define a state snapshot model that aggregates action execution status,
   capabilities, storage designation, and health into a single payload.
   The snapshot should be cheap to compute and safe for frequent UI polls.
   Implement it inside lib/rotappo with adapters for Bootstrappo and Rotato.
 
 deliverables:
-  - StateSnapshot struct with plan steps, gates, and status fields
-  - Aggregation layer that merges plan data, config, and cached k8s state
+  - StateSnapshot struct with action steps, gates, and status fields
+  - Aggregation layer that merges action data, config, and cached k8s state
   - JSON serialization for UI surfaces
   - Unit tests for snapshot completeness and defaults
   - Adapter hooks for Bootstrappo and Rotato data sources
 
 acceptance_criteria:
-  - Snapshot includes plan steps with ready/blocked/running states
+  - Snapshot includes action steps with ready/blocked/running states
   - Capabilities and default storage class appear in the snapshot
   - Snapshot retrieval avoids direct kubectl calls per request
   - JSON output is stable for UI clients

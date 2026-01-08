@@ -37,7 +37,7 @@ labels:
 
 source_files:
   - file: src/presentation/formatting
-    context: "Plan grouping and problem formatting"
+    context: "Action grouping and problem formatting"
   - file: src/presentation/logging.rs
     context: "Log filter and stream configuration"
   - file: src/interfaces/tui

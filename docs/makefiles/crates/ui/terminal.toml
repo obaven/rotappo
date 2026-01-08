@@ -1,0 +1,14 @@
+[tasks.check-crate-ui-terminal]
+workspace = false
+command = "cargo"
+args = ["check", "-p", "rotappo-ui-terminal"]
+
+[tasks.test-crate-ui-terminal]
+workspace = false
+command = "cargo"
+args = ["test", "-p", "rotappo-ui-terminal"]
+
+[tasks.check-crate-ui-terminal-bootstrappo]
+workspace = false
+command = "cargo"
+args = ["check", "-p", "rotappo-ui-terminal", "--features", "bootstrappo-cli"]

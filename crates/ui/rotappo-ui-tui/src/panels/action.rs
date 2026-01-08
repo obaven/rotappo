@@ -9,13 +9,13 @@ use ratatui::{
 use crate::app::App;
 use crate::util::format_age;
 
-/// Render plan progress and snapshot panels.
+/// Render assembly progress and snapshot panels.
 ///
 /// # Examples
 /// ```rust,no_run
 /// use ratatui::{backend::TestBackend, Terminal};
 /// use rotappo_ui_tui::app::App;
-/// use rotappo_ui_tui::panels::render_plan;
+/// use rotappo_ui_tui::panels::render_action;
 ///
 /// # fn app() -> App { todo!() }
 /// let backend = TestBackend::new(80, 24);
@@ -24,21 +24,21 @@ use crate::util::format_age;
 /// terminal
 ///     .draw(|frame| {
 ///         let area = frame.area();
-///         render_plan(frame, area, area, &mut app);
+///         render_action(frame, area, area, &mut app);
 ///     })
 ///     .unwrap();
 /// ```
-pub fn render_plan(frame: &mut Frame, plan_progress_area: Rect, snapshot_area: Rect, app: &mut App) {
+pub fn render_action(frame: &mut Frame, assembly_progress_area: Rect, snapshot_area: Rect, app: &mut App) {
     let snapshot = app.runtime.snapshot();
-    app.ui.plan_progress_area = plan_progress_area;
+    app.ui.assembly_progress_area = assembly_progress_area;
     app.ui.snapshot_area = snapshot_area;
 
-    if app.ui.collapsed_plan_progress {
-        let block = Block::default().title("Plan Progress").borders(Borders::ALL);
-        frame.render_widget(block, plan_progress_area);
+    if app.ui.collapsed_assembly_progress {
+        let block = Block::default().title("Assembly Progress").borders(Borders::ALL);
+        frame.render_widget(block, assembly_progress_area);
     } else {
-        let percent = snapshot.plan.percent_complete();
-        let mut gauge_block = Block::default().title("Plan Progress").borders(Borders::ALL);
+        let percent = snapshot.assembly.percent_complete();
+        let mut gauge_block = Block::default().title("Assembly Progress").borders(Borders::ALL);
         if app.refresh_pulse_active() {
             gauge_block = gauge_block.style(Style::default().fg(Color::Cyan));
         }
@@ -47,18 +47,18 @@ pub fn render_plan(frame: &mut Frame, plan_progress_area: Rect, snapshot_area: R
             .gauge_style(Style::default().fg(Color::Green))
             .percent(percent)
             .label(format!("{}%", percent));
-        frame.render_widget(gauge, plan_progress_area);
+        frame.render_widget(gauge, assembly_progress_area);
     }
 
     let age = format_age(snapshot.last_updated_ms);
     let lines = vec![
         Line::from(format!(
             "Complete: {}/{}",
-            snapshot.plan.completed, snapshot.plan.total
+            snapshot.action.completed, snapshot.action.total
         )),
-        Line::from(format!("In progress: {}", snapshot.plan.in_progress)),
-        Line::from(format!("Blocked: {}", snapshot.plan.blocked)),
-        Line::from(format!("Pending: {}", snapshot.plan.pending)),
+        Line::from(format!("In progress: {}", snapshot.action.in_progress)),
+        Line::from(format!("Blocked: {}", snapshot.action.blocked)),
+        Line::from(format!("Pending: {}", snapshot.action.pending)),
         Line::from(format!("Health: {}", snapshot.health.as_str())),
         Line::from(format!("Last update: {}", age)),
         Line::from(format!(

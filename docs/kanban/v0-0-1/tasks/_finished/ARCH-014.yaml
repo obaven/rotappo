@@ -19,7 +19,7 @@ deliverables:
   - CLI-specific UI helpers isolated behind a separate abstraction
   - Feature flags/build matrix to compile UI cores without ratatui
   - Tests that enforce interface boundaries
-  - Architecture plan at docs/architecture/ARCH-2-interface-abstraction.md
+  - Architecture action at docs/architecture/ARCH-2-interface-abstraction.md
 
 acceptance_criteria:
   - Non-ratatui UI surfaces can build without ratatui dependencies

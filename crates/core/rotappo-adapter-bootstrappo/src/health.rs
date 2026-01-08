@@ -3,10 +3,10 @@ use std::sync::{Arc, RwLock};
 use std::thread;
 use std::time::Duration;
 
-use bootstrappo::components::registry;
-use bootstrappo::config::Config;
-use bootstrappo::ops::drivers::{DriverContext, DriverMode, HealthStatus};
-use bootstrappo::ops::k8s::cache::ClusterCache;
+use bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache;
+use bootstrappo::application::runtime::registry;
+use bootstrappo::ports::module::{HealthStatus, ModuleContext, ModuleMode};
+use bootstrappo_api::contract::config::Config;
 use kube::Client;
 
 use rotappo_domain::{ComponentHealthStatus, HealthSnapshot};
@@ -63,16 +63,16 @@ impl LiveStatus {
                 let mut interval = tokio::time::interval(Duration::from_secs(15));
                 loop {
                     interval.tick().await;
-                    let ctx = DriverContext::new(Arc::clone(&config), DriverMode::Render);
-                    let drivers = registry::get_all_drivers(config.as_ref());
+                    let ctx = ModuleContext::new(Arc::clone(&config), ModuleMode::Render);
+                    let modules = registry::get_all_modules(config.as_ref());
                     let mut results = HashMap::new();
 
-                    for driver in drivers {
-                        if !driver.enabled(&ctx) {
+                    for module in modules {
+                        if !module.enabled(&ctx) {
                             continue;
                         }
-                        let name = driver.spec().name.to_string();
-                        let status = match driver.check().await {
+                        let name = module.spec().name.to_string();
+                        let status = match module.check().await {
                             Ok(status) => status,
                             Err(err) => HealthStatus::Unhealthy(err.to_string()),
                         };

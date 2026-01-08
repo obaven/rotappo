@@ -8,6 +8,7 @@ lives in `crates/core/rotappo-adapter-bootstrappo/` and translates external type
 normalized domain types.
 
 Rules:
-- UI/CLI do not import adapters directly.
+- UI/CLI do not import adapters directly, except `rotappo-ui-terminal` calling
+  bootstrappo adapter command handlers for the bootstrappo CLI surface.
 - Adapters do not import UI/CLI.
 - Ports stay free of adapter-specific types.

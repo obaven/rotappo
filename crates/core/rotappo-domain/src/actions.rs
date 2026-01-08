@@ -1,3 +1,5 @@
+//! Domain action registry and action definitions.
+
 use serde::{Deserialize, Serialize};
 use std::fmt;
 
@@ -46,7 +48,7 @@ impl ActionSafety {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Action {
+pub struct ActionDefinition {
     pub id: ActionId,
     pub label: &'static str,
     pub description: &'static str,
@@ -54,7 +56,7 @@ pub struct Action {
     pub safety: ActionSafety,
 }
 
-impl Action {
+impl ActionDefinition {
     pub const fn new(
         id: ActionId,
         label: &'static str,
@@ -72,44 +74,45 @@ impl Action {
     }
 }
 
+
 #[derive(Debug, Clone)]
 pub struct ActionRegistry {
-    actions: Vec<Action>,
+    actions: Vec<ActionDefinition>,
 }
 
 impl ActionRegistry {
     pub fn bootstrappo_default() -> Self {
         Self {
             actions: vec![
-                Action::new(
+                ActionDefinition::new(
                     ActionId::Validate,
-                    "Plan Validate",
+                    "Action Validate",
                     "Validate desired state without mutating infrastructure.",
                     false,
                     ActionSafety::Safe,
                 ),
-                Action::new(
+                ActionDefinition::new(
                     ActionId::Reconcile,
                     "Reconcile",
                     "Apply desired state to the cluster with full drift repair.",
                     true,
                     ActionSafety::Guarded,
                 ),
-                Action::new(
+                ActionDefinition::new(
                     ActionId::Rotate,
                     "Rotate Secrets",
                     "Rotate managed credentials and reconcile dependent services.",
                     true,
                     ActionSafety::Guarded,
                 ),
-                Action::new(
+                ActionDefinition::new(
                     ActionId::Debug,
                     "Debug Snapshot",
-                    "Collect diagnostics for plan drift and action failures.",
+                    "Collect diagnostics for action drift and action failures.",
                     false,
                     ActionSafety::Safe,
                 ),
-                Action::new(
+                ActionDefinition::new(
                     ActionId::Nuke,
                     "Nuke",
                     "Destroy all managed resources in the target workspace.",
@@ -120,11 +123,11 @@ impl ActionRegistry {
         }
     }
 
-    pub fn actions(&self) -> &[Action] {
+    pub fn actions(&self) -> &[ActionDefinition] {
         &self.actions
     }
 
-    pub fn get(&self, id: ActionId) -> Option<&Action> {
+    pub fn get(&self, id: ActionId) -> Option<&ActionDefinition> {
         self.actions.iter().find(|action| action.id == id)
     }
 }

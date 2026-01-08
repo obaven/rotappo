@@ -1,7 +1,7 @@
 //! Shared formatting helpers used by UI and CLI.
 
-mod plan;
+mod action;
 mod problems;
 
-pub use plan::{plan_groups, PlanGroup, PlanStepInfo};
+pub use action::{action_groups, ActionGroup, ActionStepInfo};
 pub use problems::problem_lines;

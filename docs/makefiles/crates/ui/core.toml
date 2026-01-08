@@ -1,0 +1,9 @@
+[tasks.check-crate-ui-core]
+workspace = false
+command = "cargo"
+args = ["check", "-p", "rotappo-ui-core"]
+
+[tasks.test-crate-ui-core]
+workspace = false
+command = "cargo"
+args = ["test", "-p", "rotappo-ui-core"]

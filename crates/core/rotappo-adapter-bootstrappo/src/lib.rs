@@ -1,6 +1,7 @@
+pub mod controller;
 mod health;
-pub mod mapping;
-mod plan;
+mod mapping;
+mod assembly;
 
 use anyhow::{Context, Result};
 use std::path::PathBuf;
@@ -12,11 +13,11 @@ use rotappo_domain::Event;
 pub use health::LiveStatus;
 
 pub struct BootstrappoBackend {
-    pub config: Arc<bootstrappo::config::Config>,
+    pub config: Arc<bootstrappo_api::contract::config::Config>,
     pub config_path: PathBuf,
-    pub plan_path: PathBuf,
-    pub plan: Option<rotappo_domain::Plan>,
-    pub plan_error: Option<String>,
+    pub assembly_path: PathBuf,
+    pub assembly: Option<rotappo_domain::Assembly>,
+    pub assembly_error: Option<String>,
     pub live_status: Option<LiveStatus>,
     ports: PortSet,
 }
@@ -26,41 +27,37 @@ impl BootstrappoBackend {
         let config_path = std::env::var("BOOTSTRAPPO_CONFIG_PATH")
             .map(PathBuf::from)
             .ok();
-        let plan_path = std::env::var("BOOTSTRAPPO_PLAN_PATH")
+        let assembly_path = std::env::var("BOOTSTRAPPO_ASSEMBLY_PATH")
             .map(PathBuf::from)
             .ok();
-        Self::from_paths(config_path, plan_path)
+        Self::from_paths(config_path, assembly_path)
     }
 
     pub fn from_paths(
         config_path: Option<PathBuf>,
-        plan_path: Option<PathBuf>,
+        assembly_path: Option<PathBuf>,
     ) -> Result<Self> {
         let config_path = config_path.unwrap_or_else(|| {
             PathBuf::from("../bootstrappo/data/configs/bootstrap-config.yaml")
         });
-        let config = bootstrappo::config::load_from_file(&config_path).with_context(|| {
-            format!(
-                "Failed to load Bootstrappo config at {}",
-                config_path.display()
-            )
-        })?;
+        let config =
+            bootstrappo::application::config::load_from_file(&config_path).with_context(|| {
+                format!(
+                    "Failed to load Bootstrappo config at {}",
+                    config_path.display()
+                )
+            })?;
 
-        let plan_path = plan_path.unwrap_or_else(|| {
-            PathBuf::from("../bootstrappo/data/plans/bootstrap.v0-0-3.yaml")
-        });
+        let assembly_path = assembly_path.unwrap_or_else(|| config_path.clone());
         let config = Arc::new(config);
         let live_status = Some(LiveStatus::spawn(Arc::clone(&config)));
-        let plan_port = plan::BootstrappoPlanPort::load(
-            &plan_path,
-            live_status.clone(),
-            Arc::clone(&config),
-        );
-        let plan = plan_port.plan();
-        let plan_error = plan_port.plan_error();
+        let assembly_port =
+            assembly::BootstrappoAssemblyPort::load(live_status.clone(), Arc::clone(&config));
+        let assembly = assembly_port.assembly();
+        let assembly_error = assembly_port.assembly_error();
         let health_port = health::BootstrappoHealthPort::new(live_status.clone());
         let ports = PortSet {
-            plan: Arc::new(plan_port),
+            assembly: Arc::new(assembly_port),
             health: Arc::new(health_port),
             logs: Arc::new(BootstrappoLogPort),
         };
@@ -68,9 +65,9 @@ impl BootstrappoBackend {
         Ok(Self {
             config,
             config_path,
-            plan_path,
-            plan,
-            plan_error,
+            assembly_path,
+            assembly,
+            assembly_error,
             live_status,
             ports,
         })

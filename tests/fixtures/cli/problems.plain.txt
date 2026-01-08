@@ -1,0 +1,4 @@
+kube: cache init failed
+api degraded: timeout
+kube cache not ready
+blocked: apps waiting on ["secrets"]

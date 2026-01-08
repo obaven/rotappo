@@ -1,7 +1,7 @@
 use ratatui::layout::Margin;
 
 use crate::state::HoverPanel;
-use crate::util::{collect_problems, plan_lines};
+use crate::util::{collect_problems, action_lines};
 
 use super::App;
 
@@ -9,7 +9,7 @@ impl App {
     pub fn scroll_active_panel(&mut self, delta: i16) {
         match self.ui.hover_panel {
             HoverPanel::Logs => self.scroll_logs(delta),
-            HoverPanel::Plan => self.scroll_plan(delta),
+            HoverPanel::Action => self.scroll_action(delta),
             HoverPanel::Capabilities => self.scroll_capabilities(delta),
             HoverPanel::Actions => self.scroll_actions(delta),
             HoverPanel::Problems => self.scroll_problems(delta),
@@ -34,15 +34,15 @@ impl App {
         self.ui.log_scroll = next.min(max_offset);
     }
 
-    pub fn scroll_plan(&mut self, delta: i16) {
-        let total = plan_lines(self.runtime.snapshot()).len() as i16;
+    pub fn scroll_action(&mut self, delta: i16) {
+        let total = action_lines(self.runtime.snapshot()).len() as i16;
         let max_offset = total.saturating_sub(1).max(0) as u16;
         let next = if delta.is_positive() {
-            self.ui.plan_scroll.saturating_add(delta as u16)
+            self.ui.action_scroll.saturating_add(delta as u16)
         } else {
-            self.ui.plan_scroll.saturating_sub(delta.unsigned_abs())
+            self.ui.action_scroll.saturating_sub(delta.unsigned_abs())
         };
-        self.ui.plan_scroll = next.min(max_offset);
+        self.ui.action_scroll = next.min(max_offset);
     }
 
     pub fn scroll_capabilities(&mut self, delta: i16) {

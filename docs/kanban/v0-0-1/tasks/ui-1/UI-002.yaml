@@ -18,7 +18,7 @@ description: |
 deliverables:
   - Rotappo runtime modules under rotappo/src/runtime
   - Action router and command registry used by all surfaces
-  - State snapshot model aggregating plan, capabilities, and health
+  - State snapshot model aggregating action, capabilities, and health
   - Event bus for logs and step transitions
   - Bootstrappo + Rotato adapters for runtime data
   - UI configuration schema and persistence
@@ -59,8 +59,8 @@ source_files:
     context: "CLI context/config wiring"
   - file: ../bootstrappo/src/cli/commands/mod.rs
     context: "CLI command registry"
-  - file: ../bootstrappo/src/cli/commands/plan.rs
-    context: "bootstrappo plan command handler"
+  - file: ../bootstrappo/src/cli/commands/action.rs
+    context: "bootstrappo assembly command handler"
   - file: ../bootstrappo/src/cli/commands/reconcile.rs
     context: "bootstrappo reconcile command handler"
   - file: ../bootstrappo/src/cli/commands/rotate.rs
@@ -75,8 +75,8 @@ source_files:
     context: "bootstrappo generate command handler"
   - file: ../bootstrappo/src/cli/commands/visualize.rs
     context: "bootstrappo visualize command handler"
-  - file: ../bootstrappo/src/bin/test_plan_load.rs
-    context: "CLI test harness for plan loading"
+  - file: ../bootstrappo/src/bin/test_action_load.rs
+    context: "CLI test harness for action loading"
 
 status: MustHaves
 state: Backlog

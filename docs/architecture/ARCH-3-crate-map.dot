@@ -10,7 +10,7 @@ digraph CrateMap {
   terminal_iface [label="rotappo-ui-terminal"];
   tui_iface [label="rotappo-ui-tui"];
   adapter_bootstrappo [label="rotappo-adapter-bootstrappo"];
-  bin_terminal [label="terminal (bin)"];
+  bin_bootstrappo [label="cli (bin)"];
   bin_tui [label="tui (bin)"];
 
   ports -> domain;
@@ -21,6 +21,7 @@ digraph CrateMap {
   ui_core -> presentation;
   terminal_iface -> domain;
   terminal_iface -> presentation;
+  terminal_iface -> adapter_bootstrappo;
   tui_iface -> application;
   tui_iface -> domain;
   tui_iface -> ports;
@@ -28,9 +29,7 @@ digraph CrateMap {
   tui_iface -> ui_core;
   adapter_bootstrappo -> domain;
   adapter_bootstrappo -> ports;
-  bin_terminal -> terminal_iface;
-  bin_terminal -> adapter_bootstrappo;
-  bin_terminal -> application;
+  bin_bootstrappo -> terminal_iface;
   bin_tui -> tui_iface;
   bin_tui -> adapter_bootstrappo;
   bin_tui -> application;

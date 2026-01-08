@@ -1,0 +1,52 @@
+id: DRIFT-005
+title: 'Assembly Validation + Capability Diff Pipeline'
+type: Story
+layer: 5
+domain: core
+component: rotappo-adapter-bootstrappo
+cli_surface:
+  - bootstrappo [status|diff]
+
+description: |
+  Build the status/diff data pipeline using the Meta-17 assembly and
+  validation APIs. Load BootstrapConfig, build the Assembly via
+  AssemblyBuilder, run validation diagnostics, and scan the cluster for
+  satisfied checks to compute capability signals and diffs.
+
+deliverables:
+  - AssemblyBuilder-based action construction
+  - ValidationReport surfaced in status output
+  - CapabilityScanner + ClusterCache for check evaluation
+  - Diff computation between enabled modules and observed signals
+
+acceptance_criteria:
+  - status shows validation warnings/errors when present
+  - status lists satisfied checks and observed signals
+  - diff lists missing signals and unmet checks
+  - pipeline works with config overrides from CLI
+
+dependencies:
+  - DRIFT-001
+
+phase_gate: gitops
+effort: L
+risk: med
+
+labels:
+  - bootstrappo
+  - assembly
+  - validation
+  - status
+
+source_files:
+  - file: crates/core/rotappo-adapter-bootstrappo/src/controller/
+    context: "Status/diff pipeline"
+  - file: ../bootstrappo/src/application/composition/assembly/builder.rs
+    context: "AssemblyBuilder"
+  - file: ../bootstrappo/src/application/composition/discovery/scanner.rs
+    context: "CapabilityScanner"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-07, status:backlog)
+assignee: unassigned

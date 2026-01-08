@@ -1,0 +1,49 @@
+id: DRIFT-006
+title: 'Docs + Tests for Meta-17 CLI Surface'
+type: Task
+layer: 5
+domain: core
+component: rotappo-docs-tests
+cli_surface:
+  - bootstrappo [status|diff|explain|catalog]
+
+description: |
+  Update runbooks and add tests for the new CLI commands. Ensure the
+  bootstrappo CLI runbook reflects Meta-17 surfaces and add coverage
+  for catalog/status/diff output where feasible.
+
+deliverables:
+  - Runbook updates for new CLI commands
+  - Test coverage for catalog/status/diff/explain outputs
+  - Snapshot or fixture updates if CLI output changes
+
+acceptance_criteria:
+  - docs/book/runbooks/cli.md includes the new commands
+  - tests cover happy-path output (or fixtures updated)
+  - CI guardrails include new CLI checks where relevant
+
+dependencies:
+  - DRIFT-002
+  - DRIFT-003
+  - DRIFT-004
+  - DRIFT-005
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - docs
+  - testing
+  - cli
+
+source_files:
+  - file: docs/book/runbooks/cli.md
+    context: "CLI runbook"
+  - file: tests/
+    context: "CLI tests and snapshots"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-07, status:backlog)
+assignee: unassigned

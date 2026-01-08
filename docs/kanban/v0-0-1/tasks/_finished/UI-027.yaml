@@ -9,12 +9,12 @@ cli_surface:
   - rotappo ui
 
 description: |
-  Define ports for plan status, health checks, and log streaming so the
+  Define ports for action status, health checks, and log streaming so the
   runtime can swap adapters without refactors. Provide in-memory and
   Bootstrappo implementations.
 
 deliverables:
-  - Port traits for plan status and health reporting
+  - Port traits for action status and health reporting
   - In-memory adapter for tests and offline use
   - Bootstrappo adapter implementing the ports
 

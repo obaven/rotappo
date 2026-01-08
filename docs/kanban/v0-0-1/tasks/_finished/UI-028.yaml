@@ -12,8 +12,8 @@ description: |
   duplicated data mapping. Align adapter layout with ports definitions.
 
 deliverables:
-  - adapters/bootstrappo/{plan,health,k8s} modules
-  - Shared mapping helpers for plan/capability status
+  - adapters/bootstrappo/{action,health,k8s} modules
+  - Shared mapping helpers for action/capability status
   - Clear separation between IO and domain logic
 
 acceptance_criteria:

@@ -243,9 +243,9 @@ mod tests {
     #[test]
     fn request_open_applies_collapse_rules() {
         let policy = LayoutPolicy::new();
-        policy.add_collapse_rule("help", vec!["plan".into()]);
+        policy.add_collapse_rule("help", vec!["action".into()]);
         policy.request_open("help", Rect::new(0, 0, 120, 40));
-        assert_eq!(policy.collapsed_for("plan"), Some(true));
+        assert_eq!(policy.collapsed_for("action"), Some(true));
         assert_eq!(policy.collapsed_for("help"), Some(false));
     }
 

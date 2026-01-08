@@ -46,18 +46,18 @@ pub fn tui_shell_spec_with_footer(footer_height: u16) -> GridSpec {
 
 /// Build the left column grid based on collapsed state.
 pub fn left_column_spec(
-    plan_progress_collapsed: bool,
+    action_progress_collapsed: bool,
     snapshot_collapsed: bool,
     collapsed_capabilities: bool,
     collapsed_height: u16,
 ) -> GridSpec {
-    let plan_progress_height = if plan_progress_collapsed {
+    let action_progress_height = if action_progress_collapsed {
         collapsed_height
     } else {
         3
     };
     let snapshot_height = if snapshot_collapsed { collapsed_height } else { 4 };
-    let left_top_height = plan_progress_height.saturating_add(snapshot_height);
+    let left_top_height = action_progress_height.saturating_add(snapshot_height);
     let top = if collapsed_capabilities {
         TrackSize::Min(left_top_height)
     } else {
@@ -72,19 +72,19 @@ pub fn left_column_spec(
         rows: [top, bottom],
         cols: [TrackSize::Fill(1)],
         slots: [
-            crate::grid_slot!(SLOT_PLAN, 0, 0, min: (12, 4)),
+            crate::grid_slot!(SLOT_ASSEMBLY, 0, 0, min: (12, 4)),
             crate::grid_slot!(SLOT_CAPABILITIES, 1, 0, min: (12, 4)),
         ]
     )
 }
 
-/// Build the plan header grid based on collapsed state.
-pub fn plan_header_spec(
-    plan_progress_collapsed: bool,
+/// Build the action header grid based on collapsed state.
+pub fn action_header_spec(
+    action_progress_collapsed: bool,
     snapshot_collapsed: bool,
     collapsed_height: u16,
 ) -> GridSpec {
-    let plan_progress_track = if plan_progress_collapsed {
+    let action_progress_track = if action_progress_collapsed {
         TrackSize::Fixed(collapsed_height)
     } else if snapshot_collapsed {
         TrackSize::Min(3)
@@ -97,31 +97,31 @@ pub fn plan_header_spec(
         TrackSize::Min(4)
     };
     crate::grid_spec!(
-        rows: [plan_progress_track, snapshot_track],
+        rows: [action_progress_track, snapshot_track],
         cols: [TrackSize::Fill(1)],
         slots: [
-            crate::grid_slot!(SLOT_PLAN_PROGRESS, 0, 0, min: (12, 3)),
+            crate::grid_slot!(SLOT_ASSEMBLY_PROGRESS, 0, 0, min: (12, 3)),
             crate::grid_slot!(SLOT_SNAPSHOT, 1, 0, min: (12, 4)),
         ]
     )
 }
 
 /// Build the middle column grid based on collapsed state.
-pub fn middle_column_spec(plan_steps_collapsed: bool, collapsed_height: u16) -> GridSpec {
-    if plan_steps_collapsed {
+pub fn middle_column_spec(action_steps_collapsed: bool, collapsed_height: u16) -> GridSpec {
+    if action_steps_collapsed {
         crate::grid_spec!(
             rows: [TrackSize::Fill(1), TrackSize::Fixed(collapsed_height)],
             cols: [TrackSize::Fill(1)],
             slots: [
                 crate::grid_slot!(SLOT_AUX, 0, 0, min: (16, 4)),
-                crate::grid_slot!(SLOT_PLAN_STEPS, 1, 0, min: (16, 2)),
+                crate::grid_slot!(SLOT_ASSEMBLY_STEPS, 1, 0, min: (16, 2)),
             ]
         )
     } else {
         crate::grid_spec!(
             rows: [TrackSize::Fill(1)],
             cols: [TrackSize::Fill(1)],
-            slots: [crate::grid_slot!(SLOT_PLAN_STEPS, 0, 0, min: (16, 8))]
+            slots: [crate::grid_slot!(SLOT_ASSEMBLY_STEPS, 0, 0, min: (16, 8))]
         )
     }
 }

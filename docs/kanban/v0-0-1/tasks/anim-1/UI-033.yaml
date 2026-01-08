@@ -21,7 +21,7 @@ deliverables:
 acceptance_criteria:
   - Animations render at a stable frame rate without flicker
   - Hover and click states are visually distinct
-  - Scrollbars reflect position for plan/logs panels
+  - Scrollbars reflect position for action/logs panels
   - Tooltips do not obscure primary content
 
 dependencies:

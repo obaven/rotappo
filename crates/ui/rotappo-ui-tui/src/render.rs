@@ -6,11 +6,11 @@ use ratatui::widgets::Clear;
 
 use crate::app::App;
 use crate::layout::{
-    footer_spec, left_column_spec, middle_column_spec, plan_header_spec, right_columns_spec,
+    footer_spec, left_column_spec, middle_column_spec, action_header_spec, right_columns_spec,
     right_left_spec, right_right_spec, tui_shell_spec_with_footer, GridResolver, SLOT_ACTIONS,
     SLOT_AUX, SLOT_BODY, SLOT_CAPABILITIES, SLOT_FOOTER, SLOT_FOOTER_HELP, SLOT_FOOTER_SETTINGS,
-    SLOT_HEADER, SLOT_LEFT, SLOT_LOGS, SLOT_LOG_CONTROLS, SLOT_MIDDLE, SLOT_PLAN,
-    SLOT_PLAN_PROGRESS, SLOT_PLAN_STEPS, SLOT_PROBLEMS, SLOT_RIGHT, SLOT_RIGHT_LEFT,
+    SLOT_HEADER, SLOT_LEFT, SLOT_LOGS, SLOT_LOG_CONTROLS, SLOT_MIDDLE, SLOT_ASSEMBLY,
+    SLOT_ASSEMBLY_PROGRESS, SLOT_ASSEMBLY_STEPS, SLOT_PROBLEMS, SLOT_RIGHT, SLOT_RIGHT_LEFT,
     SLOT_RIGHT_RIGHT, SLOT_SNAPSHOT,
 };
 
@@ -58,10 +58,10 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
     panels::render_header(frame, header_area, app);
 
     let collapsed = 2u16;
-    let plan_progress_collapsed = app.panel_collapsed(crate::app::PanelId::PlanProgress);
+    let action_progress_collapsed = app.panel_collapsed(crate::app::PanelId::AssemblyProgress);
     let snapshot_collapsed = app.panel_collapsed(crate::app::PanelId::Snapshot);
     let capabilities_collapsed = app.panel_collapsed(crate::app::PanelId::Capabilities);
-    let plan_steps_collapsed = app.panel_collapsed(crate::app::PanelId::PlanSteps);
+    let action_steps_collapsed = app.panel_collapsed(crate::app::PanelId::AssemblySteps);
     let actions_collapsed = app.panel_collapsed(crate::app::PanelId::Actions);
     let problems_collapsed = app.panel_collapsed(crate::app::PanelId::Problems);
     let log_controls_collapsed = app.panel_collapsed(crate::app::PanelId::LogControls);
@@ -70,7 +70,7 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
     let settings_open = !app.panel_collapsed(crate::app::PanelId::Settings);
 
     let left_spec = left_column_spec(
-        plan_progress_collapsed,
+        action_progress_collapsed,
         snapshot_collapsed,
         capabilities_collapsed,
         collapsed,
@@ -79,34 +79,34 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
         left_area,
         &app.layout_policy.apply(&left_spec, left_area),
     );
-    let left_plan_area = left_layout.rect(SLOT_PLAN).unwrap_or(left_area);
+    let left_action_area = left_layout.rect(SLOT_ASSEMBLY).unwrap_or(left_area);
     let left_cap_area = left_layout
         .rect(SLOT_CAPABILITIES)
         .unwrap_or_else(|| Rect::default());
 
-    let plan_header_spec =
-        plan_header_spec(plan_progress_collapsed, snapshot_collapsed, collapsed);
-    let plan_header_layout = GridResolver::resolve(
-        left_plan_area,
-        &app.layout_policy.apply(&plan_header_spec, left_plan_area),
+    let action_header_spec =
+        action_header_spec(action_progress_collapsed, snapshot_collapsed, collapsed);
+    let action_header_layout = GridResolver::resolve(
+        left_action_area,
+        &app.layout_policy.apply(&action_header_spec, left_action_area),
     );
-    let plan_progress_area = plan_header_layout
-        .rect(SLOT_PLAN_PROGRESS)
-        .unwrap_or(left_plan_area);
-    let snapshot_area = plan_header_layout
+    let action_progress_area = action_header_layout
+        .rect(SLOT_ASSEMBLY_PROGRESS)
+        .unwrap_or(left_action_area);
+    let snapshot_area = action_header_layout
         .rect(SLOT_SNAPSHOT)
         .unwrap_or_else(|| Rect::default());
 
-    panels::render_plan(frame, plan_progress_area, snapshot_area, app);
+    panels::render_action(frame, action_progress_area, snapshot_area, app);
     panels::render_capabilities(frame, left_cap_area, app);
     let middle_panel = app.middle_aux_panel();
-    let middle_spec = middle_column_spec(plan_steps_collapsed, collapsed);
+    let middle_spec = middle_column_spec(action_steps_collapsed, collapsed);
     let middle_layout = GridResolver::resolve(
         middle_area,
         &app.layout_policy.apply(&middle_spec, middle_area),
     );
-    let middle_plan_area = middle_layout.rect(SLOT_PLAN_STEPS).unwrap_or(middle_area);
-    if plan_steps_collapsed {
+    let middle_action_area = middle_layout.rect(SLOT_ASSEMBLY_STEPS).unwrap_or(middle_area);
+    if action_steps_collapsed {
         let middle_aux_area = middle_layout.rect(SLOT_AUX).unwrap_or(middle_area);
         match middle_panel {
             Some(crate::app::PanelId::Logs) => panels::render_logs(frame, middle_aux_area, app),
@@ -115,9 +115,9 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
             }
             _ => frame.render_widget(Clear, middle_aux_area),
         }
-        panels::render_plan_steps(frame, middle_plan_area, app);
+        panels::render_action_steps(frame, middle_action_area, app);
     } else {
-        panels::render_plan_steps(frame, middle_plan_area, app);
+        panels::render_action_steps(frame, middle_action_area, app);
     }
 
     let right_spec = right_columns_spec();

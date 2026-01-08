@@ -15,25 +15,25 @@ use rotappo_ports::PortSet;
 pub struct AppContext {
     pub host_domain: String,
     pub config_path: PathBuf,
-    pub plan_path: PathBuf,
-    pub plan_error: Option<String>,
+    pub assembly_path: PathBuf,
+    pub assembly_error: Option<String>,
     pub live_status_error: Option<String>,
     pub ports: PortSet,
 }
 
 impl AppContext {
-    /// Build a minimal context without plan/live errors.
+    /// Build a minimal context without action/live errors.
     pub fn new(
         host_domain: impl Into<String>,
         config_path: impl Into<PathBuf>,
-        plan_path: impl Into<PathBuf>,
+        assembly_path: impl Into<PathBuf>,
         ports: PortSet,
     ) -> Self {
         Self {
             host_domain: host_domain.into(),
             config_path: config_path.into(),
-            plan_path: plan_path.into(),
-            plan_error: None,
+            assembly_path: assembly_path.into(),
+            assembly_error: None,
             live_status_error: None,
             ports,
         }
@@ -51,7 +51,7 @@ impl AppContext {
 /// use rotappo_ports::PortSet;
 ///
 /// let runtime = Runtime::new_with_ports(ActionRegistry::default(), PortSet::empty());
-/// let context = AppContext::new(\"localhost\", \"config.yml\", \"plan.yml\", PortSet::empty());
+/// let context = AppContext::new(\"localhost\", \"config.yml\", \"assembly.yml\", PortSet::empty());
 /// let app = App::new(runtime, context);
 /// assert!(!app.should_quit);
 /// ```

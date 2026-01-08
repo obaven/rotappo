@@ -5,7 +5,7 @@ layer: 5
 domain: core
 component: migration-cli-rotappo
 cli_surface:
-  - terminal [actions|snapshot|plan|problems|logs]
+  - terminal [actions|snapshot|action|problems|logs]
 
 description: |
   Capture stable CLI outputs for rotappo and lock them in with golden
@@ -13,7 +13,7 @@ description: |
   intentionally updated.
 
 deliverables:
-  - Fixture inputs for plan, health, and events
+  - Fixture inputs for action, health, and events
   - Expected output snapshots for each output mode
   - Test harness to compare current output vs fixtures
   - Update instructions for intentional changes
@@ -45,6 +45,6 @@ source_files:
     context: "Golden tests and fixtures"
 
 status: MustHaves
-state: Backlog
-status_capsule: (owner:@antigravity, updated:2026-01-04, status:backlog)
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-04, status:done)
 assignee: unassigned

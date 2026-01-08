@@ -24,3 +24,4 @@ Key rules:
 - domain does not import adapters, presentation, or interfaces.
 - ui-presentation does not import adapters or interfaces.
 - ui interfaces only depend on application, ports, domain, and ui-presentation.
+- `rotappo-ui-terminal` may depend on the bootstrappo adapter for CLI dispatch.

@@ -1,5 +1,5 @@
 id: UI-020
-title: 'Rotappo Web Dashboard: Plan, Capabilities, Storage'
+title: 'Rotappo Web Dashboard: Action, Capabilities, Storage'
 type: Story
 layer: 5
 domain: core
@@ -7,18 +7,18 @@ component: rotappo-web-dashboard
 cli_surface: []
 
 description: |
-  Implement the primary web dashboard views covering plan execution,
+  Implement the primary web dashboard views covering action execution,
   capability readiness, and storage designation status. Emphasize
   clarity for operators diagnosing cluster state.
 
 deliverables:
-  - Plan execution dashboard with step and gate status
+  - Action execution dashboard with step and gate status
   - Capability readiness view with storage defaults
   - Health indicators and recent action summary
 
 acceptance_criteria:
   - Dashboard renders live state snapshots without manual refresh
-  - Plan view highlights blocked steps and failed gates
+  - Action view highlights blocked steps and failed gates
   - Storage defaults and capabilities are visible in the UI
 
 dependencies:
@@ -38,7 +38,7 @@ labels:
 
 source_files:
   - file: lib/rotappo/web/src/app/dashboard
-    context: "Render plan and capability dashboards"
+    context: "Render action and capability dashboards"
   - file: lib/rotappo/web/src/components
     context: "Shared UI components for status views"
 

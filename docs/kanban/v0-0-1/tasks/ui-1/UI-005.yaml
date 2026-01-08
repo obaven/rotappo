@@ -19,7 +19,7 @@ deliverables:
   - SSE or WebSocket event streaming for logs and step updates
   - Web UI shell with routing and API client
   - GitOps app packaging for Rotappo web UI (Rotato integration)
-  - Dashboard views for plan, capabilities, and storage status
+  - Dashboard views for action, capabilities, and storage status
 
 acceptance_criteria:
   - Web UI can connect to a local server and render live status

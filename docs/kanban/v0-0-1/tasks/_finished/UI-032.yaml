@@ -1,5 +1,5 @@
 id: UI-032
-title: 'FIX-1: Shared Plan/Problem Formatting'
+title: 'FIX-1: Shared Action/Problem Formatting'
 type: Task
 layer: 5
 domain: core
@@ -9,15 +9,15 @@ cli_surface:
   - rotappo
 
 description: |
-  Reduce formatting duplication by extracting shared plan and problem
+  Reduce formatting duplication by extracting shared action and problem
   formatting utilities for TUI and CLI output.
 
 deliverables:
-  - Formatter helpers for plan groups and problem lists
+  - Formatter helpers for action groups and problem lists
   - Shared formatter module used by TUI and CLI
 
 acceptance_criteria:
-  - No duplicated plan formatting logic in UI modules
+  - No duplicated action formatting logic in UI modules
   - CLI and TUI formatters share the same output helpers
 
 dependencies:

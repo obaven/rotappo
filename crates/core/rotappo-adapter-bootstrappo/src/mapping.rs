@@ -1,11 +1,12 @@
 use std::collections::HashMap;
-use bootstrappo::config::Config;
-use bootstrappo::ops::k8s::cache::ClusterCache;
-use bootstrappo::ops::reconciler::plan::{Gate, Step};
+
+use bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache;
+use bootstrappo_api::contract::config::Config;
+use bootstrappo_api::contract::assembly::{Check, Step};
 use validator::Validate;
 
-pub fn driver_specs() -> HashMap<String, (String, Option<String>)> {
-    bootstrappo::components::registry::get_all_specs()
+pub fn module_specs() -> HashMap<String, (String, Option<String>)> {
+    bootstrappo::application::runtime::registry::get_all_specs()
         .into_iter()
         .map(|spec| {
             (
@@ -20,49 +21,49 @@ pub fn driver_specs() -> HashMap<String, (String, Option<String>)> {
 }
 
 pub fn derive_pod_value(step: &Step, namespace: Option<&str>) -> Option<String> {
-    let gate_label = step.gates.iter().find_map(|gate| match gate {
-        Gate::DaemonsetReady { namespace, name } => Some(format!("{}/{}", namespace, name)),
-        Gate::DeploymentReady { namespace, name } => Some(format!("{}/{}", namespace, name)),
-        Gate::StatefulsetReady { namespace, name } => Some(format!("{}/{}", namespace, name)),
-        Gate::SecretExists { namespace, name } => Some(format!("{}/{}", namespace, name)),
+    let check_label = step.checks.iter().find_map(|check| match check {
+        Check::DaemonsetReady { namespace, name } => Some(format!("{}/{}", namespace, name)),
+        Check::DeploymentReady { namespace, name } => Some(format!("{}/{}", namespace, name)),
+        Check::StatefulsetReady { namespace, name } => Some(format!("{}/{}", namespace, name)),
+        Check::SecretExists { namespace, name } => Some(format!("{}/{}", namespace, name)),
         _ => None,
     });
 
-    gate_label.or_else(|| namespace.map(|ns| format!("{}/{}", ns, step.id)))
+    check_label.or_else(|| namespace.map(|ns| format!("{}/{}", ns, step.id)))
 }
 
-pub fn gates_ready(cache: &ClusterCache, step: &Step, config: Option<&Config>) -> bool {
-    if step.gates.is_empty() {
+pub fn checks_ready(cache: &ClusterCache, step: &Step, config: Option<&Config>) -> bool {
+    if step.checks.is_empty() {
         return true;
     }
-    for gate in &step.gates {
-        match gate {
-            Gate::DaemonsetReady { namespace, name } => {
+    for check in &step.checks {
+        match check {
+            Check::DaemonsetReady { namespace, name } => {
                 if !cache.is_daemonset_ready(namespace, name) {
                     return false;
                 }
             }
-            Gate::DeploymentReady { namespace, name } => {
+            Check::DeploymentReady { namespace, name } => {
                 if !cache.is_deployment_ready(namespace, name) {
                     return false;
                 }
             }
-            Gate::StatefulsetReady { namespace, name } => {
+            Check::StatefulsetReady { namespace, name } => {
                 if !cache.is_statefulset_ready(namespace, name) {
                     return false;
                 }
             }
-            Gate::CrdEstablished { name } => {
+            Check::CrdEstablished { name } => {
                 if !cache.is_crd_established(name) {
                     return false;
                 }
             }
-            Gate::SecretExists { namespace, name } => {
+            Check::SecretExists { namespace, name } => {
                 if !cache.is_secret_ready(namespace, name) {
                     return false;
                 }
             }
-            Gate::OidcValid => {
+            Check::OidcValid => {
                 let Some(config) = config else {
                     return false;
                 };

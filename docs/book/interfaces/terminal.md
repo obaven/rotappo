@@ -1,14 +1,18 @@
 # Terminal (CLI)
 
 CLI formatting helpers live in `crates/ui/rotappo-ui-terminal/`. They expose
-formatters for snapshots, plans, events, actions, and problems.
+formatters for snapshots, actions, events, actions, and problems. There is no
+standalone `terminal` binary; the bootstrappo CLI lives under
+`src/bin/cli.rs` and is wired through `rotappo-ui-terminal`. This
+CLI is the sole source of truth for bootstrappo CLI behavior.
 
 Output modes:
 - plain
 - json
 - ndjson
 
-The CLI binary is `src/bin/terminal.rs`.
+Bootstrappo CLI:
+- `cargo run --features cli,module-bootstrappo --bin cli -- --help`
 
-Build:
-- `cargo run --bin terminal --features cli`
+Runbook:
+- `docs/book/runbooks/cli.md`

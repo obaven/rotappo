@@ -14,6 +14,7 @@ Dependencies flow inward only:
 ui-* -> ui-presentation -> application -> domain
 application -> ports
 adapters -> ports + domain
+ui-terminal -> adapter (bootstrappo CLI handlers)
 
 Crate layout (in progress):
 - `crates/core/rotappo-domain` (domain types)
@@ -22,12 +23,12 @@ Crate layout (in progress):
 - `crates/core/rotappo-adapter-bootstrappo` (bootstrappo adapter)
 - `crates/ui/rotappo-ui-presentation` (formatting/logging helpers)
 - `crates/ui/rotappo-ui-core` (framework-agnostic UI contracts)
-- `crates/ui/rotappo-ui-terminal` (terminal helpers)
+- `crates/ui/rotappo-ui-terminal` (CLI formatting + dispatch)
 - `crates/ui/rotappo-ui-tui` (ratatui adapter)
 
 Directional rules are enforced by `tests/crate_boundaries.rs` and
 interface checks in `tests/interface_boundaries.rs`.
 
 Composition roots:
-- `src/bin/terminal.rs` (CLI)
+- `src/bin/cli.rs` (bootstrappo CLI entrypoint)
 - `src/bin/tui.rs` (TUI)

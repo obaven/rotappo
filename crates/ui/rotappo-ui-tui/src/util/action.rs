@@ -1,4 +1,4 @@
-//! Plan rendering helpers.
+//! Action rendering helpers.
 
 use ratatui::{
     style::{Color, Modifier, Style},
@@ -6,32 +6,32 @@ use ratatui::{
 };
 
 use rotappo_ui_presentation::formatting;
-use rotappo_domain::{CapabilityStatus, PlanStepStatus};
+use rotappo_domain::{CapabilityStatus, ActionStepStatus};
 
 use super::spinner_frame;
 
-/// Rendered line for a plan view.
-pub struct PlanLine {
+/// Rendered line for a action view.
+pub struct ActionLine {
     pub line: Line<'static>,
     pub step_index: Option<usize>,
 }
 
-/// Icon representing a plan step status.
+/// Icon representing a action step status.
 ///
 /// # Examples
 /// ```rust
-/// use rotappo_domain::PlanStepStatus;
-/// use rotappo_ui_tui::util::plan_status_icon;
+/// use rotappo_domain::ActionStepStatus;
+/// use rotappo_ui_tui::util::action_status_icon;
 ///
-/// assert_eq!(plan_status_icon(PlanStepStatus::Succeeded), '+');
+/// assert_eq!(action_status_icon(ActionStepStatus::Succeeded), '+');
 /// ```
-pub fn plan_status_icon(status: PlanStepStatus) -> char {
+pub fn action_status_icon(status: ActionStepStatus) -> char {
     match status {
-        PlanStepStatus::Running => spinner_frame(),
-        PlanStepStatus::Succeeded => '+',
-        PlanStepStatus::Failed => 'x',
-        PlanStepStatus::Blocked => '!',
-        PlanStepStatus::Pending => '.',
+        ActionStepStatus::Running => spinner_frame(),
+        ActionStepStatus::Succeeded => '+',
+        ActionStepStatus::Failed => 'x',
+        ActionStepStatus::Blocked => '!',
+        ActionStepStatus::Pending => '.',
     }
 }
 
@@ -52,11 +52,11 @@ pub fn capability_icon(status: CapabilityStatus) -> char {
     }
 }
 
-/// Build the formatted plan lines for display.
-pub fn plan_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<PlanLine> {
+/// Build the formatted action lines for display.
+pub fn action_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<ActionLine> {
     let mut lines = Vec::new();
-    for group in formatting::plan_groups(snapshot) {
-        lines.push(PlanLine {
+    for group in formatting::action_groups(snapshot) {
+        lines.push(ActionLine {
             line: Line::from(Span::styled(
                 format!("{} domain", group.domain),
                 Style::default()
@@ -68,13 +68,13 @@ pub fn plan_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<PlanLine> {
         for step_info in group.steps {
             let step = &step_info.step;
             let status_style = match step.status {
-                PlanStepStatus::Succeeded => Style::default().fg(Color::Green),
-                PlanStepStatus::Running => Style::default().fg(Color::Yellow),
-                PlanStepStatus::Blocked => Style::default().fg(Color::Red),
-                PlanStepStatus::Failed => {
+                ActionStepStatus::Succeeded => Style::default().fg(Color::Green),
+                ActionStepStatus::Running => Style::default().fg(Color::Yellow),
+                ActionStepStatus::Blocked => Style::default().fg(Color::Red),
+                ActionStepStatus::Failed => {
                     Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)
                 }
-                PlanStepStatus::Pending => Style::default().fg(Color::Gray),
+                ActionStepStatus::Pending => Style::default().fg(Color::Gray),
             };
             let pod_text = step
                 .pod
@@ -83,7 +83,7 @@ pub fn plan_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<PlanLine> {
                 .unwrap_or_else(|| " pod: -".to_string());
             let line = Line::from(vec![
                 Span::styled(
-                    format!("[{} {:<9}]", plan_status_icon(step.status), step.status.as_str()),
+                    format!("[{} {:<9}]", action_status_icon(step.status), step.status.as_str()),
                     status_style,
                 ),
                 Span::raw(" "),
@@ -92,7 +92,7 @@ pub fn plan_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<PlanLine> {
                 Span::raw(step.kind.clone()),
                 Span::styled(pod_text, Style::default().fg(Color::DarkGray)),
             ]);
-            lines.push(PlanLine {
+            lines.push(ActionLine {
                 line,
                 step_index: Some(step_info.index),
             });

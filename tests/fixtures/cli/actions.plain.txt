@@ -1,0 +1,5 @@
+validate - Action Validate (safe)
+reconcile - Reconcile (guarded)
+rotate - Rotate Secrets (guarded)
+debug - Debug Snapshot (safe)
+nuke - Nuke (destructive)

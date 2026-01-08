@@ -20,7 +20,7 @@ digraph v0_0_3_Cohesion {
         UI_012 [label = "UI-012\nRotappo Structured Output";];
         UI_013 [label = "UI-013\nRotappo CLI Guardrails";];
         UI_014 [label = "UI-014\nRotappo TUI Shell";];
-        UI_015 [label = "UI-015\nRotappo TUI Plan View";];
+        UI_015 [label = "UI-015\nRotappo TUI Action View";];
         UI_016 [label = "UI-016\nRotappo TUI Actions";];
         UI_017 [label = "UI-017\nRotappo TUI Logs";];
         UI_018 [label = "UI-018\nRotappo Web API";];

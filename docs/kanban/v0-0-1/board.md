@@ -16,12 +16,12 @@
 - UI-012 — [Story] Rotappo CLI Structured Output Modes
 - UI-013 — [Task] Rotappo CLI Prompt/Confirm + Dry-run Guardrails
 - UI-014 — [Story] Rotappo TUI Shell + Layout Scaffolding
-- UI-015 — [Story] Rotappo TUI Plan + Gate Status View
+- UI-015 — [Story] Rotappo TUI Action + Gate Status View
 - UI-016 — [Story] Rotappo TUI Action Panel + Confirmations
 - UI-017 — [Task] Rotappo TUI Log + Event Stream Panel
 - UI-018 — [Story] Rotappo Web API Server + Event Streaming
 - UI-019 — [Story] Rotappo Web UI Shell + Routing
-- UI-020 — [Story] Rotappo Web Dashboard: Plan, Capabilities, Storage
+- UI-020 — [Story] Rotappo Web Dashboard: Action, Capabilities, Storage
 - UI-021 — [Task] Rotappo Web Actions + Access Guardrails
 - UI-022 — [Story] Rotappo Desktop Shell + Webview Integration
 - UI-023 — [Task] Rotappo Desktop Local Runtime Bridge
@@ -49,7 +49,7 @@
 ### Backlog
 - UI-030 — [Task] FIX-1: TUI State Deduplication
 - UI-031 — [Task] FIX-1: Log Stream Configuration Cleanup
-- UI-032 — [Task] FIX-1: Shared Plan/Problem Formatting
+- UI-032 — [Task] FIX-1: Shared Action/Problem Formatting
 ### Ready
 ### In Progress
 ### Review
@@ -110,7 +110,7 @@
 ### Done
 - ARCH-004 — [Task] ARCH-1B: Shared Presentation + Formatting Boundary
 - ARCH-005 — [Story] ARCH-1B: Adapter Boundary + Port Wiring
-- ARCH-006 — [Task] ARCH-1B: Migration Plan (No Shims)
+- ARCH-006 — [Task] ARCH-1B: Migration Action (No Shims)
 
 ## I. v0.0.1 Architecture Board (ARCH-1C) Caveats
 ### Backlog

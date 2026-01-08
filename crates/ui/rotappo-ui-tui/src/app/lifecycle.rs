@@ -17,12 +17,12 @@ impl App {
         ));
         runtime.events_mut().push(Event::new(
             EventLevel::Info,
-            format!("Plan path: {}", context.plan_path.display()),
+            format!("Assembly path: {}", context.assembly_path.display()),
         ));
-        if let Some(error) = &context.plan_error {
+        if let Some(error) = &context.assembly_error {
             runtime.events_mut().push(Event::new(
                 EventLevel::Warn,
-                format!("Plan load failed: {}", error),
+                format!("Assembly load failed: {}", error),
             ));
         }
         if let Some(error) = &context.live_status_error {
@@ -90,11 +90,11 @@ impl App {
         use crate::layout::{
             GroupPolicy, PanelPriority, SlotPolicy, SLOT_ACTIONS, SLOT_CAPABILITIES,
             SLOT_FOOTER_HELP, SLOT_FOOTER_SETTINGS, SLOT_LOGS, SLOT_LOG_CONTROLS,
-            SLOT_PLAN_PROGRESS, SLOT_PLAN_STEPS, SLOT_PROBLEMS, SLOT_SNAPSHOT,
+            SLOT_ASSEMBLY_PROGRESS, SLOT_ASSEMBLY_STEPS, SLOT_PROBLEMS, SLOT_SNAPSHOT,
         };
 
         self.layout_policy.set_policy(
-            SLOT_PLAN_PROGRESS,
+            SLOT_ASSEMBLY_PROGRESS,
             SlotPolicy::new(PanelPriority::High),
         );
         self.layout_policy
@@ -102,7 +102,7 @@ impl App {
         self.layout_policy
             .set_policy(SLOT_CAPABILITIES, SlotPolicy::new(PanelPriority::Normal));
         self.layout_policy
-            .set_policy(SLOT_PLAN_STEPS, SlotPolicy::new(PanelPriority::High));
+            .set_policy(SLOT_ASSEMBLY_STEPS, SlotPolicy::new(PanelPriority::High));
         self.layout_policy
             .set_policy(SLOT_ACTIONS, SlotPolicy::new(PanelPriority::Normal));
         self.layout_policy
@@ -120,7 +120,7 @@ impl App {
             GroupPolicy::new(
                 "left_column",
                 vec![
-                    SLOT_PLAN_PROGRESS.into(),
+                    SLOT_ASSEMBLY_PROGRESS.into(),
                     SLOT_SNAPSHOT.into(),
                     SLOT_CAPABILITIES.into(),
                 ],
@@ -131,7 +131,7 @@ impl App {
             GroupPolicy::new(
                 "middle_aux",
                 vec![
-                    SLOT_PLAN_STEPS.into(),
+                    SLOT_ASSEMBLY_STEPS.into(),
                     SLOT_FOOTER_HELP.into(),
                     SLOT_LOGS.into(),
                 ],

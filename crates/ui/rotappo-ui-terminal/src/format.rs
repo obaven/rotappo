@@ -4,7 +4,7 @@ use anyhow::{anyhow, Result};
 use serde::Serialize;
 
 use rotappo_ui_presentation::formatting;
-use rotappo_domain::{Action, Event, Snapshot};
+use rotappo_domain::{ActionDefinition, Event, Snapshot};
 
 use super::OutputMode;
 
@@ -13,19 +13,19 @@ use super::OutputMode;
 /// # Examples
 /// ```rust
 /// use rotappo_ui_terminal::{format_actions, OutputMode};
-/// use rotappo_domain::{Action, ActionId, ActionSafety};
+/// use rotappo_domain::{ActionDefinition, ActionId, ActionSafety};
 ///
-/// let actions = [Action::new(
+/// let actions = [ActionDefinition::new(
 ///     ActionId::Validate,
-///     "Plan Validate",
+///     "Action Validate",
 ///     "Validate desired state.",
 ///     false,
 ///     ActionSafety::Safe,
 /// )];
 /// let output = format_actions(OutputMode::Plain, &actions).unwrap();
-/// assert_eq!(output, "validate - Plan Validate (safe)");
+/// assert_eq!(output, "validate - Action Validate (safe)");
 /// ```
-pub fn format_actions(mode: OutputMode, actions: &[Action]) -> Result<String> {
+pub fn format_actions(mode: OutputMode, actions: &[ActionDefinition]) -> Result<String> {
     match mode {
         OutputMode::Plain => Ok(actions
             .iter()
@@ -53,14 +53,14 @@ pub fn format_actions(mode: OutputMode, actions: &[Action]) -> Result<String> {
 ///
 /// let snapshot = Snapshot::new_default();
 /// let output = format_snapshot(OutputMode::Plain, &snapshot).unwrap();
-/// assert_eq!(output, "Plan 3/12 complete | Health: degraded");
+/// assert_eq!(output, "Action 3/12 complete | Health: degraded");
 /// ```
 pub fn format_snapshot(mode: OutputMode, snapshot: &Snapshot) -> Result<String> {
     match mode {
         OutputMode::Plain => Ok(format!(
-            "Plan {}/{} complete | Health: {}",
-            snapshot.plan.completed,
-            snapshot.plan.total,
+            "Action {}/{} complete | Health: {}",
+            snapshot.action.completed,
+            snapshot.action.total,
             snapshot.health.as_str()
         )),
         OutputMode::Json => Ok(serde_json::to_string_pretty(snapshot)?),
@@ -99,27 +99,27 @@ pub fn format_events(mode: OutputMode, events: &[Event]) -> Result<String> {
     }
 }
 
-/// Format the current plan view for CLI output.
+/// Format the current assembly view for CLI output.
 ///
 /// # Examples
 /// ```rust
-/// use rotappo_ui_terminal::{format_plan, OutputMode};
-/// use rotappo_domain::{HealthStatus, PlanStep, PlanStepStatus, PlanSummary, Snapshot};
+/// use rotappo_ui_terminal::{format_assembly, OutputMode};
+/// use rotappo_domain::{HealthStatus, ActionStep, ActionStepStatus, ActionSummary, Snapshot};
 ///
 /// let snapshot = Snapshot {
-///     plan: PlanSummary {
+///     action: ActionSummary {
 ///         total: 1,
 ///         completed: 0,
 ///         in_progress: 1,
 ///         blocked: 0,
 ///         pending: 0,
 ///     },
-///     plan_steps: vec![PlanStep {
+///     action_steps: vec![ActionStep {
 ///         id: "boot".to_string(),
 ///         kind: "apply".to_string(),
 ///         depends_on: vec![],
 ///         provides: vec![],
-///         status: PlanStepStatus::Running,
+///         status: ActionStepStatus::Running,
 ///         domain: "core".to_string(),
 ///         pod: None,
 ///     }],
@@ -129,12 +129,12 @@ pub fn format_events(mode: OutputMode, events: &[Event]) -> Result<String> {
 ///     last_action: None,
 ///     last_action_status: None,
 /// };
-/// let output = format_plan(OutputMode::Plain, &snapshot).unwrap();
+/// let output = format_assembly(OutputMode::Plain, &snapshot).unwrap();
 /// assert!(output.contains("core domain"));
 /// assert!(output.contains("boot apply"));
 /// ```
-pub fn format_plan(mode: OutputMode, snapshot: &Snapshot) -> Result<String> {
-    let groups = formatting::plan_groups(snapshot);
+pub fn format_assembly(mode: OutputMode, snapshot: &Snapshot) -> Result<String> {
+    let groups = formatting::action_groups(snapshot);
     match mode {
         OutputMode::Plain => {
             let mut lines = Vec::new();

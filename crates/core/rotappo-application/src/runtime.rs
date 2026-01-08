@@ -3,14 +3,16 @@ use anyhow::{anyhow, Result};
 use rotappo_domain::{ActionId, ActionRegistry, ActionSafety};
 use rotappo_domain::{Event, EventBus, EventLevel};
 use rotappo_ports::PortSet;
-use rotappo_domain::{ActionStatus, Plan, PlanStep, PlanStepDef, PlanStepStatus, Snapshot};
+use rotappo_domain::{
+    ActionStatus, ActionStep, ActionStepStatus, Assembly, AssemblyStepDef, Snapshot,
+};
 
 pub struct Runtime {
     registry: ActionRegistry,
     snapshot: Snapshot,
     events: EventBus,
     refresh_count: u64,
-    plan: Option<Plan>,
+    assembly: Option<Assembly>,
     ports: PortSet,
 }
 
@@ -22,9 +24,9 @@ impl Runtime {
     pub fn new_with_ports(registry: ActionRegistry, ports: PortSet) -> Self {
         let mut events = EventBus::default();
         events.push(Event::new(EventLevel::Info, "Runtime initialized"));
-        let plan = ports.plan.plan();
-        let snapshot = match plan.as_ref() {
-            Some(plan) => Self::snapshot_from_plan(plan),
+        let assembly = ports.assembly.assembly();
+        let snapshot = match assembly.as_ref() {
+            Some(assembly) => Self::snapshot_from_assembly(assembly),
             None => Snapshot::new_default(),
         };
 
@@ -33,11 +35,11 @@ impl Runtime {
             snapshot,
             events,
             refresh_count: 0,
-            plan,
+            assembly,
             ports,
         };
         runtime.drain_port_events();
-        runtime.snapshot.update_plan_summary_from_steps();
+        runtime.snapshot.update_action_summary_from_steps();
         runtime
     }
 
@@ -60,8 +62,8 @@ impl Runtime {
     pub fn refresh_snapshot(&mut self) {
         self.refresh_count = self.refresh_count.saturating_add(1);
         self.drain_port_events();
-        if !self.snapshot.plan_steps.is_empty() {
-            self.update_plan_statuses();
+        if !self.snapshot.action_steps.is_empty() {
+            self.update_action_statuses();
             self.sync_capabilities_from_steps();
         }
         self.snapshot.touch();
@@ -74,43 +76,43 @@ impl Runtime {
     }
 
     pub fn trigger_action(&mut self, action_id: ActionId) -> Result<()> {
-        let action = self
+        let action_def = self
             .registry
             .get(action_id)
             .ok_or_else(|| anyhow!("Unknown action: {action_id}"))?;
 
-        if action.safety == ActionSafety::Destructive {
+        if action_def.safety == ActionSafety::Destructive {
             self.events.push(Event::new(
                 EventLevel::Warn,
-                format!("Destructive action queued: {}", action.label),
+                format!("Destructive action queued: {}", action_def.label),
             ));
         }
 
         self.snapshot.mark_action(action_id, ActionStatus::Running);
         self.events.push(Event::new(
             EventLevel::Info,
-            format!("Started action: {}", action.label),
+            format!("Started action: {}", action_def.label),
         ));
 
         self.snapshot.mark_action(action_id, ActionStatus::Succeeded);
         self.events.push(Event::new(
             EventLevel::Info,
-            format!("Completed action: {}", action.label),
+            format!("Completed action: {}", action_def.label),
         ));
 
         self.snapshot.touch();
         Ok(())
     }
 
-    fn snapshot_from_plan(plan: &Plan) -> Snapshot {
+    fn snapshot_from_assembly(assembly: &Assembly) -> Snapshot {
         let mut snapshot = Snapshot::new_default();
-        snapshot.plan_steps = plan
+        snapshot.action_steps = assembly
             .steps
             .iter()
-            .map(|step| plan_step_from_def(step))
+            .map(|step| action_step_from_def(step))
             .collect();
 
-        snapshot.capabilities = plan
+        snapshot.capabilities = assembly
             .steps
             .iter()
             .flat_map(|step| step.provides.iter().cloned())
@@ -122,47 +124,47 @@ impl Runtime {
             })
             .collect();
 
-        snapshot.update_plan_summary_from_steps();
+        snapshot.update_action_summary_from_steps();
         snapshot
     }
 
-    fn update_plan_statuses(&mut self) {
-        let plan = match &self.plan {
-            Some(plan) => plan,
+    fn update_action_statuses(&mut self) {
+        let assembly = match &self.assembly {
+            Some(assembly) => assembly,
             None => {
-                self.snapshot.update_plan_summary_from_steps();
+                self.snapshot.update_action_summary_from_steps();
                 return;
             }
         };
 
         let health_snapshot = self.ports.health.snapshot();
-        let readiness = self.ports.plan.step_readiness();
+        let readiness = self.ports.assembly.step_readiness();
         let step_map: std::collections::HashMap<_, _> =
-            plan.steps.iter().map(|step| (step.id.as_str(), step)).collect();
+            assembly.steps.iter().map(|step| (step.id.as_str(), step)).collect();
 
-        let statuses: Vec<PlanStepStatus> = self
+        let statuses: Vec<ActionStepStatus> = self
             .snapshot
-            .plan_steps
+            .action_steps
             .iter()
             .map(|step| {
                 let blocked = step.depends_on.iter().any(|dep| {
                     self.snapshot
-                        .plan_steps
+                        .action_steps
                         .iter()
-                        .any(|other| other.id == *dep && other.status != PlanStepStatus::Succeeded)
+                        .any(|other| other.id == *dep && other.status != ActionStepStatus::Succeeded)
                 });
 
                 let mut status = if blocked {
-                    PlanStepStatus::Blocked
+                    ActionStepStatus::Blocked
                 } else {
-                    PlanStepStatus::Pending
+                    ActionStepStatus::Pending
                 };
 
                 if let Some(def) = step_map.get(step.id.as_str()) {
                     if readiness.get(step.id.as_str()).copied().unwrap_or(false) {
-                        status = PlanStepStatus::Succeeded;
+                        status = ActionStepStatus::Succeeded;
                     } else if !def.has_gates && !blocked {
-                        status = PlanStepStatus::Succeeded;
+                        status = ActionStepStatus::Succeeded;
                     }
                 }
 
@@ -170,10 +172,10 @@ impl Runtime {
                     status = match health {
                         rotappo_domain::ComponentHealthStatus::Healthy => status,
                         rotappo_domain::ComponentHealthStatus::Degraded(_) => {
-                            PlanStepStatus::Running
+                            ActionStepStatus::Running
                         }
                         rotappo_domain::ComponentHealthStatus::Unhealthy(_) => {
-                            PlanStepStatus::Failed
+                            ActionStepStatus::Failed
                         }
                     };
                 }
@@ -182,18 +184,18 @@ impl Runtime {
             })
             .collect();
 
-        for (step, status) in self.snapshot.plan_steps.iter_mut().zip(statuses) {
+        for (step, status) in self.snapshot.action_steps.iter_mut().zip(statuses) {
             step.status = status;
         }
-        self.snapshot.update_plan_summary_from_steps();
+        self.snapshot.update_action_summary_from_steps();
     }
 
     fn sync_capabilities_from_steps(&mut self) {
         let completed: std::collections::BTreeSet<String> = self
             .snapshot
-            .plan_steps
+            .action_steps
             .iter()
-            .filter(|step| step.status == PlanStepStatus::Succeeded)
+            .filter(|step| step.status == ActionStepStatus::Succeeded)
             .flat_map(|step| step.provides.iter().cloned())
             .collect();
 
@@ -208,13 +210,13 @@ impl Runtime {
 
 }
 
-fn plan_step_from_def(def: &PlanStepDef) -> PlanStep {
-    PlanStep {
+fn action_step_from_def(def: &AssemblyStepDef) -> ActionStep {
+    ActionStep {
         id: def.id.clone(),
         kind: def.kind.clone(),
         depends_on: def.depends_on.clone(),
         provides: def.provides.clone(),
-        status: PlanStepStatus::Pending,
+        status: ActionStepStatus::Pending,
         domain: def.domain.clone(),
         pod: def.pod.clone(),
     }

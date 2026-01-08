@@ -15,7 +15,7 @@ deliverables:
   - Workspace Cargo.toml with member crates
   - New crates for domain, ports, application, ui-presentation, ui-core,
     ui-terminal, ui-tui, adapter-bootstrappo
-  - Incremental migration checklist and staging plan
+  - Incremental migration checklist and staging action
 
 acceptance_criteria:
   - Workspace builds with at least one crate migrated

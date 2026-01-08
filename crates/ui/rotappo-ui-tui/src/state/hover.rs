@@ -11,7 +11,7 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum HoverPanel {
     None,
-    Plan,
+    Action,
     Capabilities,
     Actions,
     Logs,

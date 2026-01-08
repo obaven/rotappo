@@ -7,10 +7,10 @@ digraph RuntimeFlow {
   rankdir=TB;
   node [shape=box, style="rounded,filled", fillcolor="#f5f5f5"];
 
-  adapter [label="Adapter (bootstrappo)\nplan(), snapshot(), drain_events()"];
-  ports [label="Ports\nPlanPort / HealthPort / LogPort"];
-  application [label="Application Runtime\nbuild Snapshot + plan steps"];
-  presentation [label="Presentation\nformat plan/problems/logs"];
+  adapter [label="Adapter (bootstrappo)\nassembly(), snapshot(), drain_events()"];
+  ports [label="Ports\nAssemblyPort / HealthPort / LogPort"];
+  application [label="Application Runtime\nbuild Snapshot + assembly steps"];
+  presentation [label="Presentation\nformat assembly/problems/logs"];
   interfaces [label="Interfaces (CLI/TUI)\nrender / print"];
 
   adapter -> ports -> application -> presentation -> interfaces;
@@ -21,6 +21,6 @@ digraph RuntimeFlow {
 
 1) Adapter collects upstream data and normalizes it into domain types.
 2) Ports expose the normalized data to the application layer.
-3) Application builds a `Snapshot` and updates plan status metadata.
+3) Application builds a `Snapshot` and updates action status metadata.
 4) Presentation formats the snapshot into view-friendly data.
 5) Interfaces render output and handle user input.

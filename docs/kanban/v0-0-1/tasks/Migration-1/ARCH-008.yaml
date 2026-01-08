@@ -5,8 +5,8 @@ layer: 5
 domain: core
 component: migration-cli
 cli_surface:
-  - terminal [actions|snapshot|plan|problems|logs]
-  - bootstrappo [plan|reconcile|rotate|debug|nuke|cache|generate|visualize]
+  - terminal [actions|snapshot|action|problems|logs]
+  - bootstrappo [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
 
 description: |
   Preserve the CLI surface for both rotappo and bootstrappo while the

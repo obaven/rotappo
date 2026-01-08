@@ -4,9 +4,26 @@ version = "0.0.1"
 edition = "2024"
 publish = false
 
+[features]
+default = []
+bootstrappo-cli = [
+  "dep:clap",
+  "dep:dotenv",
+  "dep:rotappo-adapter-bootstrappo",
+  "dep:tracing",
+  "dep:tracing-subscriber",
+]
+rotato-cli = []
+
 [dependencies]
 anyhow = "1.0.100"
-rotappo-domain = { path = "../../core/rotappo-domain" }
-rotappo-ui-presentation = { path = "../rotappo-ui-presentation" }
+clap = { version = "4.5.53", features = ["derive", "env"], optional = true }
+dotenv = { version = "0.15", optional = true }
 serde = { version = "1.0.210", features = ["derive"] }
 serde_json = "1.0.128"
+tracing = { version = "0.1.44", optional = true }
+tracing-subscriber = { version = "0.3", optional = true }
+
+rotappo-adapter-bootstrappo = { path = "../../core/rotappo-adapter-bootstrappo", optional = true }
+rotappo-domain = { path = "../../core/rotappo-domain" }
+rotappo-ui-presentation = { path = "../rotappo-ui-presentation" }

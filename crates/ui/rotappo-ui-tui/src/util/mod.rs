@@ -8,14 +8,14 @@
 //! ```
 
 mod color;
-mod plan;
+mod action;
 mod problems;
 mod rect;
 mod time;
 mod tooltip;
 
 pub use color::{animated_color, traveling_glow};
-pub use plan::{capability_icon, plan_lines, plan_status_icon, PlanLine};
+pub use action::{capability_icon, action_lines, action_status_icon, ActionLine};
 pub use problems::collect_problems;
 pub use rect::{anchored_rect, anchored_rect_with_offset, centered_rect};
 pub use time::{format_age, spinner_frame};

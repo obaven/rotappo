@@ -1,5 +1,5 @@
 id: ARCH-006
-title: 'ARCH-1B: Migration Plan (No Shims)'
+title: 'ARCH-1B: Migration Action (No Shims)'
 type: Task
 layer: 5
 domain: core
@@ -7,14 +7,14 @@ component: architecture-migration
 cli_surface: []
 
 description: |
-  Define a staged migration plan for the refactor. Update call sites
+  Define a staged migration action for the refactor. Update call sites
   directly when module paths move so no compatibility shims remain.
 
 deliverables:
-  - Staged move plan with ordering and checkpoints
+  - Staged move action with ordering and checkpoints
   - Call-site update checklist for moved modules
   - Rollback strategy if a stage introduces regressions
-  - Documentation at docs/architecture/ARCH-1B-migration-plan.md
+  - Documentation at docs/architecture/ARCH-1B-migration-action.md
 
 acceptance_criteria:
   - Each stage compiles independently

@@ -12,7 +12,7 @@ description: |
   and brief click flash for actions.
 
 deliverables:
-  - Hover highlight for plan/actions/problems rows
+  - Hover highlight for action/actions/problems rows
   - Click flash animation for action triggers
 
 acceptance_criteria:

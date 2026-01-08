@@ -5,7 +5,7 @@ layer: 5
 domain: core
 component: migration-cli-bootstrappo
 cli_surface:
-  - bootstrappo [plan|reconcile|rotate|debug|nuke|cache|generate|visualize]
+  - bootstrappo [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
 
 description: |
   Record bootstrappo CLI outputs and help text to prevent accidental

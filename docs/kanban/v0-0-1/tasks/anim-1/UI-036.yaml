@@ -8,11 +8,11 @@ cli_surface:
   - rotappo ui
 
 description: |
-  Add scrollbars for plan steps and logs panels to indicate scroll
+  Add scrollbars for action steps and logs panels to indicate scroll
   position and total length.
 
 deliverables:
-  - Scrollbar for plan steps panel
+  - Scrollbar for action steps panel
   - Scrollbar for logs panel
   - Scrollbar color aligned with panel theme
 

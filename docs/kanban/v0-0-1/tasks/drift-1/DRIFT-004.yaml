@@ -1,0 +1,47 @@
+id: DRIFT-004
+title: 'Module Registry + Hook Spec Integration'
+type: Story
+layer: 5
+domain: core
+component: rotappo-adapter-bootstrappo
+cli_surface:
+  - bootstrappo [explain|status|diff]
+
+description: |
+  Use the bootstrappo module registry and hook registry to enrich CLI
+  output. The explain command should include module requirements,
+  provides signals, checks, and engine metadata, plus hooks that depend
+  on the module's capabilities.
+
+deliverables:
+  - Registry access via get_all_specs()/get_module
+  - Hook specs surfaced via all_hook_specs()
+  - Explain output includes requires/provides/checks/engine/hooks
+
+acceptance_criteria:
+  - explain output lists module requirements and provided signals
+  - explain output includes check gates in readable form
+  - explain output lists hooks blocked or enabled by capabilities
+
+dependencies:
+  - DRIFT-001
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - bootstrappo
+  - registry
+  - hooks
+
+source_files:
+  - file: crates/core/rotappo-adapter-bootstrappo/src/controller/
+    context: "Explain/status controllers"
+  - file: ../bootstrappo/src/application/flows/reconcile/ops/hooks/registry.rs
+    context: "Hook registry"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-07, status:backlog)
+assignee: unassigned

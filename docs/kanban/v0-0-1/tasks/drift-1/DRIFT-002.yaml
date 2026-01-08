@@ -1,0 +1,45 @@
+id: DRIFT-002
+title: 'CLI Status + Diff + Explain Commands'
+type: Story
+layer: 5
+domain: core
+component: rotappo-ui-terminal
+cli_surface:
+  - bootstrappo [status|diff|explain]
+
+description: |
+  Add the status, diff, and explain commands to the bootstrappo CLI
+  surface in rotappo. Wire clap parsing, help text, and dispatch to
+  adapter controllers that implement the Meta-17 behavior.
+
+deliverables:
+  - New clap subcommands and help text for status/diff/explain
+  - Dispatch wiring from CLI to adapter controllers
+  - Basic error handling + exit codes for missing modules
+
+acceptance_criteria:
+  - `rotappo status --help` shows command usage and flags
+  - `rotappo diff --help` shows command usage and flags
+  - `rotappo explain <module>` fails with a clear error if missing
+  - Commands route to adapter logic without panics
+
+dependencies:
+  - DRIFT-001
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - cli
+  - bootstrappo
+  - clap
+
+source_files:
+  - file: crates/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs
+    context: "CLI parse and dispatch"
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-07, status:backlog)
+assignee: unassigned

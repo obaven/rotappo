@@ -1,6 +1,6 @@
-# ARCH-1B Migration Plan
+# ARCH-1B Migration Action
 
-This plan sequences the layered-architecture refactor while keeping
+This action sequences the layered-architecture refactor while keeping
 CLI/TUI behavior stable while updating public paths directly.
 
 ## Principles
@@ -8,7 +8,7 @@ CLI/TUI behavior stable while updating public paths directly.
 - Each stage compiles independently.
 - Update call sites directly when module paths move.
 
-## Stage plan
+## Stage action
 1) Presentation extraction
    - Move formatting/logging into `crates/ui/rotappo-ui-presentation/`.
    - Checkpoints: build, CLI output parity smoke.
@@ -35,7 +35,7 @@ CLI/TUI behavior stable while updating public paths directly.
 
 ## Validation checklist
 - `cargo test -p rotappo` (or workspace equivalent) per stage.
-- CLI: confirm output parity for plan/problem formatting.
+- CLI: confirm output parity for action/problem formatting.
 - TUI: smoke check layout + key panels render.
 - Ensure no domain imports from `interfaces` or `adapters`.
 

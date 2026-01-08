@@ -1,0 +1,167 @@
+[env]
+BOOTSTRAPPO_ASSEMBLY_PATH = "../bootstrappo/data/configs/bootstrap-config.yaml"
+BOOTSTRAPPO_GITOPS_DIR = "../bootstrappo/data/output/app/exoskeleton"
+BOOTSTRAPPO_ASSEMBLY_OUTPUT = "/tmp/bootstrappo-assembly.dot"
+BOOTSTRAPPO_STORAGE_OUTPUT = "/tmp/bootstrappo-storage.dot"
+BOOTSTRAPPO_MIN_STORAGE_GB = "10"
+BOOTSTRAPPO_ROTATION = "all"
+
+[tasks.cli-bootstrappo-help]
+workspace = false
+command = "cargo"
+args = ["run", "--features", "cli,module-bootstrappo", "--bin", "cli", "--", "--help"]
+
+
+[tasks.cli-bootstrappo-assembly-validate]
+workspace = false
+command = "cargo"
+args = [
+  "run",
+  "--features",
+  "cli,module-bootstrappo",
+  "--bin",
+  "cli",
+  "--",
+  "assembly",
+  "validate",
+  "${BOOTSTRAPPO_ASSEMBLY_PATH}",
+]
+
+
+[tasks.cli-bootstrappo-assembly-visualize-dot]
+workspace = false
+command = "cargo"
+args = [
+  "run",
+  "--features",
+  "cli,module-bootstrappo",
+  "--bin",
+  "cli",
+  "--",
+  "assembly",
+  "visualize",
+  "${BOOTSTRAPPO_ASSEMBLY_PATH}",
+  "--view",
+  "full",
+  "--format",
+  "dot",
+  "--layout",
+  "dot",
+  "--output",
+  "${BOOTSTRAPPO_ASSEMBLY_OUTPUT}",
+]
+
+
+[tasks.cli-bootstrappo-debug-registry]
+workspace = false
+command = "cargo"
+args = ["run", "--features", "cli,module-bootstrappo", "--bin", "cli", "--", "debug", "registry"]
+
+
+[tasks.cli-bootstrappo-debug-assembly-order]
+workspace = false
+command = "cargo"
+args = [
+  "run",
+  "--features",
+  "cli,module-bootstrappo",
+  "--bin",
+  "cli",
+  "--",
+  "debug",
+  "assembly-order",
+  "--assembly",
+  "${BOOTSTRAPPO_ASSEMBLY_PATH}",
+]
+
+
+[tasks.cli-bootstrappo-cache-status]
+workspace = false
+command = "cargo"
+args = ["run", "--features", "cli,module-bootstrappo", "--bin", "cli", "--", "cache", "status"]
+
+
+[tasks.cli-bootstrappo-cache-purge]
+workspace = false
+command = "cargo"
+args = [
+  "run",
+  "--features",
+  "cli,module-bootstrappo",
+  "--bin",
+  "cli",
+  "--",
+  "cache",
+  "purge",
+  "--force",
+]
+
+
+[tasks.cli-bootstrappo-generate-storage]
+workspace = false
+command = "cargo"
+args = [
+  "run",
+  "--features",
+  "cli,module-bootstrappo",
+  "--bin",
+  "cli",
+  "--",
+  "generate",
+  "storage",
+  "--min-size",
+  "${BOOTSTRAPPO_MIN_STORAGE_GB}",
+]
+
+
+[tasks.cli-bootstrappo-visualize-storage-dot]
+workspace = false
+command = "cargo"
+args = [
+  "run",
+  "--features",
+  "cli,module-bootstrappo",
+  "--bin",
+  "cli",
+  "--",
+  "visualize",
+  "generate",
+  "storage",
+  "--min-size",
+  "${BOOTSTRAPPO_MIN_STORAGE_GB}",
+  "--format",
+  "dot",
+  "--layout",
+  "dot",
+  "--output",
+  "${BOOTSTRAPPO_STORAGE_OUTPUT}",
+]
+
+
+[tasks.cli-bootstrappo-rotate-dry-run]
+workspace = false
+command = "cargo"
+args = [
+  "run",
+  "--features",
+  "cli,module-bootstrappo",
+  "--bin",
+  "cli",
+  "--",
+  "rotate",
+  "${BOOTSTRAPPO_ROTATION}",
+  "--assembly",
+  "${BOOTSTRAPPO_ASSEMBLY_PATH}",
+  "--dry-run",
+]
+
+
+[tasks.cli-bootstrappo-smoke]
+workspace = false
+dependencies = [
+  "cli-bootstrappo-help",
+  "cli-bootstrappo-assembly-validate",
+  "cli-bootstrappo-assembly-visualize-dot",
+  "cli-bootstrappo-debug-registry",
+  "cli-bootstrappo-cache-status",
+]

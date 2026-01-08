@@ -20,10 +20,10 @@ impl App {
     /// Sync layout policy overrides with the UI's collapsed state.
     pub fn sync_layout_policy(&mut self) {
         let panels = [
-            PanelId::PlanProgress,
+            PanelId::AssemblyProgress,
             PanelId::Snapshot,
             PanelId::Capabilities,
-            PanelId::PlanSteps,
+            PanelId::AssemblySteps,
             PanelId::Actions,
             PanelId::Settings,
             PanelId::LogControls,

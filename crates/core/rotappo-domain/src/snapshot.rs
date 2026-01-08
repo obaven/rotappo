@@ -4,7 +4,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use super::actions::ActionId;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-pub enum PlanStepStatus {
+pub enum ActionStepStatus {
     Pending,
     Running,
     Succeeded,
@@ -12,31 +12,31 @@ pub enum PlanStepStatus {
     Blocked,
 }
 
-impl PlanStepStatus {
+impl ActionStepStatus {
     pub fn as_str(self) -> &'static str {
         match self {
-            PlanStepStatus::Pending => "pending",
-            PlanStepStatus::Running => "running",
-            PlanStepStatus::Succeeded => "completed",
-            PlanStepStatus::Failed => "failed",
-            PlanStepStatus::Blocked => "blocked",
+            ActionStepStatus::Pending => "pending",
+            ActionStepStatus::Running => "running",
+            ActionStepStatus::Succeeded => "completed",
+            ActionStepStatus::Failed => "failed",
+            ActionStepStatus::Blocked => "blocked",
         }
     }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PlanStep {
+pub struct ActionStep {
     pub id: String,
     pub kind: String,
     pub depends_on: Vec<String>,
     pub provides: Vec<String>,
-    pub status: PlanStepStatus,
+    pub status: ActionStepStatus,
     pub domain: String,
     pub pod: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct PlanSummary {
+pub struct ActionSummary {
     pub total: u32,
     pub completed: u32,
     pub in_progress: u32,
@@ -44,7 +44,7 @@ pub struct PlanSummary {
     pub pending: u32,
 }
 
-impl PlanSummary {
+impl ActionSummary {
     pub fn percent_complete(&self) -> u16 {
         if self.total == 0 {
             return 0;
@@ -115,8 +115,8 @@ impl ActionStatus {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Snapshot {
-    pub plan: PlanSummary,
-    pub plan_steps: Vec<PlanStep>,
+    pub action: ActionSummary,
+    pub action_steps: Vec<ActionStep>,
     pub capabilities: Vec<Capability>,
     pub health: HealthStatus,
     pub last_updated_ms: u64,
@@ -127,17 +127,17 @@ pub struct Snapshot {
 impl Snapshot {
     pub fn new_default() -> Self {
         Self {
-            plan: PlanSummary {
+            action: ActionSummary {
                 total: 12,
                 completed: 3,
                 in_progress: 2,
                 blocked: 1,
                 pending: 6,
             },
-            plan_steps: vec![],
+            action_steps: vec![],
             capabilities: vec![
                 Capability {
-                    name: "Plan Snapshot".to_string(),
+                    name: "Action Snapshot".to_string(),
                     status: CapabilityStatus::Ready,
                 },
                 Capability {
@@ -170,29 +170,29 @@ impl Snapshot {
         self.touch();
     }
 
-    pub fn update_plan_summary_from_steps(&mut self) {
-        if self.plan_steps.is_empty() {
+    pub fn update_action_summary_from_steps(&mut self) {
+        if self.action_steps.is_empty() {
             return;
         }
-        let total = self.plan_steps.len() as u32;
+        let total = self.action_steps.len() as u32;
         let mut completed = 0;
         let mut in_progress = 0;
         let mut blocked = 0;
         let mut pending = 0;
-        for step in &self.plan_steps {
+        for step in &self.action_steps {
             match step.status {
-                PlanStepStatus::Succeeded => completed += 1,
-                PlanStepStatus::Running => in_progress += 1,
-                PlanStepStatus::Blocked => blocked += 1,
-                PlanStepStatus::Pending => pending += 1,
+                ActionStepStatus::Succeeded => completed += 1,
+                ActionStepStatus::Running => in_progress += 1,
+                ActionStepStatus::Blocked => blocked += 1,
+                ActionStepStatus::Pending => pending += 1,
                 _ => {}
             }
         }
-        self.plan.total = total;
-        self.plan.completed = completed;
-        self.plan.in_progress = in_progress;
-        self.plan.blocked = blocked;
-        self.plan.pending = pending;
+        self.action.total = total;
+        self.action.completed = completed;
+        self.action.in_progress = in_progress;
+        self.action.blocked = blocked;
+        self.action.pending = pending;
     }
 }
 

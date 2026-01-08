@@ -2,7 +2,7 @@
 
 ## Scope
 - `crates/ui/rotappo-ui-tui` (TUI implementation)
-- `crates/ui/rotappo-ui-terminal` (CLI formatting)
+- `crates/ui/rotappo-ui-terminal` (CLI formatting + dispatch)
 - `crates/ui/rotappo-ui-core` (framework-agnostic contracts)
 - Cross-layer dependencies into domain/application/presentation
 
@@ -24,7 +24,7 @@ Legend:
 
 | Module/Path | Dependencies | Classification | Notes |
 | --- | --- | --- | --- |
-| `crates/ui/rotappo-ui-terminal/` | domain, presentation | CLI | CLI formatting only. |
+| `crates/ui/rotappo-ui-terminal/` | domain, presentation, adapter-bootstrappo | CLI | CLI formatting + dispatch. |
 | `crates/ui/rotappo-ui-core/` | domain, presentation | UI-CORE | Framework-agnostic UI contracts. |
 | `crates/ui/rotappo-ui-tui/runner.rs` | ratatui, crossterm | TUI-ADAPTER | Terminal event loop + backend. |
 | `crates/ui/rotappo-ui-tui/render.rs` | ratatui | TUI-ADAPTER | Frame rendering pipeline. |
@@ -35,7 +35,7 @@ Legend:
 | `crates/ui/rotappo-ui-tui/macros.rs` | ratatui | TUI-ADAPTER | Ratatui helper macros. |
 | `crates/ui/rotappo-ui-tui/util/time.rs` | domain | UI-CORE | Ratatui-free helper. |
 | `crates/ui/rotappo-ui-tui/util/problems.rs` | presentation, app state | TUI-ADAPTER | Candidate for UI-core with App decoupling. |
-| `crates/ui/rotappo-ui-tui/util/plan.rs` | ratatui | TUI-ADAPTER | Rendering helpers. |
+| `crates/ui/rotappo-ui-tui/util/action.rs` | ratatui | TUI-ADAPTER | Rendering helpers. |
 | `crates/ui/rotappo-ui-tui/util/color.rs` | ratatui | TUI-ADAPTER | Ratatui color helpers. |
 | `crates/ui/rotappo-ui-tui/util/rect.rs` | ratatui | TUI-ADAPTER | Ratatui layout utilities. |
 | `crates/ui/rotappo-ui-tui/util/tooltip.rs` | ratatui | TUI-ADAPTER | Tooltip geometry. |
@@ -46,9 +46,10 @@ The refactor should keep CLI helpers separate and avoid importing them
 into UI-core or TUI adapters.
 
 ## CLI-only UI behaviors
-- Output mode selection (`OutputMode`) and CLI formatters live in
+- Output mode selection (`OutputMode`), CLI formatters, and dispatch live in
   `crates/ui/rotappo-ui-terminal/`.
-- `src/bin/terminal.rs` is the only consumer of CLI formatters today.
+- The CLI formatters are currently exercised via golden tests; there is
+  no standalone terminal binary.
 - Shared view-model helpers remain in `crates/ui/rotappo-ui-presentation/formatting`
   and are UI/CLI neutral.
 

@@ -1,0 +1,50 @@
+[tasks.test]
+workspace = false
+command = "cargo"
+args = ["test"]
+
+[tasks.check-interface-boundaries]
+workspace = false
+command = "cargo"
+args = ["test", "--test", "interface_boundaries"]
+
+[tasks.check-crate-boundaries]
+workspace = false
+command = "cargo"
+args = ["test", "--test", "crate_boundaries"]
+
+[tasks.check-cli-boundaries]
+workspace = false
+command = "cargo"
+args = ["test", "--test", "cli_boundaries"]
+
+[tasks.check-cli-snapshots]
+workspace = false
+command = "cargo"
+args = ["test", "--test", "cli_golden"]
+
+[tasks.check-cli-bootstrappo]
+workspace = false
+command = "cargo"
+args = ["check", "--no-default-features", "--features", "cli,module-bootstrappo", "--bin", "cli"]
+
+[tasks.check-cli-bootstrappo-visualize]
+workspace = false
+command = "cargo"
+args = ["test", "--features", "cli,module-bootstrappo", "--test", "cli_bootstrappo_visualize"]
+
+[tasks.check-cli-bootstrappo-surface]
+workspace = false
+dependencies = ["check-cli-bootstrappo", "check-cli-bootstrappo-visualize"]
+
+[tasks.check-cli-stability]
+workspace = false
+dependencies = ["check-cli-snapshots", "check-cli-boundaries", "check-cli-bootstrappo-surface"]
+
+[tasks.check-boundaries]
+workspace = false
+dependencies = ["check-interface-boundaries", "check-crate-boundaries", "check-cli-boundaries"]
+
+[tasks.check-guardrails]
+workspace = false
+dependencies = ["check-interfaces", "check-boundaries", "check-cli-snapshots"]

@@ -9,6 +9,9 @@ mod output_mode;
 mod format;
 
 #[doc(inline)]
-pub use format::{format_actions, format_events, format_plan, format_problems, format_snapshot};
+pub use format::{format_actions, format_assembly, format_events, format_problems, format_snapshot};
 #[doc(inline)]
 pub use output_mode::OutputMode;
+
+#[cfg(any(feature = "bootstrappo-cli", feature = "rotato-cli"))]
+pub mod cli;

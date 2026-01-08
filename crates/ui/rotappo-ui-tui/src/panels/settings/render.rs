@@ -42,7 +42,7 @@ pub fn render_settings(frame: &mut Frame, area: Rect, app: &mut App) {
 
     let view = SettingsView {
         host: app.context.host_domain.to_string(),
-        plan_path: app.context.plan_path.display().to_string(),
+        assembly_path: app.context.assembly_path.display().to_string(),
         config_path: app.context.config_path.display().to_string(),
         log_filter: app.ui.log_config.filter.as_str().to_string(),
         log_interval: app.ui.log_config.interval.as_secs(),

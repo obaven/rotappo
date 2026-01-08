@@ -1,0 +1,5 @@
+core domain
+[completed] bootstrap apply pod: kube-system/boot-0
+[running  ] secrets rotate pod: -
+edge domain
+[blocked  ] apps apply pod: apps/app-1

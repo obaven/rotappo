@@ -7,7 +7,7 @@ component: rotappo-platform
 cli_surface:
   - rotappo ui
   - rotappo server
-  - bootstrappo plan validate
+  - bootstrappo assembly validate
   - bootstrappo reconcile
 
 description: |
@@ -22,7 +22,7 @@ deliverables:
   - Bootstrappo + Rotato adapters to surface actions and state
   - Terminal UI surface for local operations and monitoring
   - Web UI surface for remote dashboards and collaboration
-  - Cross-platform desktop app packaging and distribution plan
+  - Cross-platform desktop app packaging and distribution action
   - CLI parity and action registry alignment across surfaces
 
 acceptance_criteria:

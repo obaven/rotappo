@@ -41,12 +41,28 @@ cargo make doc
 cargo make docbook
 ```
 
+Bootstrappo CLI (rotappo, source of truth):
+
+```
+cargo run --features cli,module-bootstrappo --bin cli -- --help
+```
+
 Guardrail checks:
 
 ```
+cargo make check-cli-stability
+cargo make check-cli-bootstrappo-surface
 cargo make check-interfaces
 cargo make check-boundaries
 cargo make check-guardrails
+```
+
+CI should run `cargo make check-cli-stability` (or `cargo make check-guardrails`) to gate CLI drift.
+
+CLI snapshot updates:
+
+```
+UPDATE_CLI_SNAPSHOTS=1 cargo test --test cli_golden
 ```
 
 Aliases:

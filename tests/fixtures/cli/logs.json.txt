@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp_ms": 1700000000001,
+    "level": "Info",
+    "message": "action loaded"
+  },
+  {
+    "timestamp_ms": 1700000000500,
+    "level": "Warn",
+    "message": "cache warming"
+  }
+]

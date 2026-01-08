@@ -1,0 +1,13 @@
+[tasks.build-release-cli]
+workspace = false
+command = "cargo"
+args = ["build", "--release", "--bin", "cli", "--features", "cli,module-bootstrappo"]
+
+[tasks.build-release-tui]
+workspace = false
+command = "cargo"
+args = ["build", "--release", "--bin", "tui", "--features", "tui-ratatui,module-bootstrappo"]
+
+[tasks.build-release]
+workspace = false
+dependencies = ["build-release-cli", "build-release-tui"]

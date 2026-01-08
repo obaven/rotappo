@@ -1,0 +1,52 @@
+id: DRIFT-001
+title: 'DRIFT-1: Meta-17 CLI Registry + Validation Surface'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-cli-bootstrappo
+cli_surface:
+  - bootstrappo [status|diff|explain|catalog]
+
+description: |
+  Deliver the Meta-17 CLI surface in rotappo for bootstrappo module
+  registry and validation flows. Add status/diff/explain/catalog
+  commands that use the new module/assembly APIs and expose a stable
+  operator-facing output format.
+
+deliverables:
+  - CLI commands: status, diff, explain, catalog
+  - Module registry + hook spec integrations
+  - Assembly validation reporting surfaced in CLI output
+  - Catalog export to YAML (stdout or file)
+  - Docs and tests covering the new CLI surface
+
+acceptance_criteria:
+  - `rotappo status` reports checks and observed signals
+  - `rotappo diff` compares enabled modules vs satisfied signals
+  - `rotappo explain <module>` prints requires/provides/checks/engine
+  - `rotappo catalog` emits deterministic YAML output
+  - Docs and tests updated for the new CLI surface
+
+dependencies: []
+
+children:
+  - DRIFT-002
+  - DRIFT-003
+  - DRIFT-004
+  - DRIFT-005
+  - DRIFT-006
+
+phase_gate: gitops
+effort: L
+risk: med
+
+labels:
+  - drift
+  - cli
+  - bootstrappo
+  - meta-17
+
+status: MustHaves
+state: Backlog
+status_capsule: (owner:@antigravity, updated:2026-01-07, status:backlog)
+assignee: unassigned

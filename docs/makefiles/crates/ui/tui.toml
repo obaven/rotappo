@@ -1,0 +1,9 @@
+[tasks.check-crate-ui-tui]
+workspace = false
+command = "cargo"
+args = ["check", "-p", "rotappo-ui-tui"]
+
+[tasks.test-crate-ui-tui]
+workspace = false
+command = "cargo"
+args = ["test", "-p", "rotappo-ui-tui"]

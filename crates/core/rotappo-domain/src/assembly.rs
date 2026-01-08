@@ -1,12 +1,12 @@
-//! Domain plan definitions used by the application layer.
-
+/// Assembly definition produced by adapters for runtime snapshots.
 #[derive(Debug, Clone)]
-pub struct Plan {
-    pub steps: Vec<PlanStepDef>,
+pub struct Assembly {
+    pub steps: Vec<AssemblyStepDef>,
 }
 
+/// Step definition within an assembly.
 #[derive(Debug, Clone)]
-pub struct PlanStepDef {
+pub struct AssemblyStepDef {
     pub id: String,
     pub kind: String,
     pub depends_on: Vec<String>,

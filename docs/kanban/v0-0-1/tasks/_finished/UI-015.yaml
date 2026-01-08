@@ -1,18 +1,18 @@
 id: UI-015
-title: 'Rotappo TUI Plan + Gate Status View'
+title: 'Rotappo TUI Action + Gate Status View'
 type: Story
 layer: 5
 domain: core
-component: rotappo-tui-plan
+component: rotappo-tui-action
 cli_surface:
   - rotappo ui
 
 description: |
-  Render plan steps with readiness and gate status in the TUI. This
-  view should mirror plan execution order and highlight blocked steps.
+  Render action steps with readiness and gate status in the TUI. This
+  view should mirror action execution order and highlight blocked steps.
 
 deliverables:
-  - Plan list view with step state indicators
+  - Action list view with step state indicators
   - Gate details panel (deployment/daemonset/crd/statefulset readiness)
   - Filters for layer, component, and status
 
@@ -32,15 +32,15 @@ risk: low
 labels:
   - ui
   - tui
-  - plan
+  - action
   - gates
   - rotappo
 
 source_files:
-  - file: lib/rotappo/src/tui/views/plan.rs
-    context: "Render plan steps and gate status"
+  - file: lib/rotappo/src/tui/views/action.rs
+    context: "Render action steps and gate status"
   - file: lib/rotappo/src/runtime/state.rs
-    context: "Provide plan status fields for UI"
+    context: "Provide action status fields for UI"
 
 status: MustHaves
 state: Done

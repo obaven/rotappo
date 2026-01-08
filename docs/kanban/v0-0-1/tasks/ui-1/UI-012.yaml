@@ -7,7 +7,7 @@ component: rotappo-cli-output
 cli_surface:
   - rotappo ui
   - rotappo server
-  - bootstrappo plan validate
+  - bootstrappo assembly validate
   - bootstrappo reconcile
   - bootstrappo rotate
   - bootstrappo debug

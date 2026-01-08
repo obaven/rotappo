@@ -10,23 +10,23 @@ digraph DomainModel {
   rankdir=LR;
   node [shape=box, style="rounded,filled", fillcolor="#f5f5f5"];
 
-  Snapshot -> PlanSummary;
-  Snapshot -> PlanStep [label="plan_steps*"];
+  Snapshot -> ActionSummary;
+  Snapshot -> ActionStep [label="action_steps*"];
   Snapshot -> Capability [label="capabilities*"];
   Snapshot -> ActionId [label="last_action?"];
   Snapshot -> ActionStatus [label="last_action_status?"];
 
-  PlanStep -> PlanStepStatus;
+  ActionStep -> ActionStepStatus;
   Capability -> CapabilityStatus;
 
-  Action -> ActionId;
-  Action -> ActionSafety;
+  ActionDefinition -> ActionId;
+  ActionDefinition -> ActionSafety;
 
   Event -> EventLevel;
 
   HealthSnapshot -> ComponentHealthStatus [label="health map"];
 
-  Plan -> PlanStepDef [label="steps*"];
+  Assembly -> AssemblyStepDef [label="steps*"];
 }
 ```
 
@@ -36,15 +36,15 @@ digraph DomainModel {
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `plan` | `PlanSummary` | Plan counters and totals. |
-| `plan_steps` | `Vec<PlanStep>` | Materialized plan steps. |
+| `action` | `ActionSummary` | Assembly step counters and totals. |
+| `action_steps` | `Vec<ActionStep>` | Materialized assembly steps. |
 | `capabilities` | `Vec<Capability>` | Capability status list. |
 | `health` | `HealthStatus` | Coarse health summary. |
 | `last_updated_ms` | `u64` | Millisecond timestamp. |
 | `last_action` | `Option<ActionId>` | Most recent action id. |
 | `last_action_status` | `Option<ActionStatus>` | Status for last action. |
 
-## PlanSummary
+## ActionSummary
 
 | Field | Type | Notes |
 | --- | --- | --- |
@@ -54,7 +54,7 @@ digraph DomainModel {
 | `blocked` | `u32` | Steps blocked. |
 | `pending` | `u32` | Steps pending. |
 
-## PlanStep
+## ActionStep
 
 | Field | Type | Notes |
 | --- | --- | --- |
@@ -62,7 +62,7 @@ digraph DomainModel {
 | `kind` | `String` | Step kind (apply, delete, etc.). |
 | `depends_on` | `Vec<String>` | Step dependencies. |
 | `provides` | `Vec<String>` | Outputs from the step. |
-| `status` | `PlanStepStatus` | Pending, Running, Succeeded, Failed, Blocked. |
+| `status` | `ActionStepStatus` | Pending, Running, Succeeded, Failed, Blocked. |
 | `domain` | `String` | Domain grouping. |
 | `pod` | `Option<String>` | Optional execution unit. |
 
@@ -83,15 +83,15 @@ digraph DomainModel {
 | `last_error` | `Option<String>` | Most recent error. |
 | `cache_ready` | `bool` | Whether cache is ready. |
 
-## Plan (definitions)
+## Assembly (definition)
 
-`Plan` is the adapter-normalized plan used by the application layer.
+`Assembly` is the adapter-normalized assembly used by the application layer.
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `steps` | `Vec<PlanStepDef>` | Plan step definitions. |
+| `steps` | `Vec<AssemblyStepDef>` | Assembly step definitions. |
 
-`PlanStepDef` fields:
+`AssemblyStepDef` fields:
 
 | Field | Type | Notes |
 | --- | --- | --- |
@@ -111,7 +111,7 @@ digraph DomainModel {
 | `level` | `EventLevel` | Info, Warn, Error. |
 | `message` | `String` | Log message. |
 
-## Action
+## ActionDefinition
 
 | Field | Type | Notes |
 | --- | --- | --- |

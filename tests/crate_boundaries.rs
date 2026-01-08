@@ -118,7 +118,11 @@ fn crate_dependency_boundaries() {
         CrateRule {
             name: "rotappo-ui-terminal",
             manifest_path: "crates/ui/rotappo-ui-terminal/Cargo.toml",
-            allowed: &["rotappo-domain", "rotappo-ui-presentation"],
+            allowed: &[
+                "rotappo-domain",
+                "rotappo-ui-presentation",
+                "rotappo-adapter-bootstrappo",
+            ],
         },
         CrateRule {
             name: "rotappo-ui-tui",

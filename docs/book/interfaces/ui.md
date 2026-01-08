@@ -10,4 +10,4 @@ TUI code lives in `crates/ui/rotappo-ui-tui/` and is split into:
 The TUI binary is `src/bin/tui.rs`.
 
 Build:
-- `cargo run --bin tui --features tui-ratatui`
+- `cargo run --bin tui --features tui-ratatui,module-bootstrappo`

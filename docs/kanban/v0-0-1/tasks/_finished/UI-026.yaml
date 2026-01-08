@@ -13,7 +13,7 @@ description: |
   into dedicated files.
 
 deliverables:
-  - ui/panels module (plan, actions, logs, problems, tooltip)
+  - ui/panels module (action, actions, logs, problems, tooltip)
   - ui/state module for hover/scroll/selection state
   - ui/input module for key + mouse routing
 

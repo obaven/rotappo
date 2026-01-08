@@ -9,7 +9,7 @@
 //! use rotappo_ports::PortSet;
 //!
 //! let runtime = Runtime::new_with_ports(ActionRegistry::default(), PortSet::empty());
-//! let context = AppContext::new("localhost", "config.yml", "plan.yml", PortSet::empty());
+//! let context = AppContext::new("localhost", "config.yml", "assembly.yml", PortSet::empty());
 //! let mut app = App::new(runtime, context);
 //! app.on_tick();
 //! ```

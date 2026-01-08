@@ -16,7 +16,7 @@ description: |
 
 deliverables:
   - Crate map + dependency rules
-  - Workspace plan and staged migration checklist
+  - Workspace action and staged migration checklist
   - Decoupling of non-tightly bound logic
   - Guardrail tests + linting for directional imports
   - Documentation updates (book + architecture docs)

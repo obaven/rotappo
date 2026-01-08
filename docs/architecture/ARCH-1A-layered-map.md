@@ -2,7 +2,7 @@
 
 This document defines the target layered architecture for rotappo and
 the module tree that supports it. It is intentionally a map, not a
-move plan.
+move action.
 
 ## Scope
 - Separate domain logic from UI/CLI presentation.
@@ -27,12 +27,14 @@ Dependency rules:
 - interfaces -> presentation -> application -> domain
 - application -> ports
 - adapters -> ports + domain
-- interfaces do not import adapters directly (use wiring/composition)
+- interfaces do not import adapters directly (use wiring/composition), except
+  the bootstrappo CLI dispatch in `rotappo-ui-terminal`.
 - domain does not import adapters, interfaces, or presentation
+- CLI dispatch in `rotappo-ui-terminal` may call adapter handlers.
 
 ASCII dependency map:
 
-    [interfaces: terminal/tui]
+    [interfaces: cli-formatting/tui]
              |
              v
       [presentation]
@@ -44,7 +46,7 @@ ASCII dependency map:
           [domain] <------------ [adapters]
 
 Composition roots:
-- src/bin/terminal.rs (CLI)
+- src/bin/cli.rs (bootstrappo CLI entrypoint)
 - src/bin/tui.rs (TUI)
 
 ## Target module tree (current)
@@ -62,7 +64,7 @@ crates/
     rotappo-ui-tui/
 src/
   bin/
-    terminal.rs
+    cli.rs
     tui.rs
   lib.rs
 

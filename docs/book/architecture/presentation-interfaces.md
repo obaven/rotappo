@@ -4,17 +4,23 @@ Presentation code lives in `crates/ui/rotappo-ui-presentation` and contains shar
 and view-model helpers that are UI/CLI agnostic.
 
 Interfaces live under `crates/ui/`:
-- `crates/ui/rotappo-ui-terminal` for CLI formatting and output
+- `crates/ui/rotappo-ui-terminal` for CLI formatting and dispatch
 - `crates/ui/rotappo-ui-tui` for TUI rendering, layout, and state
 - `crates/ui/rotappo-ui-core` for framework-agnostic UI contracts
 
 Interfaces should only render, handle input, and wire the application
-layer together.
+layer together. The bootstrappo CLI dispatch in `rotappo-ui-terminal`
+may call adapter command handlers.
 
 Feature flags:
 - `ui-core` builds only the framework-agnostic UI contracts
-- `cli` enables CLI formatters and the `terminal` binary
-- `tui-ratatui` enables the TUI adapter and the `tui` binary
+- `cli` enables CLI formatters and the `cli` binary (requires a module feature)
+- `tui-ratatui` enables the TUI adapter and the `tui` binary (requires a module feature)
+- `module-bootstrappo` enables the bootstrappo CLI surface (with `cli`)
+- `module-rotato` enables the rotato CLI surface (with `cli`)
+
+Bootstrappo CLI:
+- `src/bin/cli.rs` (enabled via `cli` + `module-bootstrappo`)
 
 New UI surface checklist:
 - Depend on `rotappo-ui-core` + `rotappo-ui-presentation` only (no TUI or terminal imports).

@@ -8,7 +8,7 @@ use ratatui::{
 #[derive(Clone)]
 pub(super) struct SettingsView {
     pub(super) host: String,
-    pub(super) plan_path: String,
+    pub(super) assembly_path: String,
     pub(super) config_path: String,
     pub(super) log_filter: String,
     pub(super) log_interval: u64,
@@ -34,7 +34,7 @@ pub(super) fn settings_lines(view: &SettingsView) -> Vec<Line> {
             Style::default().add_modifier(Modifier::BOLD),
         )),
         Line::from(format!("Host: {}", view.host)),
-        Line::from(format!("Plan: {}", view.plan_path)),
+        Line::from(format!("Assembly: {}", view.assembly_path)),
         Line::from(format!("Config: {}", view.config_path)),
         Line::from(""),
         Line::from(Span::styled(

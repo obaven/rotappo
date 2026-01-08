@@ -8,10 +8,10 @@ impl App {
             self.toggle_settings_panel();
             return true;
         }
-        self.toggle_if_header(PanelId::PlanProgress, self.ui.plan_progress_area, column, row)
+        self.toggle_if_header(PanelId::AssemblyProgress, self.ui.assembly_progress_area, column, row)
             || self.toggle_if_header(PanelId::Snapshot, self.ui.snapshot_area, column, row)
             || self.toggle_if_header(PanelId::Capabilities, self.ui.capabilities_area, column, row)
-            || self.toggle_if_header(PanelId::PlanSteps, self.ui.plan_area, column, row)
+            || self.toggle_if_header(PanelId::AssemblySteps, self.ui.assembly_area, column, row)
             || self.toggle_if_header(PanelId::Actions, self.ui.actions_area, column, row)
             || self.toggle_if_header(PanelId::Settings, self.ui.settings_area, column, row)
             || self.toggle_if_header(PanelId::LogControls, self.ui.log_controls_area, column, row)
@@ -51,10 +51,10 @@ impl App {
 
     pub(crate) fn is_collapsed(&self, panel: PanelId) -> bool {
         match panel {
-            PanelId::PlanProgress => self.ui.collapsed_plan_progress,
+            PanelId::AssemblyProgress => self.ui.collapsed_action_progress,
             PanelId::Snapshot => self.ui.collapsed_snapshot,
             PanelId::Capabilities => self.ui.collapsed_capabilities,
-            PanelId::PlanSteps => self.ui.collapsed_plan_steps,
+            PanelId::AssemblySteps => self.ui.collapsed_action_steps,
             PanelId::Actions => self.ui.collapsed_actions,
             PanelId::Settings => self.ui.collapsed_settings,
             PanelId::LogControls => self.ui.collapsed_log_controls,
@@ -66,10 +66,10 @@ impl App {
 
     fn set_ui_collapsed(&mut self, panel: PanelId, value: bool) {
         match panel {
-            PanelId::PlanProgress => self.ui.collapsed_plan_progress = value,
+            PanelId::AssemblyProgress => self.ui.collapsed_action_progress = value,
             PanelId::Snapshot => self.ui.collapsed_snapshot = value,
             PanelId::Capabilities => self.ui.collapsed_capabilities = value,
-            PanelId::PlanSteps => self.ui.collapsed_plan_steps = value,
+            PanelId::AssemblySteps => self.ui.collapsed_action_steps = value,
             PanelId::Actions => self.ui.collapsed_actions = value,
             PanelId::Settings => self.ui.collapsed_settings = value,
             PanelId::LogControls => self.ui.collapsed_log_controls = value,
@@ -107,10 +107,10 @@ impl App {
 
     pub fn sync_ui_collapsed_from_policy(&mut self) {
         let panels = [
-            PanelId::PlanProgress,
+            PanelId::AssemblyProgress,
             PanelId::Snapshot,
             PanelId::Capabilities,
-            PanelId::PlanSteps,
+            PanelId::AssemblySteps,
             PanelId::Actions,
             PanelId::Settings,
             PanelId::LogControls,
@@ -128,7 +128,7 @@ impl App {
     }
 
     pub fn middle_aux_panel(&self) -> Option<PanelId> {
-        if !self.panel_collapsed(PanelId::PlanSteps) {
+        if !self.panel_collapsed(PanelId::AssemblySteps) {
             return None;
         }
         let help_open = !self.panel_collapsed(PanelId::Help);

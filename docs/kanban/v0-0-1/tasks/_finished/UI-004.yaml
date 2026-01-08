@@ -15,7 +15,7 @@ description: |
 
 deliverables:
   - TUI shell with layouts, keybindings, and help panel
-  - Live plan and capability views with status indicators
+  - Live action and capability views with status indicators
   - Action launcher with confirmations and progress feedback
   - Streaming log panel with filtering
 

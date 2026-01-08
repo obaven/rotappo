@@ -22,7 +22,7 @@ deliverables:
   - Macro DSL for declaring grid layouts
   - Async layout update pipeline with Tokio tasks where appropriate
   - Concurrency-safe state sharing (mutexes/spinlocks) for layout cache
-  - Migration plan for current TUI layout
+  - Migration action for current TUI layout
 
 acceptance_criteria:
   - Panels can collapse/expand without panel-specific layout code
