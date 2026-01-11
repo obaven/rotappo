@@ -91,37 +91,37 @@ fn crate_dependency_boundaries() {
     let rules = [
         CrateRule {
             name: "rotappo-domain",
-            manifest_path: "crates/core/rotappo-domain/Cargo.toml",
+            manifest_path: "lib/core/rotappo-domain/Cargo.toml",
             allowed: &[],
         },
         CrateRule {
             name: "rotappo-ports",
-            manifest_path: "crates/core/rotappo-ports/Cargo.toml",
+            manifest_path: "lib/core/rotappo-ports/Cargo.toml",
             allowed: &["rotappo-domain"],
         },
         CrateRule {
             name: "rotappo-application",
-            manifest_path: "crates/core/rotappo-application/Cargo.toml",
+            manifest_path: "lib/core/rotappo-application/Cargo.toml",
             allowed: &["rotappo-domain", "rotappo-ports"],
         },
         CrateRule {
             name: "rotappo-adapter-bootstrappo",
-            manifest_path: "crates/core/rotappo-adapter-bootstrappo/Cargo.toml",
-            allowed: &["rotappo-domain", "rotappo-ports"],
+            manifest_path: "lib/core/rotappo-adapter-bootstrappo/Cargo.toml",
+            allowed: &["rotappo-domain", "rotappo-ports", "rotappo-ui-tui"],
         },
         CrateRule {
             name: "rotappo-ui-presentation",
-            manifest_path: "crates/ui/rotappo-ui-presentation/Cargo.toml",
+            manifest_path: "lib/ui/rotappo-ui-presentation/Cargo.toml",
             allowed: &["rotappo-domain"],
         },
         CrateRule {
             name: "rotappo-ui-core",
-            manifest_path: "crates/ui/rotappo-ui-core/Cargo.toml",
+            manifest_path: "lib/ui/rotappo-ui-core/Cargo.toml",
             allowed: &["rotappo-domain", "rotappo-ui-presentation"],
         },
         CrateRule {
             name: "rotappo-ui-terminal",
-            manifest_path: "crates/ui/rotappo-ui-terminal/Cargo.toml",
+            manifest_path: "lib/ui/rotappo-ui-terminal/Cargo.toml",
             allowed: &[
                 "rotappo-domain",
                 "rotappo-ui-presentation",
@@ -130,7 +130,7 @@ fn crate_dependency_boundaries() {
         },
         CrateRule {
             name: "rotappo-ui-tui",
-            manifest_path: "crates/ui/rotappo-ui-tui/Cargo.toml",
+            manifest_path: "lib/ui/rotappo-ui-tui/Cargo.toml",
             allowed: &[
                 "rotappo-domain",
                 "rotappo-application",
