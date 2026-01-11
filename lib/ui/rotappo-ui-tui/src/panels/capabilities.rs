@@ -91,8 +91,8 @@ pub fn render_capabilities(frame: &mut Frame, area: Rect, app: &mut App) {
     if total_caps > view_height && view_height > 0 {
         let mut state =
             ScrollbarState::new(total_caps).position(app.ui.capabilities_scroll as usize);
-        let bar =
-            Scrollbar::new(ScrollbarOrientation::VerticalRight).style(Style::default().fg(Color::Cyan));
+        let bar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+            .style(Style::default().fg(Color::Cyan));
         frame.render_stateful_widget(
             bar,
             area.inner(Margin {

@@ -4,15 +4,15 @@ use anyhow::Result;
 use crossterm::{
     event::{self, DisableMouseCapture, EnableMouseCapture, Event as CrosstermEvent},
     execute,
-    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+    terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
 };
-use ratatui::backend::{Backend, CrosstermBackend};
 use ratatui::Terminal;
+use ratatui::backend::{Backend, CrosstermBackend};
 use std::io::{self, Stdout};
 use std::time::Duration;
 
-use rotappo_application::Runtime;
 use crate::app::{App, AppContext};
+use rotappo_application::Runtime;
 
 use super::render::render;
 

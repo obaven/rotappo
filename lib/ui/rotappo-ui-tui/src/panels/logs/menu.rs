@@ -8,8 +8,8 @@ use ratatui::{
     widgets::{Block, Borders, List, ListItem},
 };
 
-use rotappo_ui_presentation::logging::{LogFilter, LOG_INTERVALS_SECS};
 use crate::app::App;
+use rotappo_ui_presentation::logging::{LOG_INTERVALS_SECS, LogFilter};
 
 #[derive(Clone)]
 struct LogMenuItem {
@@ -44,7 +44,7 @@ fn log_menu_items(app: &App, mode: crate::state::LogMenuMode) -> Vec<LogMenuItem
             let mut items: Vec<LogMenuItem> = LOG_INTERVALS_SECS
                 .iter()
                 .map(|secs| LogMenuItem {
-                    label: format!("Stream: {}s", secs),
+                    label: format!("Stream: {secs}s"),
                     selected: interval == *secs,
                 })
                 .collect();
@@ -141,7 +141,7 @@ pub(super) fn render_log_menu(frame: &mut Frame, app: &mut App) {
             ListItem::new(Line::from(item.label.clone())).style(style)
         })
         .collect();
-    let list = List::new(list_items)
-        .block(Block::default().title("Log Menu").borders(Borders::ALL));
+    let list =
+        List::new(list_items).block(Block::default().title("Log Menu").borders(Borders::ALL));
     frame.render_widget(list, menu_area);
 }

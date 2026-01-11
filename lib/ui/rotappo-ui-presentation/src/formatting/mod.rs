@@ -3,5 +3,5 @@
 mod assembly;
 mod problems;
 
-pub use assembly::{assembly_groups, AssemblyGroup, AssemblyStepInfo};
+pub use assembly::{AssemblyGroup, AssemblyStepInfo, assembly_groups};
 pub use problems::problem_lines;

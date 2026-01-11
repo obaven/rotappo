@@ -5,8 +5,8 @@ use ratatui::{
     text::{Line, Span},
 };
 
+use rotappo_domain::{AssemblyStepStatus, CapabilityStatus};
 use rotappo_ui_presentation::formatting;
-use rotappo_domain::{CapabilityStatus, AssemblyStepStatus};
 
 use super::spinner_frame;
 
@@ -58,7 +58,7 @@ pub fn assembly_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<AssemblyLine> 
     for group in formatting::assembly_groups(snapshot) {
         lines.push(AssemblyLine {
             line: Line::from(Span::styled(
-                format!("{} domain", group.domain),
+                format!("{domain} domain", domain = group.domain.as_str()),
                 Style::default()
                     .fg(Color::Cyan)
                     .add_modifier(Modifier::BOLD),
@@ -79,19 +79,22 @@ pub fn assembly_lines(snapshot: &rotappo_domain::Snapshot) -> Vec<AssemblyLine> 
             let pod_text = step
                 .pod
                 .as_deref()
-                .map(|pod| format!(" pod: {}", pod))
+                .map(|pod| format!(" pod: {pod}"))
                 .unwrap_or_else(|| " pod: -".to_string());
             let line = Line::from(vec![
                 Span::styled(
                     format!(
-                        "[{} {:<9}]",
-                        assembly_status_icon(step.status),
-                        step.status.as_str()
+                        "[{icon} {status:<9}]",
+                        icon = assembly_status_icon(step.status),
+                        status = step.status.as_str()
                     ),
                     status_style,
                 ),
                 Span::raw(" "),
-                Span::styled(step.id.clone(), Style::default().add_modifier(Modifier::BOLD)),
+                Span::styled(
+                    step.id.clone(),
+                    Style::default().add_modifier(Modifier::BOLD),
+                ),
                 Span::raw(" "),
                 Span::raw(step.kind.clone()),
                 Span::styled(pod_text, Style::default().fg(Color::DarkGray)),

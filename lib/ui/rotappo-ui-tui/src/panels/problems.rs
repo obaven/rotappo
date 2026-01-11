@@ -70,8 +70,8 @@ pub fn render_problems(frame: &mut Frame, area: Rect, app: &mut App) {
     if total_problems > view_height && view_height > 0 {
         let mut state =
             ScrollbarState::new(total_problems).position(app.ui.problems_scroll as usize);
-        let bar =
-            Scrollbar::new(ScrollbarOrientation::VerticalRight).style(Style::default().fg(Color::Cyan));
+        let bar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+            .style(Style::default().fg(Color::Cyan));
         frame.render_stateful_widget(
             bar,
             area.inner(Margin {

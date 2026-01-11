@@ -30,9 +30,9 @@ mod tooltips;
 #[doc(inline)]
 pub use panel::PanelId;
 
-#[doc(inline)]
-pub use core::{App, AppContext, ConfirmPrompt};
 pub(crate) use constants::{
     COLLAPSED_HEIGHT, FILTER_LABEL, LOG_CONTROLS_BASE_HEIGHT, LOG_MENU_FILTER_LEN,
     LOG_MENU_STREAM_LEN, STREAM_LABEL,
 };
+#[doc(inline)]
+pub use core::{App, AppContext, ConfirmPrompt};

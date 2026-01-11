@@ -43,7 +43,7 @@ pub async fn generate_storage(
     // Generate DOT
     let mut dot = String::new();
     dot.push_str("digraph system_storage {\n");
-    dot.push_str(&format!("  layout=\"{}\";\n", layout));
+    dot.push_str(&format!("  layout=\"{layout}\";\n"));
     dot.push_str("  rankdir=\"LR\";\n"); // Left-to-Right matches App -> Disk better
     dot.push_str("  node [fontname=\"Times-New-Roman\", shape=note];\n");
     dot.push_str("  edge [fontname=\"Times-New-Roman\", fontsize=10];\n");
@@ -56,37 +56,35 @@ pub async fn generate_storage(
     dot.push_str("    style = filled;\n");
     dot.push_str("    color = \"#f5f5f5\";\n");
 
-    for (_i, dev) in devices.iter().enumerate() {
+    for dev in devices.iter() {
         let safe_dev_name = dev.name.replace("-", "_");
-        let node_id = format!("dev_{}", safe_dev_name);
+        let node_id = format!("dev_{safe_dev_name}");
 
         let size_info = match dev.size_gb {
-            Some(s) => format!(
-                "<TR><TD><FONT POINT-SIZE=\"10\">Capacity: {}Gi</FONT></TD></TR>",
-                s
-            ),
+            Some(s) => format!("<TR><TD><FONT POINT-SIZE=\"10\">Capacity: {s}Gi</FONT></TD></TR>"),
             None => "".to_string(),
         };
 
         // HTML-like label for structured device info
         let label = format!(
             "<<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\">\
-             <TR><TD BGCOLOR=\"#0288d1\"><FONT COLOR=\"white\"><B>{}</B></FONT></TD></TR>\
-             <TR><TD>{}</TD></TR>\
-             {}\
-             <TR><TD><FONT POINT-SIZE=\"10\">Type: {:?}</FONT></TD></TR>\
-             <TR><TD><FONT POINT-SIZE=\"10\">Tier: {:?}</FONT></TD></TR>\
+             <TR><TD BGCOLOR=\"#0288d1\"><FONT COLOR=\"white\"><B>{name_upper}</B></FONT></TD></TR>\
+             <TR><TD>{path}</TD></TR>\
+             {size_info}\
+             <TR><TD><FONT POINT-SIZE=\"10\">Type: {device_type:?}</FONT></TD></TR>\
+             <TR><TD><FONT POINT-SIZE=\"10\">Tier: {performance:?}</FONT></TD></TR>\
              </TABLE>>",
-            dev.name.to_uppercase(),
-            dev.path,
-            size_info,
-            dev.device_type,
-            dev.performance
+            name_upper = dev.name.to_uppercase(),
+            path = dev.path,
+            size_info = size_info,
+            device_type = dev.device_type,
+            performance = dev.performance
         );
 
         dot.push_str(&format!(
-            "    {} [label={}, style=\"filled\", fillcolor=\"#ffffff:#e1f5fe\", gradientangle=90, shape=cylinder, tooltip=\"Device: {} - Path: {}\"];\n",
-            node_id, label, dev.name, dev.path
+            "    {node_id} [label={label}, style=\"filled\", fillcolor=\"#ffffff:#e1f5fe\", gradientangle=90, shape=cylinder, tooltip=\"Device: {device} - Path: {path}\"];\n",
+            device = dev.name,
+            path = dev.path
         ));
     }
     dot.push_str("  }\n");
@@ -104,7 +102,7 @@ pub async fn generate_storage(
         // Pre-populate path IDs
         let paths = &config.storage.local_path.paths;
         for (i, p) in paths.iter().enumerate() {
-            let path_id = format!("path_{}", i);
+            let path_id = format!("path_{i}");
             path_nodes.push((path_id, p.clone()));
         }
 
@@ -127,7 +125,8 @@ pub async fn generate_storage(
 
                 // Priority 2: Direct Device Match (if no path layer match)
                 if devices.iter().any(|d| d.name == effective_profile) {
-                    return (format!("dev_{}", effective_profile.replace("-", "_")), None);
+                    let safe_profile = effective_profile.replace("-", "_");
+                    return (format!("dev_{safe_profile}"), None);
                 }
 
                 // Priority 3: Fallback "virtual" path if profile is used but not mapped
@@ -141,10 +140,10 @@ pub async fn generate_storage(
         let modules = registry::get_all_modules(config.as_ref());
 
         // Grouping by domain: (name, domain, storage_gib, resolve_res, type)
-        let mut groups: BTreeMap<
-            String,
-            Vec<(String, String, u32, (String, Option<String>), String)>,
-        > = BTreeMap::new();
+        type StorageGroup = (String, String, u32, (String, Option<String>), String);
+        type StorageGroups = BTreeMap<String, Vec<StorageGroup>>;
+
+        let mut groups: StorageGroups = BTreeMap::new();
 
         for module in modules {
             let spec = module.spec();
@@ -206,17 +205,15 @@ pub async fn generate_storage(
 
             let label = format!(
                 "<<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\">\
-                 <TR><TD BGCOLOR=\"#ef6c00\"><FONT COLOR=\"white\"><B>{}</B></FONT></TD></TR>\
-                 <TR><TD ALIGN=\"LEFT\"><FONT POINT-SIZE=\"10\">Capacity: {}Gi</FONT></TD></TR>\
-                 <TR><TD ALIGN=\"LEFT\"><FONT COLOR=\"#616161\" POINT-SIZE=\"10\">Allocated: {}Gi</FONT></TD></TR>\
-                 <TR><TD ALIGN=\"LEFT\"><FONT COLOR=\"#1b5e20\" POINT-SIZE=\"10\"><B>Remaining: {}Gi</B></FONT></TD></TR>\
-                 </TABLE>>",
-                p, capacity_gb, usage, remaining
+                 <TR><TD BGCOLOR=\"#ef6c00\"><FONT COLOR=\"white\"><B>{p}</B></FONT></TD></TR>\
+                 <TR><TD ALIGN=\"LEFT\"><FONT POINT-SIZE=\"10\">Capacity: {capacity_gb}Gi</FONT></TD></TR>\
+                 <TR><TD ALIGN=\"LEFT\"><FONT COLOR=\"#616161\" POINT-SIZE=\"10\">Allocated: {usage}Gi</FONT></TD></TR>\
+                 <TR><TD ALIGN=\"LEFT\"><FONT COLOR=\"#1b5e20\" POINT-SIZE=\"10\"><B>Remaining: {remaining}Gi</B></FONT></TD></TR>\
+                 </TABLE>>"
             );
 
             dot.push_str(&format!(
-                "    {} [label={}, shape=folder, style=filled, fillcolor=\"#ffe0b2\"];\n",
-                path_id, label
+                "    {path_id} [label={label}, shape=folder, style=filled, fillcolor=\"#ffe0b2\"];\n"
             ));
         }
         dot.push_str("  }\n");
@@ -259,25 +256,24 @@ pub async fn generate_storage(
             };
 
             let stats_label = if fast_sum > 0 && bulk_sum > 0 {
-                format!("{}Gi Fast, {}Gi Bulk", fast_sum, bulk_sum)
+                format!("{fast_sum}Gi Fast, {bulk_sum}Gi Bulk")
             } else if fast_sum > 0 {
-                format!("{}Gi Fast", fast_sum)
+                format!("{fast_sum}Gi Fast")
             } else {
-                format!("{}Gi Bulk", bulk_sum)
+                format!("{bulk_sum}Gi Bulk")
             };
 
-            dot.push_str(&format!("    subgraph cluster_{} {{\n", safe_domain));
+            dot.push_str(&format!("    subgraph cluster_{safe_domain} {{\n"));
             dot.push_str(&format!(
-                "      label = \"Domain: {} ({})\";\n",
-                domain_upper, stats_label
+                "      label = \"Domain: {domain_upper} ({stats_label})\";\n"
             ));
             dot.push_str("      style = filled;\n");
-            dot.push_str(&format!("      color = \"{}\";\n", header_color));
-            dot.push_str(&format!("      fillcolor = \"{}\";\n", bg_color));
+            dot.push_str(&format!("      color = \"{header_color}\";\n"));
+            dot.push_str(&format!("      fillcolor = \"{bg_color}\";\n"));
 
             for (name, _dom, storage_gib, (target, base_path), _type) in apps {
                 let safe_name = name.replace("-", "_");
-                let app_id = format!("app_{}", safe_name);
+                let app_id = format!("app_{safe_name}");
 
                 // Proportional edge width (scale 5Gi->1, 50Gi->4)
                 let penwidth = if storage_gib > 0 {
@@ -290,21 +286,18 @@ pub async fn generate_storage(
                 let sub_path = base_path.as_deref().unwrap_or("Dynamic");
                 let label = format!(
                     "<<TABLE BORDER=\"0\" CELLBORDER=\"0\" CELLSPACING=\"0\">\
-                     <TR><TD BGCOLOR=\"{}\" ALIGN=\"LEFT\"><FONT COLOR=\"white\"><B>  {}  </B></FONT></TD></TR>\
-                     <TR><TD ALIGN=\"LEFT\" PORT=\"path\"><FONT POINT-SIZE=\"10\">Path: {}/{}</FONT></TD></TR>\
-                     <TR><TD ALIGN=\"LEFT\"><FONT POINT-SIZE=\"10\">Size: {}Gi</FONT></TD></TR>\
-                     </TABLE>>",
-                    header_color, name, sub_path, name, storage_gib
+                     <TR><TD BGCOLOR=\"{header_color}\" ALIGN=\"LEFT\"><FONT COLOR=\"white\"><B>  {name}  </B></FONT></TD></TR>\
+                     <TR><TD ALIGN=\"LEFT\" PORT=\"path\"><FONT POINT-SIZE=\"10\">Path: {sub_path}/{name}</FONT></TD></TR>\
+                     <TR><TD ALIGN=\"LEFT\"><FONT POINT-SIZE=\"10\">Size: {storage_gib}Gi</FONT></TD></TR>\
+                     </TABLE>>"
                 );
 
                 dot.push_str(&format!(
-                    "      {} [label={}, shape=plaintext, style=\"filled\", fillcolor=\"#ffffff:#f5f5f5\", gradientangle=90, tooltip=\"App: {} - Domain: {}\"];\n", 
-                    app_id, label, name, domain
+                    "      {app_id} [label={label}, shape=plaintext, style=\"filled\", fillcolor=\"#ffffff:#f5f5f5\", gradientangle=90, tooltip=\"App: {name} - Domain: {domain}\"];\n"
                 ));
 
                 dot.push_str(&format!(
-                    "      {} -> {} [label=\"{}Gi\", penwidth={:.1}, color=\"gray40\"];\n",
-                    app_id, target, storage_gib, penwidth
+                    "      {app_id} -> {target} [label=\"{storage_gib}Gi\", penwidth={penwidth:.1}, color=\"gray40\"];\n"
                 ));
             }
             dot.push_str("    }\n");
@@ -323,8 +316,7 @@ pub async fn generate_storage(
                     if path_val.starts_with(mnt) {
                         let safe_dev = dev.name.replace("-", "_");
                         dot.push_str(&format!(
-                            "    {} -> dev_{} [style=bold, color=\"#ef6c00\"];\n",
-                            path_id, safe_dev
+                            "    {path_id} -> dev_{safe_dev} [style=bold, color=\"#ef6c00\"];\n"
                         ));
                         matched = true;
                         break;
@@ -334,8 +326,7 @@ pub async fn generate_storage(
                 if !matched && path_val.contains(&dev.name) {
                     let safe_dev = dev.name.replace("-", "_");
                     dot.push_str(&format!(
-                        "    {} -> dev_{} [style=dotted, label=\"implied\"];\n",
-                        path_id, safe_dev
+                        "    {path_id} -> dev_{safe_dev} [style=dotted, label=\"implied\"];\n"
                     ));
                     matched = true;
                     break;
@@ -377,7 +368,7 @@ pub async fn generate_storage(
         "svg" => OutputFormat::Svg,
         "dot" => OutputFormat::Dot,
         "png" => OutputFormat::Png,
-        other => anyhow::bail!("Unknown format: {}", other),
+        other => anyhow::bail!("Unknown format: {other}"),
     };
 
     // Determine output path default if needed
@@ -394,7 +385,8 @@ pub async fn generate_storage(
         }
     }
 
-    let visualizer = bootstrappo::application::runtime::modules::support::visualizer::VisualizerAdapter::new();
+    let visualizer =
+        bootstrappo::application::runtime::modules::support::visualizer::VisualizerAdapter::new();
     visualizer
         .render(
             &dot,

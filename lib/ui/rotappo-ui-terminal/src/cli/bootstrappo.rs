@@ -125,6 +125,10 @@ pub enum Commands {
         /// BSP-148: Force re-reconcile all components, bypassing fast-path skip
         #[arg(long, default_value_t = false)]
         force: bool,
+
+        /// Launch the bootstrap TUI dashboard
+        #[arg(long = "bootstrap-tui", default_value_t = false)]
+        bootstrap_tui: bool,
     },
 
     /// Cluster lifecycle utilities
@@ -344,13 +348,15 @@ async fn dispatch(command: Commands, gitops_dir: String) -> anyhow::Result<()> {
                 layout,
                 output,
             } => {
-                adapter_controller::assembly::visualize(adapter_controller::assembly::AssemblyVisualizeArgs {
-                    path,
-                    view,
-                    format,
-                    layout,
-                    output,
-                })
+                adapter_controller::assembly::visualize(
+                    adapter_controller::assembly::AssemblyVisualizeArgs {
+                        path,
+                        view,
+                        format,
+                        layout,
+                        output,
+                    },
+                )
                 .await
             }
         },
@@ -373,6 +379,7 @@ async fn dispatch(command: Commands, gitops_dir: String) -> anyhow::Result<()> {
             parallel,
             concurrency,
             force,
+            bootstrap_tui,
         } => {
             adapter_controller::reconcile::reconcile(adapter_controller::reconcile::ReconcileArgs {
                 assembly_path: assembly,
@@ -384,6 +391,7 @@ async fn dispatch(command: Commands, gitops_dir: String) -> anyhow::Result<()> {
                 parallel,
                 concurrency,
                 force,
+                bootstrap_tui,
             })
             .await
         }

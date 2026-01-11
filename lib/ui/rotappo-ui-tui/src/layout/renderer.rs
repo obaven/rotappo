@@ -42,11 +42,13 @@ impl LayoutRenderer {
     pub fn resolve(&self, area: Rect) -> GridLayout {
         let spec = match self.spec.read() {
             Ok(guard) => guard.clone(),
-            Err(_) => return GridLayout {
-                area,
-                rects: std::collections::HashMap::new(),
-                resolved_at: std::time::Instant::now(),
-            },
+            Err(_) => {
+                return GridLayout {
+                    area,
+                    rects: std::collections::HashMap::new(),
+                    resolved_at: std::time::Instant::now(),
+                };
+            }
         };
         let resolved_spec = self.policy.apply(&spec, area);
         GridResolver::resolve(area, &resolved_spec)

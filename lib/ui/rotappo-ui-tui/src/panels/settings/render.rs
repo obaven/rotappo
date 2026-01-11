@@ -10,7 +10,7 @@ use ratatui::{
 use crate::app::App;
 use crate::state::HoverPanel;
 
-use super::view::{settings_lines, SettingsView};
+use super::view::{SettingsView, settings_lines};
 
 /// Render the settings panel.
 ///

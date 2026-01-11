@@ -74,7 +74,6 @@ impl ActionDefinition {
     }
 }
 
-
 #[derive(Debug, Clone)]
 pub struct ActionRegistry {
     actions: Vec<ActionDefinition>,

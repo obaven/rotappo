@@ -30,8 +30,7 @@ pub async fn status() -> anyhow::Result<()> {
     Ok(())
 }
 
-pub(crate) async fn load_config_and_discovery(
-) -> anyhow::Result<(
+pub(crate) async fn load_config_and_discovery() -> anyhow::Result<(
     Arc<bootstrappo::application::config::Config>,
     Arc<dyn ClusterDiscoveryPort>,
 )> {
@@ -63,10 +62,7 @@ fn print_validation(report: &ValidationReport) {
         .filter(|err| err.severity() == Severity::Warning)
         .count();
 
-    println!(
-        "Validation: {} error(s), {} warning(s)",
-        error_count, warning_count
-    );
+    println!("Validation: {error_count} error(s), {warning_count} warning(s)");
     for err in &report.errors {
         let severity = match err.severity() {
             Severity::Error => "error",
@@ -87,7 +83,7 @@ fn print_signals(observed: &HashSet<String>) {
 
     println!("Observed signals:");
     for signal in signals {
-        println!("  - {}", signal);
+        println!("  - {signal}");
     }
 }
 
@@ -103,10 +99,10 @@ fn print_checks(checks: &[bootstrappo::application::api::status::CheckResult]) {
     println!("Checks:");
     for result in results {
         let status = if result.satisfied { "ok" } else { "fail" };
-        let required_by = result
-            .required_by
-            .as_deref()
-            .unwrap_or("unknown");
-        println!("  [{}] {} (required by {})", status, result.check, required_by);
+        let required_by = result.required_by.as_deref().unwrap_or("unknown");
+        println!(
+            "  [{}] {} (required by {})",
+            status, result.check, required_by
+        );
     }
 }

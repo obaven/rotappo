@@ -17,7 +17,7 @@ pub async fn registry() -> anyhow::Result<()> {
         println!("• {} (v{})", spec.name, spec.version);
         println!("  domain:      {}", spec.domain);
         if let Some(ns) = spec.namespace {
-            println!("  namespace:   {}", ns);
+            println!("  namespace:   {ns}");
         }
         if !spec.required.is_empty() {
             println!("  requires:    [{}]", spec.required.join(", "));
@@ -26,7 +26,7 @@ pub async fn registry() -> anyhow::Result<()> {
             println!("  desc:        {}", spec.description);
         }
         if let Some(url) = spec.url {
-            println!("  url:         {}", url);
+            println!("  url:         {url}");
         }
         println!();
     }
@@ -37,9 +37,10 @@ pub async fn registry() -> anyhow::Result<()> {
 pub async fn assembly_order(assembly: String) -> anyhow::Result<()> {
     let config = bootstrappo::application::config::load_from_file(&assembly)?;
     let modules = bootstrappo::application::runtime::registry::get_all_modules(&config);
-    let assembly = bootstrappo::application::composition::assembly::builder::AssemblyBuilder::new(config)
-        .with_modules(modules)
-        .build()?;
+    let assembly =
+        bootstrappo::application::composition::assembly::builder::AssemblyBuilder::new(config)
+            .with_modules(modules)
+            .build()?;
     let steps = assembly.execution_order()?;
 
     println!("=== Assembly Execution Order ===");

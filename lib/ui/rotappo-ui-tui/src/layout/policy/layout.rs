@@ -6,8 +6,8 @@ use ratatui::layout::Rect;
 
 use crate::layout::{GridSpec, SlotId};
 
+use super::state::{PolicyState, apply_override};
 use super::{GroupPolicy, SlotOverride, SlotPolicy};
-use super::state::{apply_override, PolicyState};
 
 /// Thread-safe policy container for grid layouts.
 #[derive(Clone)]
@@ -172,6 +172,12 @@ impl LayoutPolicy {
     }
 }
 
+impl Default for LayoutPolicy {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -196,8 +202,16 @@ mod tests {
         policy.set_span("slot", 2, 3);
 
         let spec = GridSpec::new(
-            vec![TrackSize::Fixed(2), TrackSize::Fixed(2), TrackSize::Fixed(2)],
-            vec![TrackSize::Fixed(2), TrackSize::Fixed(2), TrackSize::Fixed(2)],
+            vec![
+                TrackSize::Fixed(2),
+                TrackSize::Fixed(2),
+                TrackSize::Fixed(2),
+            ],
+            vec![
+                TrackSize::Fixed(2),
+                TrackSize::Fixed(2),
+                TrackSize::Fixed(2),
+            ],
         )
         .with_slots(vec![GridSlot::new("slot", 0, 0)]);
         let updated = policy.apply(&spec, Rect::new(0, 0, 6, 6));
@@ -232,9 +246,8 @@ mod tests {
     #[test]
     fn request_open_collapses_exclusive_group() {
         let policy = LayoutPolicy::new();
-        policy.set_group(
-            GroupPolicy::new("exclusive", vec!["a".into(), "b".into()]).exclusive(true),
-        );
+        policy
+            .set_group(GroupPolicy::new("exclusive", vec!["a".into(), "b".into()]).exclusive(true));
         policy.request_open("a", Rect::new(0, 0, 120, 40));
         assert_eq!(policy.collapsed_for("a"), Some(false));
         assert_eq!(policy.collapsed_for("b"), Some(true));

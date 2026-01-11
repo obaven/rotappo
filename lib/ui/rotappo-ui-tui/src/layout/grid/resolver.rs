@@ -5,7 +5,7 @@ use std::time::Instant;
 
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 
-use super::{GridLayout, GridSpec, GridSlot, TrackSize};
+use super::{GridLayout, GridSlot, GridSpec, TrackSize};
 
 /// Resolves a grid spec into rectangles for the given area.
 pub struct GridResolver;
@@ -71,12 +71,8 @@ fn slot_rect(area: Rect, slot: &GridSlot, rows: &[Rect], cols: &[Rect]) -> Optio
     }
     let top = rows[slot.row].y;
     let left = cols[slot.col].x;
-    let bottom = rows[row_end - 1]
-        .y
-        .saturating_add(rows[row_end - 1].height);
-    let right = cols[col_end - 1]
-        .x
-        .saturating_add(cols[col_end - 1].width);
+    let bottom = rows[row_end - 1].y.saturating_add(rows[row_end - 1].height);
+    let right = cols[col_end - 1].x.saturating_add(cols[col_end - 1].width);
     let cell_width = right.saturating_sub(left);
     let cell_height = bottom.saturating_sub(top);
     let mut width = cell_width;
@@ -100,14 +96,8 @@ fn slot_rect(area: Rect, slot: &GridSlot, rows: &[Rect], cols: &[Rect]) -> Optio
         let mut new_y = (y as i32).saturating_add(slot.offset_y as i32);
         let min_x = area.x as i32;
         let min_y = area.y as i32;
-        let max_x = area
-            .x
-            .saturating_add(area.width)
-            .saturating_sub(width) as i32;
-        let max_y = area
-            .y
-            .saturating_add(area.height)
-            .saturating_sub(height) as i32;
+        let max_x = area.x.saturating_add(area.width).saturating_sub(width) as i32;
+        let max_y = area.y.saturating_add(area.height).saturating_sub(height) as i32;
         if new_x < min_x {
             new_x = min_x;
         }

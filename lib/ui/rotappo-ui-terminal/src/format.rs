@@ -1,10 +1,10 @@
 //! CLI formatting helpers for runtime data.
 
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use serde::Serialize;
 
-use rotappo_ui_presentation::formatting;
 use rotappo_domain::{ActionDefinition, Event, Snapshot};
+use rotappo_ui_presentation::formatting;
 
 use super::OutputMode;
 
@@ -145,7 +145,7 @@ pub fn format_assembly(mode: OutputMode, snapshot: &Snapshot) -> Result<String> 
                     let pod_text = step
                         .pod
                         .as_deref()
-                        .map(|pod| format!(" pod: {}", pod))
+                        .map(|pod| format!(" pod: {pod}"))
                         .unwrap_or_else(|| " pod: -".to_string());
                     lines.push(format!(
                         "[{:<9}] {} {}{}",

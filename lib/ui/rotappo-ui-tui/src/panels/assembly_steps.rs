@@ -28,7 +28,9 @@ use crate::util::{assembly_lines, traveling_glow};
 pub fn render_assembly_steps(frame: &mut Frame, area: Rect, app: &mut App) {
     app.ui.assembly_area = area;
     if app.ui.collapsed_assembly_steps {
-        let mut block = Block::default().title("Assembly Steps").borders(Borders::ALL);
+        let mut block = Block::default()
+            .title("Assembly Steps")
+            .borders(Borders::ALL);
         if app.ui.hover_panel == HoverPanel::Assembly {
             block = block.style(Style::default().bg(Color::Rgb(0, 90, 90)));
         }
@@ -62,14 +64,16 @@ pub fn render_assembly_steps(frame: &mut Frame, area: Rect, app: &mut App) {
             .collect()
     };
 
-    let mut list_block = Block::default().title("Assembly Steps").borders(Borders::ALL);
+    let mut list_block = Block::default()
+        .title("Assembly Steps")
+        .borders(Borders::ALL);
     if app.refresh_pulse_active() {
         list_block = list_block.style(Style::default().fg(Color::Cyan));
     }
-        if app.ui.hover_panel == HoverPanel::Assembly {
-            let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
-            list_block = list_block.style(active_style);
-        }
+    if app.ui.hover_panel == HoverPanel::Assembly {
+        let active_style = Style::default().bg(Color::Rgb(0, 90, 90));
+        list_block = list_block.style(active_style);
+    }
     let mut list = List::new(items)
         .block(list_block)
         .highlight_style(Style::default().add_modifier(Modifier::BOLD));
@@ -82,10 +86,9 @@ pub fn render_assembly_steps(frame: &mut Frame, area: Rect, app: &mut App) {
     let total_lines = assembly_lines(snapshot).len();
     let view_height = area.height.saturating_sub(2) as usize;
     if total_lines > view_height && view_height > 0 {
-        let mut state =
-            ScrollbarState::new(total_lines).position(app.ui.assembly_scroll as usize);
-        let bar =
-            Scrollbar::new(ScrollbarOrientation::VerticalRight).style(Style::default().fg(Color::Cyan));
+        let mut state = ScrollbarState::new(total_lines).position(app.ui.assembly_scroll as usize);
+        let bar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+            .style(Style::default().fg(Color::Cyan));
         frame.render_stateful_widget(
             bar,
             area.inner(Margin {

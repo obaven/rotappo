@@ -38,8 +38,11 @@ pub fn render_confirmation(frame: &mut Frame, app: &mut App) {
             Style::default().add_modifier(Modifier::BOLD),
         )),
         Line::from(""),
-        Line::from(format!("Action: {}", confirm.label)),
-        Line::from(format!("Safety: {}", confirm.safety.as_str())),
+        Line::from(format!("Action: {label}", label = confirm.label.as_str())),
+        Line::from(format!(
+            "Safety: {safety}",
+            safety = confirm.safety.as_str()
+        )),
         Line::from(""),
         Line::from("Press Y to confirm, N to cancel"),
     ];

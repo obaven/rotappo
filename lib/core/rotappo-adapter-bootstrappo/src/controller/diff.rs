@@ -41,7 +41,11 @@ pub async fn diff() -> anyhow::Result<()> {
         for module in blocked {
             let mut blockers = module.blocked_by.clone();
             blockers.sort();
-            println!("  - {} (blocked by: {})", module.module, blockers.join(", "));
+            println!(
+                "  - {} (blocked by: {})",
+                module.module,
+                blockers.join(", ")
+            );
         }
     }
 

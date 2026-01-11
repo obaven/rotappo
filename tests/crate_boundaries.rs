@@ -18,7 +18,7 @@ fn is_dependency_section(section: &str) -> bool {
 }
 
 fn section_dependency_name(section: &str) -> Option<&str> {
-    let last = section.split('.').last()?;
+    let last = section.split('.').next_back()?;
     if last.starts_with("rotappo-") {
         Some(last)
     } else {
@@ -63,7 +63,11 @@ fn extract_rotappo_deps(path: &Path) -> BTreeSet<String> {
 fn assert_allowed_deps(rule: &CrateRule) {
     let manifest_path = Path::new(env!("CARGO_MANIFEST_DIR")).join(rule.manifest_path);
     if !manifest_path.exists() {
-        panic!("missing Cargo.toml for {} at {}", rule.name, manifest_path.display());
+        panic!(
+            "missing Cargo.toml for {} at {}",
+            rule.name,
+            manifest_path.display()
+        );
     }
 
     let deps = extract_rotappo_deps(&manifest_path);

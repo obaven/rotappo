@@ -12,22 +12,26 @@ pub enum OutputMode {
 }
 
 impl OutputMode {
-    /// Parse a CLI string into an output mode.
-    ///
-    /// # Examples
-    /// ```rust
-    /// use rotappo_ui_terminal::OutputMode;
-    ///
-    /// assert_eq!(OutputMode::from_str("json"), Some(OutputMode::Json));
-    /// assert_eq!(OutputMode::from_str("nope"), None);
-    /// ```
-    pub fn from_str(value: &str) -> Option<Self> {
+    fn parse(value: &str) -> Option<Self> {
         match value {
             "plain" => Some(OutputMode::Plain),
             "json" => Some(OutputMode::Json),
             "ndjson" => Some(OutputMode::Ndjson),
             _ => None,
         }
+    }
+
+    /// Parse a CLI string into an output mode.
+    ///
+    /// # Examples
+    /// ```rust
+    /// use rotappo_ui_terminal::OutputMode;
+    ///
+    /// assert_eq!(OutputMode::parse_cli("json"), Some(OutputMode::Json));
+    /// assert_eq!(OutputMode::parse_cli("nope"), None);
+    /// ```
+    pub fn parse_cli(value: &str) -> Option<Self> {
+        Self::parse(value)
     }
 
     /// Return the canonical CLI string for this output mode.
@@ -44,5 +48,13 @@ impl OutputMode {
             OutputMode::Json => "json",
             OutputMode::Ndjson => "ndjson",
         }
+    }
+}
+
+impl std::str::FromStr for OutputMode {
+    type Err = String;
+
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
+        Self::parse(value).ok_or_else(|| format!("Unknown output mode: {value}"))
     }
 }

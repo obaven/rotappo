@@ -46,9 +46,18 @@ impl UiRect {
     pub fn inner(&self, margin: UiMargin) -> Self {
         let x = self.x.saturating_add(margin.horizontal);
         let y = self.y.saturating_add(margin.vertical);
-        let width = self.width.saturating_sub(margin.horizontal.saturating_mul(2));
-        let height = self.height.saturating_sub(margin.vertical.saturating_mul(2));
-        Self { x, y, width, height }
+        let width = self
+            .width
+            .saturating_sub(margin.horizontal.saturating_mul(2));
+        let height = self
+            .height
+            .saturating_sub(margin.vertical.saturating_mul(2));
+        Self {
+            x,
+            y,
+            width,
+            height,
+        }
     }
 }
 

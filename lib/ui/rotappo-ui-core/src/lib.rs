@@ -17,6 +17,4 @@ pub use input::{
     UiMouseKind,
 };
 pub use panel::UiPanelId;
-pub use state::{
-    UiHoldState, UiHoverPanel, UiLayoutState, UiLogMenuMode, UiTooltip, UiViewState,
-};
+pub use state::{UiHoldState, UiHoverPanel, UiLayoutState, UiLogMenuMode, UiTooltip, UiViewState};

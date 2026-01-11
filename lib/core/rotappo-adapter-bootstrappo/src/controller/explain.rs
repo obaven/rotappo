@@ -9,14 +9,14 @@ pub async fn explain(module: String) -> anyhow::Result<()> {
 
     let spec = api
         .explain(config.as_ref().clone(), &module)
-        .ok_or_else(|| anyhow::anyhow!("Module '{}' is not registered", module))?;
+        .ok_or_else(|| anyhow::anyhow!("Module '{module}' is not registered"))?;
 
     println!("=== Module: {} ===", spec.name);
     println!("Domain: {}", spec.domain);
     println!("Kind: {}", spec.kind.to_string().to_lowercase());
     println!("Version: {}", spec.version);
     if let Some(ns) = spec.namespace {
-        println!("Namespace: {}", ns);
+        println!("Namespace: {ns}");
     }
     if !spec.maintainer.is_empty() {
         println!("Maintainer: {}", spec.maintainer);
@@ -25,7 +25,7 @@ pub async fn explain(module: String) -> anyhow::Result<()> {
         println!("Description: {}", spec.description);
     }
     if let Some(url) = spec.url {
-        println!("URL: {}", url);
+        println!("URL: {url}");
     }
 
     if spec.required.is_empty() {
@@ -45,7 +45,7 @@ pub async fn explain(module: String) -> anyhow::Result<()> {
     } else {
         println!("Checks:");
         for check in spec.checks {
-            println!("  - {}", check);
+            println!("  - {check}");
         }
     }
 
@@ -65,7 +65,7 @@ fn print_engine(engine: &Option<EngineMeta>) {
             println!("  namespace: {}", meta.namespace);
             println!("  release: {}", meta.release);
             if let Some(values) = meta.values_template {
-                println!("  values_template: {}", values);
+                println!("  values_template: {values}");
             }
         }
         Some(EngineMeta::Kro(meta)) => {

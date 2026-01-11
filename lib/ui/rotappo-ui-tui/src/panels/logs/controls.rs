@@ -42,9 +42,16 @@ pub fn render_log_controls(frame: &mut Frame, area: Rect, app: &mut App) {
         frame.render_widget(block, area);
         return;
     }
-    let status = if app.ui.log_paused { "paused" } else { "streaming" };
-    let filter_tag = format!("[{}]", app.ui.log_config.filter.as_str());
-    let stream_tag = format!("[{} {}s]", status, app.ui.log_config.interval.as_secs());
+    let status = if app.ui.log_paused {
+        "paused"
+    } else {
+        "streaming"
+    };
+    let filter_tag = format!("[{filter}]", filter = app.ui.log_config.filter.as_str());
+    let stream_tag = format!(
+        "[{status} {interval}s]",
+        interval = app.ui.log_config.interval.as_secs()
+    );
     let line = Line::from(vec![
         Span::raw("Filter "),
         Span::styled(

@@ -26,12 +26,7 @@ fn find_forbidden_dependencies(paths: &[PathBuf], forbidden: &[String]) -> Vec<S
             }
             for needle in forbidden {
                 if trimmed.contains(needle) {
-                    hits.push(format!(
-                        "{}:{}: {}",
-                        path.display(),
-                        line_no + 1,
-                        trimmed
-                    ));
+                    hits.push(format!("{}:{}: {}", path.display(), line_no + 1, trimmed));
                 }
             }
         }

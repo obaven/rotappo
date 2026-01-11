@@ -1,7 +1,7 @@
 use ratatui::layout::Margin;
 
 use crate::state::HoverPanel;
-use crate::util::{collect_problems, assembly_lines};
+use crate::util::{assembly_lines, collect_problems};
 
 use super::App;
 
@@ -40,8 +40,7 @@ impl App {
         let next = if delta.is_positive() {
             self.ui.assembly_scroll.saturating_add(delta as u16)
         } else {
-            self.ui.assembly_scroll
-                .saturating_sub(delta.unsigned_abs())
+            self.ui.assembly_scroll.saturating_sub(delta.unsigned_abs())
         };
         self.ui.assembly_scroll = next.min(max_offset);
     }
@@ -52,7 +51,8 @@ impl App {
         let next = if delta.is_positive() {
             self.ui.capabilities_scroll.saturating_add(delta as u16)
         } else {
-            self.ui.capabilities_scroll
+            self.ui
+                .capabilities_scroll
                 .saturating_sub(delta.unsigned_abs())
         };
         self.ui.capabilities_scroll = next.min(max_offset);
@@ -70,9 +70,7 @@ impl App {
         let next = if delta.is_positive() {
             self.ui.actions_scroll.saturating_add(delta as u16)
         } else {
-            self.ui
-                .actions_scroll
-                .saturating_sub(delta.unsigned_abs())
+            self.ui.actions_scroll.saturating_sub(delta.unsigned_abs())
         };
         self.ui.actions_scroll = next.min(max_offset);
     }
@@ -88,9 +86,7 @@ impl App {
         let next = if delta.is_positive() {
             self.ui.problems_scroll.saturating_add(delta as u16)
         } else {
-            self.ui
-                .problems_scroll
-                .saturating_sub(delta.unsigned_abs())
+            self.ui.problems_scroll.saturating_sub(delta.unsigned_abs())
         };
         self.ui.problems_scroll = next.min(max_offset);
     }

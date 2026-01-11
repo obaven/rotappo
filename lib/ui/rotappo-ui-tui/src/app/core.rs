@@ -4,10 +4,10 @@ use ratatui::widgets::ListState;
 use std::path::PathBuf;
 use std::time::Instant;
 
-use rotappo_application::Runtime;
-use rotappo_domain::{ActionId, ActionSafety};
 use crate::layout::LayoutPolicy;
 use crate::state::UiState;
+use rotappo_application::Runtime;
+use rotappo_domain::{ActionId, ActionSafety};
 use rotappo_ports::PortSet;
 
 /// External context required to run the TUI.

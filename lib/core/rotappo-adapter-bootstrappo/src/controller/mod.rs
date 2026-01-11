@@ -1,3 +1,4 @@
+pub mod assembly;
 pub mod cache;
 pub mod catalog;
 pub mod cluster;
@@ -6,7 +7,6 @@ pub mod diff;
 pub mod explain;
 pub mod generate;
 pub mod nuke;
-pub mod assembly;
 pub mod reconcile;
 pub mod rotate;
 pub mod status;

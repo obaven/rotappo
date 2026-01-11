@@ -1,7 +1,7 @@
 use tracing::info;
 
-use bootstrappo::application::flows::reconcile::core::assembly::validation;
 use bootstrappo::application::composition::assembly::builder::AssemblyBuilder;
+use bootstrappo::application::flows::reconcile::core::assembly::validation;
 
 #[derive(Debug, Clone)]
 pub struct AssemblyVisualizeArgs {
@@ -17,9 +17,7 @@ pub async fn validate(path: String) -> anyhow::Result<()> {
     info!("Validating config: {}", path);
     let config = bootstrappo::application::config::load_from_file(&path)?;
     let modules = bootstrappo::application::runtime::registry::get_all_modules(&config);
-    let assembly = AssemblyBuilder::new(config)
-        .with_modules(modules)
-        .build()?;
+    let assembly = AssemblyBuilder::new(config).with_modules(modules).build()?;
 
     let report = validation::rules::validate_with_diagnostics(&assembly);
     if report.has_diagnostics() {
@@ -43,9 +41,7 @@ pub async fn validate(path: String) -> anyhow::Result<()> {
 pub async fn visualize(args: AssemblyVisualizeArgs) -> anyhow::Result<()> {
     let config = bootstrappo::application::config::load_from_file(&args.path)?;
     let modules = bootstrappo::application::runtime::registry::get_all_modules(&config);
-    let assembly = AssemblyBuilder::new(config)
-        .with_modules(modules)
-        .build()?;
+    let assembly = AssemblyBuilder::new(config).with_modules(modules).build()?;
 
     use bootstrappo::application::reconciler::visualize::{LayerType, OutputFormat, ViewType};
 
@@ -60,7 +56,7 @@ pub async fn visualize(args: AssemblyVisualizeArgs) -> anyhow::Result<()> {
         "security" => ViewType::Layer(LayerType::Security),
         "system" => ViewType::Layer(LayerType::System),
         other => {
-            anyhow::bail!("Unknown view type: {}", other);
+            anyhow::bail!("Unknown view type: {other}");
         }
     };
 
@@ -68,7 +64,7 @@ pub async fn visualize(args: AssemblyVisualizeArgs) -> anyhow::Result<()> {
         "svg" => OutputFormat::Svg,
         "dot" => OutputFormat::Dot,
         "png" => OutputFormat::Png,
-        other => anyhow::bail!("Unknown format: {}", other),
+        other => anyhow::bail!("Unknown format: {other}"),
     };
 
     // Auto-generate output path if not specified
@@ -78,7 +74,11 @@ pub async fn visualize(args: AssemblyVisualizeArgs) -> anyhow::Result<()> {
             OutputFormat::Dot => "dot",
             OutputFormat::Png => "png",
         };
-        format!("data/output/diagrams/assembly-{}.{}", args.view.to_lowercase(), ext)
+        format!(
+            "data/output/diagrams/assembly-{}.{}",
+            args.view.to_lowercase(),
+            ext
+        )
     });
 
     // Ensure output directory exists

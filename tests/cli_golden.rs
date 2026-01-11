@@ -3,13 +3,13 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use rotappo_domain::{
-    ActionId, ActionRegistry, ActionStatus, Capability, CapabilityStatus, ComponentHealthStatus,
-    Event, EventLevel, HealthSnapshot, HealthStatus, AssemblyStep, AssemblyStepStatus,
-    AssemblySummary, Snapshot,
+    ActionId, ActionRegistry, ActionStatus, AssemblyStep, AssemblyStepStatus, AssemblySummary,
+    Capability, CapabilityStatus, ComponentHealthStatus, Event, EventLevel, HealthSnapshot,
+    HealthStatus, Snapshot,
 };
 use rotappo_ui_presentation::formatting;
 use rotappo_ui_terminal::{
-    format_actions, format_assembly, format_events, format_problems, format_snapshot, OutputMode,
+    OutputMode, format_actions, format_assembly, format_events, format_problems, format_snapshot,
 };
 
 fn fixture_root() -> PathBuf {

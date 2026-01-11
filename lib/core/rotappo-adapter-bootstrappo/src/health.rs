@@ -47,7 +47,7 @@ impl LiveStatus {
                 Ok(rt) => rt,
                 Err(err) => {
                     if let Ok(mut guard) = error.write() {
-                        *guard = Some(format!("Failed to build tokio runtime: {}", err));
+                        *guard = Some(format!("Failed to build tokio runtime: {err}"));
                     }
                     return;
                 }
@@ -145,7 +145,7 @@ fn map_health_status(status: HealthStatus) -> ComponentHealthStatus {
 async fn init_cache(cache: &Arc<RwLock<Option<ClusterCache>>>) -> Result<(), String> {
     let client = Client::try_default()
         .await
-        .map_err(|err| format!("Failed to init kube client: {}", err))?;
+        .map_err(|err| format!("Failed to init kube client: {err}"))?;
     let cluster_cache = ClusterCache::new(client);
     cluster_cache.start_watchers().await;
     if let Ok(mut guard) = cache.write() {

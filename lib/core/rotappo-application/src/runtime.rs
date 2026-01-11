@@ -107,11 +107,7 @@ impl Runtime {
 
     fn snapshot_from_assembly(assembly: &Assembly) -> Snapshot {
         let mut snapshot = Snapshot::new_default();
-        snapshot.assembly_steps = assembly
-            .steps
-            .iter()
-            .map(|step| assembly_step_from_def(step))
-            .collect();
+        snapshot.assembly_steps = assembly.steps.iter().map(assembly_step_from_def).collect();
 
         snapshot.capabilities = assembly
             .steps
@@ -164,9 +160,8 @@ impl Runtime {
                 };
 
                 if let Some(def) = step_map.get(step.id.as_str()) {
-                    if readiness.get(step.id.as_str()).copied().unwrap_or(false) {
-                        status = AssemblyStepStatus::Succeeded;
-                    } else if !def.has_gates && !blocked {
+                    let is_ready = readiness.get(step.id.as_str()).copied().unwrap_or(false);
+                    if is_ready || (!def.has_gates && !blocked) {
                         status = AssemblyStepStatus::Succeeded;
                     }
                 }

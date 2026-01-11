@@ -62,9 +62,5 @@ fn hsv_to_rgb(h: f32, s: f32, v: f32) -> Color {
         _ => (v, p, q),
     };
 
-    Color::Rgb(
-        (r * 255.0) as u8,
-        (g * 255.0) as u8,
-        (b * 255.0) as u8,
-    )
+    Color::Rgb((r * 255.0) as u8, (g * 255.0) as u8, (b * 255.0) as u8)
 }

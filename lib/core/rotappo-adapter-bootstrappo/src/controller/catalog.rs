@@ -54,9 +54,21 @@ pub async fn catalog(output: Option<String>) -> anyhow::Result<()> {
     let modules = specs
         .into_iter()
         .map(|spec| {
-            let mut requires = spec.required.iter().map(|s| s.to_string()).collect::<Vec<_>>();
-            let mut provides = spec.provides.iter().map(|s| s.to_string()).collect::<Vec<_>>();
-            let mut checks = spec.checks.iter().map(|s| s.to_string()).collect::<Vec<_>>();
+            let mut requires = spec
+                .required
+                .iter()
+                .map(|s| s.to_string())
+                .collect::<Vec<_>>();
+            let mut provides = spec
+                .provides
+                .iter()
+                .map(|s| s.to_string())
+                .collect::<Vec<_>>();
+            let mut checks = spec
+                .checks
+                .iter()
+                .map(|s| s.to_string())
+                .collect::<Vec<_>>();
             requires.sort();
             provides.sort();
             checks.sort();
@@ -81,9 +93,9 @@ pub async fn catalog(output: Option<String>) -> anyhow::Result<()> {
             std::fs::create_dir_all(parent)?;
         }
         std::fs::write(&path, yaml)?;
-        println!("Catalog written to {}", path);
+        println!("Catalog written to {path}");
     } else {
-        print!("{}", yaml);
+        print!("{yaml}");
     }
 
     Ok(())

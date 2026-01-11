@@ -16,6 +16,7 @@
 //! ```
 
 pub mod app;
+pub mod bootstrap;
 pub mod layout;
 pub mod macros;
 pub mod panels;
@@ -25,4 +26,5 @@ pub mod util;
 mod render;
 mod runner;
 
+pub use bootstrap::start_bootstrap;
 pub use runner::start;

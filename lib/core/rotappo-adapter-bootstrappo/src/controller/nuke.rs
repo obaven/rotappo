@@ -25,7 +25,7 @@ pub async fn nuke(assembly: String, aggressive: bool, dry_run: bool) -> anyhow::
 
     if !aggressive {
         println!("⚠️  WARNING: This will DELETE ALL resources from the cluster!");
-        println!("   Assembly: {}", assembly);
+        println!("   Assembly: {assembly}");
         print!("   Type 'yes' to confirm: ");
         io::stdout().flush()?;
 
@@ -54,13 +54,8 @@ pub async fn nuke(assembly: String, aggressive: bool, dry_run: bool) -> anyhow::
         .with_timing()
         .with_timing_output("nuke-timing.json");
 
-    bootstrappo::application::nuke::nuke_cluster_with_options(
-        client,
-        &assembly_data,
-        options,
-        cmd,
-    )
-    .await?;
+    bootstrappo::application::nuke::nuke_cluster_with_options(client, &assembly_data, options, cmd)
+        .await?;
 
     // If aggressive, also reset K3s data directory
     if aggressive {

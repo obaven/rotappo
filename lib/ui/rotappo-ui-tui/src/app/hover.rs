@@ -1,7 +1,7 @@
 use ratatui::layout::Margin;
 
 use crate::state::HoverPanel;
-use crate::util::{collect_problems, assembly_lines};
+use crate::util::{assembly_lines, collect_problems};
 
 use super::App;
 

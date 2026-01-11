@@ -55,24 +55,37 @@ pub fn render_assembly(
             .block(gauge_block)
             .gauge_style(Style::default().fg(Color::Green))
             .percent(percent)
-            .label(format!("{}%", percent));
+            .label(format!("{percent}%"));
         frame.render_widget(gauge, assembly_progress_area);
     }
 
     let age = format_age(snapshot.last_updated_ms);
     let lines = vec![
         Line::from(format!(
-            "Ready: {}/{}",
-            snapshot.assembly.completed, snapshot.assembly.total
+            "Ready: {completed}/{total}",
+            completed = snapshot.assembly.completed,
+            total = snapshot.assembly.total
         )),
-        Line::from(format!("Initializing: {}", snapshot.assembly.in_progress)),
-        Line::from(format!("Queued: {}", snapshot.assembly.blocked)),
-        Line::from(format!("Waiting: {}", snapshot.assembly.pending)),
-        Line::from(format!("Health: {}", snapshot.health.as_str())),
-        Line::from(format!("Last update: {}", age)),
         Line::from(format!(
-            "Last action: {}",
-            snapshot
+            "Initializing: {in_progress}",
+            in_progress = snapshot.assembly.in_progress
+        )),
+        Line::from(format!(
+            "Queued: {blocked}",
+            blocked = snapshot.assembly.blocked
+        )),
+        Line::from(format!(
+            "Waiting: {pending}",
+            pending = snapshot.assembly.pending
+        )),
+        Line::from(format!(
+            "Health: {health}",
+            health = snapshot.health.as_str()
+        )),
+        Line::from(format!("Last update: {age}")),
+        Line::from(format!(
+            "Last action: {last_action}",
+            last_action = snapshot
                 .last_action
                 .map(|action| action.to_string())
                 .unwrap_or_else(|| "none".to_string())

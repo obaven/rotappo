@@ -33,26 +33,35 @@ pub(super) fn settings_lines(view: &SettingsView) -> Vec<Line> {
             "Runtime",
             Style::default().add_modifier(Modifier::BOLD),
         )),
-        Line::from(format!("Host: {}", view.host)),
-        Line::from(format!("Assembly: {}", view.assembly_path)),
-        Line::from(format!("Config: {}", view.config_path)),
+        Line::from(format!("Host: {host}", host = view.host.as_str())),
+        Line::from(format!(
+            "Assembly: {assembly}",
+            assembly = view.assembly_path.as_str()
+        )),
+        Line::from(format!(
+            "Config: {config}",
+            config = view.config_path.as_str()
+        )),
         Line::from(""),
         Line::from(Span::styled(
             "UI",
             Style::default().add_modifier(Modifier::BOLD),
         )),
         Line::from(format!(
-            "Log filter: {} (press f to cycle)",
-            view.log_filter
-        )),
-        Line::from(format!("Stream interval: {}s", view.log_interval)),
-        Line::from(format!(
-            "Stream paused: {} (hold p to toggle)",
-            view.log_paused
+            "Log filter: {filter} (press f to cycle)",
+            filter = view.log_filter.as_str()
         )),
         Line::from(format!(
-            "Watch mode: {} (press w to toggle)",
-            if view.auto_refresh { "on" } else { "off" }
+            "Stream interval: {interval}s",
+            interval = view.log_interval
+        )),
+        Line::from(format!(
+            "Stream paused: {paused} (hold p to toggle)",
+            paused = view.log_paused
+        )),
+        Line::from(format!(
+            "Watch mode: {mode} (press w to toggle)",
+            mode = if view.auto_refresh { "on" } else { "off" }
         )),
         Line::from(""),
         Line::from(Span::styled(

@@ -56,7 +56,11 @@ pub fn left_column_spec(
     } else {
         3
     };
-    let snapshot_height = if snapshot_collapsed { collapsed_height } else { 4 };
+    let snapshot_height = if snapshot_collapsed {
+        collapsed_height
+    } else {
+        4
+    };
     let left_top_height = action_progress_height.saturating_add(snapshot_height);
     let top = if collapsed_capabilities {
         TrackSize::Min(left_top_height)

@@ -87,6 +87,12 @@ impl UiLayoutState {
     }
 }
 
+impl Default for UiLayoutState {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 /// Aggregated UI view state shared across adapters.
 #[derive(Debug, Clone)]
 pub struct UiViewState {
@@ -177,5 +183,11 @@ impl UiViewState {
             action_flash_index: None,
             action_flash_at: None,
         }
+    }
+}
+
+impl Default for UiViewState {
+    fn default() -> Self {
+        Self::new()
     }
 }

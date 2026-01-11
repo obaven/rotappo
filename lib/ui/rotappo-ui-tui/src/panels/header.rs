@@ -26,7 +26,11 @@ use crate::app::App;
 /// ```
 pub fn render_header(frame: &mut Frame, area: Rect, app: &mut App) {
     let snapshot = app.runtime.snapshot();
-    let watch_label = if app.ui.auto_refresh { "watch:on" } else { "watch:off" };
+    let watch_label = if app.ui.auto_refresh {
+        "watch:on"
+    } else {
+        "watch:off"
+    };
     let watch_style = if app.ui.auto_refresh {
         Style::default().fg(Color::Green)
     } else {
@@ -34,7 +38,7 @@ pub fn render_header(frame: &mut Frame, area: Rect, app: &mut App) {
     };
     let (action_label, action_style) =
         if let (Some(action), Some(status)) = (snapshot.last_action, snapshot.last_action_status) {
-            let label = format!("action:{} {}", action, status.as_str());
+            let label = format!("action:{action} {status}", status = status.as_str());
             let style = match status {
                 rotappo_domain::ActionStatus::Running => Style::default().fg(Color::Yellow),
                 rotappo_domain::ActionStatus::Failed => Style::default().fg(Color::Red),
@@ -70,9 +74,7 @@ pub fn render_header(frame: &mut Frame, area: Rect, app: &mut App) {
 
     let gear_width = 5u16.min(area.width);
     let gear_height = area.height;
-    let x = area
-        .x
-        .saturating_add(area.width.saturating_sub(gear_width));
+    let x = area.x.saturating_add(area.width.saturating_sub(gear_width));
     let gear_area = Rect::new(x, area.y, gear_width, gear_height);
     app.ui.settings_gear_area = gear_area;
     let gear_style = if app.ui.collapsed_settings {

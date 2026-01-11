@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache;
-use bootstrappo_api::contract::config::Config;
 use bootstrappo_api::contract::assembly::{Check, Step};
+use bootstrappo_api::contract::config::Config;
 use validator::Validate;
 
 pub fn module_specs() -> HashMap<String, (String, Option<String>)> {
@@ -22,14 +22,16 @@ pub fn module_specs() -> HashMap<String, (String, Option<String>)> {
 
 pub fn derive_pod_value(step: &Step, namespace: Option<&str>) -> Option<String> {
     let check_label = step.checks.iter().find_map(|check| match check {
-        Check::DaemonsetReady { namespace, name } => Some(format!("{}/{}", namespace, name)),
-        Check::DeploymentReady { namespace, name } => Some(format!("{}/{}", namespace, name)),
-        Check::StatefulsetReady { namespace, name } => Some(format!("{}/{}", namespace, name)),
-        Check::SecretExists { namespace, name } => Some(format!("{}/{}", namespace, name)),
+        Check::DaemonsetReady { namespace, name } => Some(format!("{namespace}/{name}")),
+        Check::DeploymentReady { namespace, name } => Some(format!("{namespace}/{name}")),
+        Check::StatefulsetReady { namespace, name } => Some(format!("{namespace}/{name}")),
+        Check::SecretExists { namespace, name } => Some(format!("{namespace}/{name}")),
+        Check::JobReady { namespace, name } => Some(format!("{namespace}/{name}")),
+        Check::ServiceReady { namespace, name } => Some(format!("{namespace}/{name}")),
         _ => None,
     });
 
-    check_label.or_else(|| namespace.map(|ns| format!("{}/{}", ns, step.id)))
+    check_label.or_else(|| namespace.map(|ns| format!("{ns}/{id}", id = step.id)))
 }
 
 pub fn checks_ready(cache: &ClusterCache, step: &Step, config: Option<&Config>) -> bool {
@@ -60,6 +62,16 @@ pub fn checks_ready(cache: &ClusterCache, step: &Step, config: Option<&Config>) 
             }
             Check::SecretExists { namespace, name } => {
                 if !cache.is_secret_ready(namespace, name) {
+                    return false;
+                }
+            }
+            Check::JobReady { namespace, name } => {
+                if !cache.is_job_ready(namespace, name) {
+                    return false;
+                }
+            }
+            Check::ServiceReady { namespace, name } => {
+                if !cache.is_service_ready(namespace, name) {
                     return false;
                 }
             }

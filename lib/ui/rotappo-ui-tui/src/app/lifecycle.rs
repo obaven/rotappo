@@ -11,24 +11,26 @@ use super::{App, AppContext};
 impl App {
     /// Create a new application instance from an injected runtime and context.
     pub fn new(mut runtime: rotappo_application::Runtime, context: AppContext) -> Self {
+        let host_domain = &context.host_domain;
+        let assembly_path = context.assembly_path.display();
         runtime.events_mut().push(Event::new(
             EventLevel::Info,
-            format!("Connected to Bootstrappo ({})", context.host_domain),
+            format!("Connected to Bootstrappo ({host_domain})"),
         ));
         runtime.events_mut().push(Event::new(
             EventLevel::Info,
-            format!("Assembly path: {}", context.assembly_path.display()),
+            format!("Assembly path: {assembly_path}"),
         ));
         if let Some(error) = &context.assembly_error {
             runtime.events_mut().push(Event::new(
                 EventLevel::Warn,
-                format!("Assembly load failed: {}", error),
+                format!("Assembly load failed: {error}"),
             ));
         }
         if let Some(error) = &context.live_status_error {
             runtime.events_mut().push(Event::new(
                 EventLevel::Warn,
-                format!("Live status unavailable: {}", error),
+                format!("Live status unavailable: {error}"),
             ));
         }
 
@@ -79,24 +81,20 @@ impl App {
             }
         }
 
-        if !self.ui.log_paused
-            && self.ui.last_log_emit.elapsed() >= self.ui.log_config.interval
-        {
+        if !self.ui.log_paused && self.ui.last_log_emit.elapsed() >= self.ui.log_config.interval {
             self.ui.last_log_emit = Instant::now();
         }
     }
 
     fn configure_layout_policy(&mut self) {
         use crate::layout::{
-            GroupPolicy, PanelPriority, SlotPolicy, SLOT_ACTIONS, SLOT_CAPABILITIES,
-            SLOT_FOOTER_HELP, SLOT_FOOTER_SETTINGS, SLOT_LOGS, SLOT_LOG_CONTROLS,
-            SLOT_ASSEMBLY_PROGRESS, SLOT_ASSEMBLY_STEPS, SLOT_PROBLEMS, SLOT_SNAPSHOT,
+            GroupPolicy, PanelPriority, SLOT_ACTIONS, SLOT_ASSEMBLY_PROGRESS, SLOT_ASSEMBLY_STEPS,
+            SLOT_CAPABILITIES, SLOT_FOOTER_HELP, SLOT_FOOTER_SETTINGS, SLOT_LOG_CONTROLS,
+            SLOT_LOGS, SLOT_PROBLEMS, SLOT_SNAPSHOT, SlotPolicy,
         };
 
-        self.layout_policy.set_policy(
-            SLOT_ASSEMBLY_PROGRESS,
-            SlotPolicy::new(PanelPriority::High),
-        );
+        self.layout_policy
+            .set_policy(SLOT_ASSEMBLY_PROGRESS, SlotPolicy::new(PanelPriority::High));
         self.layout_policy
             .set_policy(SLOT_SNAPSHOT, SlotPolicy::new(PanelPriority::High));
         self.layout_policy

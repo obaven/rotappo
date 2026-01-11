@@ -1,12 +1,12 @@
 use std::sync::Arc;
 
-use anyhow::{Context, Result};
+use super::health::LiveStatus;
 use crate::mapping;
-use bootstrappo_api::contract::config::Config as BootstrappoConfig;
+use anyhow::{Context, Result};
 use bootstrappo_api::contract::assembly::Assembly as BootstrappoAssembly;
+use bootstrappo_api::contract::config::Config as BootstrappoConfig;
 use rotappo_domain::{Assembly, AssemblyStepDef};
 use rotappo_ports::AssemblyPort;
-use super::health::LiveStatus;
 
 #[derive(Clone)]
 pub struct BootstrappoAssemblyPort {
@@ -39,6 +39,10 @@ impl BootstrappoAssemblyPort {
 
     pub fn assembly_error(&self) -> Option<String> {
         self.assembly_error.clone()
+    }
+
+    pub fn bootstrappo_assembly(&self) -> Option<BootstrappoAssembly> {
+        self.raw_assembly.clone()
     }
 }
 

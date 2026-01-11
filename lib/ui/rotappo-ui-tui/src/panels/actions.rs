@@ -50,7 +50,9 @@ pub fn render_actions(frame: &mut Frame, area: Rect, app: &mut App) {
                     .fg(Color::LightBlue)
                     .add_modifier(Modifier::BOLD)
             } else {
-                Style::default().fg(Color::Blue).add_modifier(Modifier::BOLD)
+                Style::default()
+                    .fg(Color::Blue)
+                    .add_modifier(Modifier::BOLD)
             };
             let content = vec![
                 Line::from(vec![
@@ -60,10 +62,7 @@ pub fn render_actions(frame: &mut Frame, area: Rect, app: &mut App) {
                 ]),
                 Line::from(vec![
                     Span::raw("  "),
-                    Span::styled(
-                        action.safety.as_str(),
-                        Style::default().fg(Color::DarkGray),
-                    ),
+                    Span::styled(action.safety.as_str(), Style::default().fg(Color::DarkGray)),
                     Span::raw(" - "),
                     Span::raw(action.description),
                 ]),
@@ -104,10 +103,9 @@ pub fn render_actions(frame: &mut Frame, area: Rect, app: &mut App) {
     frame.render_stateful_widget(list, area, &mut state);
 
     if total_actions > visible_items && visible_items > 0 {
-        let mut state =
-            ScrollbarState::new(total_actions).position(app.ui.actions_scroll as usize);
-        let bar =
-            Scrollbar::new(ScrollbarOrientation::VerticalRight).style(Style::default().fg(Color::Cyan));
+        let mut state = ScrollbarState::new(total_actions).position(app.ui.actions_scroll as usize);
+        let bar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+            .style(Style::default().fg(Color::Cyan));
         frame.render_stateful_widget(
             bar,
             area.inner(Margin {

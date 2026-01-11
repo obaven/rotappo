@@ -41,7 +41,10 @@ pub fn render_footer(frame: &mut Frame, area: Rect, app: &mut App) {
 
 fn help_lines(app: &App) -> Vec<Line> {
     vec![
-        Line::from(Span::styled("Core", Style::default().add_modifier(Modifier::BOLD))),
+        Line::from(Span::styled(
+            "Core",
+            Style::default().add_modifier(Modifier::BOLD),
+        )),
         Line::from("q/esc: quit  r: refresh snapshot"),
         Line::from("y/n/enter: confirm or cancel action"),
         Line::from(""),
@@ -54,7 +57,10 @@ fn help_lines(app: &App) -> Vec<Line> {
         Line::from("mouse: hover + scroll; click headers to collapse"),
         Line::from("s: open settings panel"),
         Line::from(""),
-        Line::from(Span::styled("Logs", Style::default().add_modifier(Modifier::BOLD))),
+        Line::from(Span::styled(
+            "Logs",
+            Style::default().add_modifier(Modifier::BOLD),
+        )),
         Line::from(format!(
             "f: filter logs (current: {})",
             app.ui.log_config.filter.as_str()

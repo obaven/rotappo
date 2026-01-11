@@ -6,12 +6,12 @@ use ratatui::widgets::Clear;
 
 use crate::app::App;
 use crate::layout::{
-    footer_spec, left_column_spec, middle_column_spec, action_header_spec, right_columns_spec,
-    right_left_spec, right_right_spec, tui_shell_spec_with_footer, GridResolver, SLOT_ACTIONS,
+    GridResolver, SLOT_ACTIONS, SLOT_ASSEMBLY, SLOT_ASSEMBLY_PROGRESS, SLOT_ASSEMBLY_STEPS,
     SLOT_AUX, SLOT_BODY, SLOT_CAPABILITIES, SLOT_FOOTER, SLOT_FOOTER_HELP, SLOT_FOOTER_SETTINGS,
-    SLOT_HEADER, SLOT_LEFT, SLOT_LOGS, SLOT_LOG_CONTROLS, SLOT_MIDDLE, SLOT_ASSEMBLY,
-    SLOT_ASSEMBLY_PROGRESS, SLOT_ASSEMBLY_STEPS, SLOT_PROBLEMS, SLOT_RIGHT, SLOT_RIGHT_LEFT,
-    SLOT_RIGHT_RIGHT, SLOT_SNAPSHOT,
+    SLOT_HEADER, SLOT_LEFT, SLOT_LOG_CONTROLS, SLOT_LOGS, SLOT_MIDDLE, SLOT_PROBLEMS, SLOT_RIGHT,
+    SLOT_RIGHT_LEFT, SLOT_RIGHT_RIGHT, SLOT_SNAPSHOT, action_header_spec, footer_spec,
+    left_column_spec, middle_column_spec, right_columns_spec, right_left_spec, right_right_spec,
+    tui_shell_spec_with_footer,
 };
 
 use super::panels;
@@ -29,10 +29,20 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
         .rect(SLOT_HEADER)
         .unwrap_or_else(|| Rect::new(0, 0, size.width, 3));
     let body_area = shell.rect(SLOT_BODY).unwrap_or_else(|| {
-        Rect::new(0, 3, size.width, size.height.saturating_sub(help_height + 3))
+        Rect::new(
+            0,
+            3,
+            size.width,
+            size.height.saturating_sub(help_height + 3),
+        )
     });
     let left_area = shell.rect(SLOT_LEFT).unwrap_or_else(|| {
-        Rect::new(body_area.x, body_area.y, body_area.width / 3, body_area.height)
+        Rect::new(
+            body_area.x,
+            body_area.y,
+            body_area.width / 3,
+            body_area.height,
+        )
     });
     let middle_area = shell.rect(SLOT_MIDDLE).unwrap_or_else(|| {
         Rect::new(
@@ -51,7 +61,12 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
         )
     });
     let footer_area = shell.rect(SLOT_FOOTER).unwrap_or_else(|| {
-        Rect::new(0, size.height.saturating_sub(help_height), size.width, help_height)
+        Rect::new(
+            0,
+            size.height.saturating_sub(help_height),
+            size.width,
+            help_height,
+        )
     });
     app.ui.body_area = body_area;
 
@@ -75,27 +90,22 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
         capabilities_collapsed,
         collapsed,
     );
-    let left_layout = GridResolver::resolve(
-        left_area,
-        &app.layout_policy.apply(&left_spec, left_area),
-    );
+    let left_layout =
+        GridResolver::resolve(left_area, &app.layout_policy.apply(&left_spec, left_area));
     let left_action_area = left_layout.rect(SLOT_ASSEMBLY).unwrap_or(left_area);
-    let left_cap_area = left_layout
-        .rect(SLOT_CAPABILITIES)
-        .unwrap_or_else(|| Rect::default());
+    let left_cap_area = left_layout.rect(SLOT_CAPABILITIES).unwrap_or_default();
 
     let action_header_spec =
         action_header_spec(action_progress_collapsed, snapshot_collapsed, collapsed);
     let action_header_layout = GridResolver::resolve(
         left_action_area,
-        &app.layout_policy.apply(&action_header_spec, left_action_area),
+        &app.layout_policy
+            .apply(&action_header_spec, left_action_area),
     );
     let action_progress_area = action_header_layout
         .rect(SLOT_ASSEMBLY_PROGRESS)
         .unwrap_or(left_action_area);
-    let snapshot_area = action_header_layout
-        .rect(SLOT_SNAPSHOT)
-        .unwrap_or_else(|| Rect::default());
+    let snapshot_area = action_header_layout.rect(SLOT_SNAPSHOT).unwrap_or_default();
 
     panels::render_assembly(frame, action_progress_area, snapshot_area, app);
     panels::render_capabilities(frame, left_cap_area, app);
@@ -105,14 +115,14 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
         middle_area,
         &app.layout_policy.apply(&middle_spec, middle_area),
     );
-    let middle_action_area = middle_layout.rect(SLOT_ASSEMBLY_STEPS).unwrap_or(middle_area);
+    let middle_action_area = middle_layout
+        .rect(SLOT_ASSEMBLY_STEPS)
+        .unwrap_or(middle_area);
     if assembly_steps_collapsed {
         let middle_aux_area = middle_layout.rect(SLOT_AUX).unwrap_or(middle_area);
         match middle_panel {
             Some(crate::app::PanelId::Logs) => panels::render_logs(frame, middle_aux_area, app),
-            Some(crate::app::PanelId::Help) => {
-                panels::render_footer(frame, middle_aux_area, app)
-            }
+            Some(crate::app::PanelId::Help) => panels::render_footer(frame, middle_aux_area, app),
             _ => frame.render_widget(Clear, middle_aux_area),
         }
         panels::render_assembly_steps(frame, middle_action_area, app);
@@ -129,10 +139,10 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
         right_left_area,
         &app.layout_policy.apply(&right_left_spec, right_left_area),
     );
-    let actions_area = right_left_layout.rect(SLOT_ACTIONS).unwrap_or(right_left_area);
-    let problems_area = right_left_layout
-        .rect(SLOT_PROBLEMS)
-        .unwrap_or_else(|| Rect::default());
+    let actions_area = right_left_layout
+        .rect(SLOT_ACTIONS)
+        .unwrap_or(right_left_area);
+    let problems_area = right_left_layout.rect(SLOT_PROBLEMS).unwrap_or_default();
     let right_right_spec = right_right_spec(
         app.log_controls_height(),
         log_controls_collapsed,
@@ -146,9 +156,7 @@ pub(crate) fn render(frame: &mut Frame, app: &mut App) {
     let log_controls_area = right_right_layout
         .rect(SLOT_LOG_CONTROLS)
         .unwrap_or(right_right_area);
-    let logs_area = right_right_layout
-        .rect(SLOT_LOGS)
-        .unwrap_or_else(|| Rect::default());
+    let logs_area = right_right_layout.rect(SLOT_LOGS).unwrap_or_default();
 
     panels::render_actions(frame, actions_area, app);
     panels::render_problems(frame, problems_area, app);

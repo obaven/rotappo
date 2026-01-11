@@ -19,9 +19,8 @@ macro_rules! ui_panel_block {
             .title($title)
             .borders(ratatui::widgets::Borders::ALL);
         if $hovered {
-            block = block.style(
-                ratatui::style::Style::default().bg(ratatui::style::Color::Rgb(0, 90, 90)),
-            );
+            block = block
+                .style(ratatui::style::Style::default().bg(ratatui::style::Color::Rgb(0, 90, 90)));
         }
         block
     }};
@@ -33,9 +32,8 @@ macro_rules! ui_panel_block {
             block = block.style(ratatui::style::Style::default().fg(ratatui::style::Color::Cyan));
         }
         if $hovered {
-            block = block.style(
-                ratatui::style::Style::default().bg(ratatui::style::Color::Rgb(0, 90, 90)),
-            );
+            block = block
+                .style(ratatui::style::Style::default().bg(ratatui::style::Color::Rgb(0, 90, 90)));
         }
         block
     }};

@@ -31,12 +31,12 @@ pub fn format_age(timestamp_ms: u64) -> String {
     let delta_ms = now.saturating_sub(timestamp_ms);
     let seconds = delta_ms / 1_000;
     if seconds < 60 {
-        return format!("{}s ago", seconds);
+        return format!("{seconds}s ago");
     }
     let minutes = seconds / 60;
     if minutes < 60 {
-        return format!("{}m ago", minutes);
+        return format!("{minutes}m ago");
     }
     let hours = minutes / 60;
-    format!("{}h ago", hours)
+    format!("{hours}h ago")
 }

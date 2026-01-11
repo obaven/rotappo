@@ -1,15 +1,20 @@
+mod assembly;
+pub mod bootstrap;
 pub mod controller;
 mod health;
 mod mapping;
-mod assembly;
 
 use anyhow::{Context, Result};
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use rotappo_ports::{LogPort, PortSet};
+use bootstrappo::adapters::infrastructure::kube::clients::k8s::K8sClient;
+use bootstrappo::application::events::{EventBus, InteractiveCommand};
 use rotappo_domain::Event;
+use rotappo_ports::{LogPort, PortSet};
+use tokio::sync::mpsc;
 
+pub use bootstrap::BootstrapAdapter;
 pub use health::LiveStatus;
 
 pub struct BootstrappoBackend {
@@ -20,6 +25,10 @@ pub struct BootstrappoBackend {
     pub assembly_error: Option<String>,
     pub live_status: Option<LiveStatus>,
     ports: PortSet,
+    bootstrap_event_bus: EventBus,
+    bootstrap_command_tx: mpsc::Sender<InteractiveCommand>,
+    bootstrap_command_rx: Option<mpsc::Receiver<InteractiveCommand>>,
+    bootstrap_runtime: Option<tokio::runtime::Runtime>,
 }
 
 impl BootstrappoBackend {
@@ -37,9 +46,41 @@ impl BootstrappoBackend {
         config_path: Option<PathBuf>,
         assembly_path: Option<PathBuf>,
     ) -> Result<Self> {
-        let config_path = config_path.unwrap_or_else(|| {
-            PathBuf::from("../bootstrappo/data/configs/bootstrap-config.yaml")
-        });
+        let bootstrap_event_bus = EventBus::default();
+        let (bootstrap_command_tx, bootstrap_command_rx) = mpsc::channel(100);
+        Self::build_with_bootstrap(
+            config_path,
+            assembly_path,
+            bootstrap_event_bus,
+            bootstrap_command_tx,
+            Some(bootstrap_command_rx),
+        )
+    }
+
+    pub fn from_paths_with_bootstrap(
+        config_path: Option<PathBuf>,
+        assembly_path: Option<PathBuf>,
+        bootstrap_event_bus: EventBus,
+        bootstrap_command_tx: mpsc::Sender<InteractiveCommand>,
+    ) -> Result<Self> {
+        Self::build_with_bootstrap(
+            config_path,
+            assembly_path,
+            bootstrap_event_bus,
+            bootstrap_command_tx,
+            None,
+        )
+    }
+
+    fn build_with_bootstrap(
+        config_path: Option<PathBuf>,
+        assembly_path: Option<PathBuf>,
+        bootstrap_event_bus: EventBus,
+        bootstrap_command_tx: mpsc::Sender<InteractiveCommand>,
+        bootstrap_command_rx: Option<mpsc::Receiver<InteractiveCommand>>,
+    ) -> Result<Self> {
+        let config_path = config_path
+            .unwrap_or_else(|| PathBuf::from("../bootstrappo/data/configs/bootstrap-config.yaml"));
         let config =
             bootstrappo::application::config::load_from_file(&config_path).with_context(|| {
                 format!(
@@ -55,12 +96,31 @@ impl BootstrappoBackend {
             assembly::BootstrappoAssemblyPort::load(live_status.clone(), Arc::clone(&config));
         let assembly = assembly_port.assembly();
         let assembly_error = assembly_port.assembly_error();
+        let bootstrap_assembly = assembly_port.bootstrappo_assembly().unwrap_or_default();
         let health_port = health::BootstrappoHealthPort::new(live_status.clone());
-        let ports = PortSet {
-            assembly: Arc::new(assembly_port),
-            health: Arc::new(health_port),
-            logs: Arc::new(BootstrappoLogPort),
+        let mut ports = PortSet::empty();
+        ports.assembly = Arc::new(assembly_port);
+        ports.health = Arc::new(health_port);
+        ports.logs = Arc::new(BootstrappoLogPort);
+        let (bootstrap_runtime, handle) = match tokio::runtime::Handle::try_current() {
+            Ok(handle) => (None, handle),
+            Err(_) => {
+                let runtime = tokio::runtime::Builder::new_multi_thread()
+                    .enable_all()
+                    .build()?;
+                let handle = runtime.handle().clone();
+                (Some(runtime), handle)
+            }
         };
+        let k8s = handle.block_on(K8sClient::new())?;
+        let _guard = handle.enter();
+        let bootstrap_adapter = BootstrapAdapter::new(
+            bootstrap_event_bus.clone(),
+            bootstrap_assembly,
+            bootstrap_command_tx.clone(),
+            k8s,
+        );
+        ports.bootstrap = Arc::new(bootstrap_adapter);
 
         Ok(Self {
             config,
@@ -70,11 +130,33 @@ impl BootstrappoBackend {
             assembly_error,
             live_status,
             ports,
+            bootstrap_event_bus,
+            bootstrap_command_tx,
+            bootstrap_command_rx,
+            bootstrap_runtime,
         })
     }
 
     pub fn ports(&self) -> PortSet {
         self.ports.clone()
+    }
+
+    pub fn bootstrap_event_bus(&self) -> &EventBus {
+        &self.bootstrap_event_bus
+    }
+
+    pub fn bootstrap_command_sender(&self) -> &mpsc::Sender<InteractiveCommand> {
+        &self.bootstrap_command_tx
+    }
+
+    pub fn take_bootstrap_command_receiver(
+        &mut self,
+    ) -> Option<mpsc::Receiver<InteractiveCommand>> {
+        self.bootstrap_command_rx.take()
+    }
+
+    pub fn bootstrap_runtime(&self) -> Option<&tokio::runtime::Runtime> {
+        self.bootstrap_runtime.as_ref()
     }
 }
 

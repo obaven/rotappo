@@ -15,16 +15,20 @@ impl App {
                 title: "Snapshot".to_string(),
                 lines: vec![
                     format!(
-                        "Assembly: {}/{} complete",
-                        snapshot.assembly.completed, snapshot.assembly.total
+                        "Assembly: {completed}/{total} complete",
+                        completed = snapshot.assembly.completed,
+                        total = snapshot.assembly.total
                     ),
-                    format!("In progress: {}", snapshot.assembly.in_progress),
-                    format!("Blocked: {}", snapshot.assembly.blocked),
-                    format!("Pending: {}", snapshot.assembly.pending),
-                    format!("Health: {}", snapshot.health.as_str()),
                     format!(
-                        "Last action: {}",
-                        snapshot
+                        "In progress: {in_progress}",
+                        in_progress = snapshot.assembly.in_progress
+                    ),
+                    format!("Blocked: {blocked}", blocked = snapshot.assembly.blocked),
+                    format!("Pending: {pending}", pending = snapshot.assembly.pending),
+                    format!("Health: {health}", health = snapshot.health.as_str()),
+                    format!(
+                        "Last action: {last_action}",
+                        last_action = snapshot
                             .last_action
                             .map(|action| action.to_string())
                             .unwrap_or_else(|| "none".to_string())
@@ -35,32 +39,32 @@ impl App {
         if let Some(index) = self.ui.hover_action_index {
             let step = self.runtime.snapshot().assembly_steps.get(index)?;
             return Some(Tooltip {
-                title: format!("Step {}", step.id),
+                title: format!("Step {id}", id = step.id.as_str()),
                 lines: vec![
-                    format!("Domain: {}", step.domain),
-                    format!("Status: {}", step.status.as_str()),
-                    format!("Kind: {}", step.kind),
-                    format!("Depends: {}", step.depends_on.len()),
-                    format!("Provides: {}", step.provides.len()),
-                    format!("Pod: {}", step.pod.as_deref().unwrap_or("-")),
+                    format!("Domain: {domain}", domain = step.domain.as_str()),
+                    format!("Status: {status}", status = step.status.as_str()),
+                    format!("Kind: {kind}", kind = step.kind.as_str()),
+                    format!("Depends: {count}", count = step.depends_on.len()),
+                    format!("Provides: {count}", count = step.provides.len()),
+                    format!("Pod: {pod}", pod = step.pod.as_deref().unwrap_or("-")),
                 ],
             });
         }
         if let Some(index) = self.ui.hover_capability_index {
             let cap = self.runtime.snapshot().capabilities.get(index)?;
             return Some(Tooltip {
-                title: format!("Capability {}", cap.name),
-                lines: vec![format!("Status: {}", cap.status.as_str())],
+                title: format!("Capability {name}", name = cap.name.as_str()),
+                lines: vec![format!("Status: {status}", status = cap.status.as_str())],
             });
         }
         if let Some(index) = self.ui.hover_action_index {
             let action = self.runtime.registry().actions().get(index)?;
             return Some(Tooltip {
-                title: format!("Action {}", action.label),
+                title: format!("Action {label}", label = action.label),
                 lines: vec![
-                    format!("ID: {}", action.id),
-                    format!("Safety: {}", action.safety.as_str()),
-                    format!("Confirm: {}", action.requires_confirmation),
+                    format!("ID: {id}", id = action.id),
+                    format!("Safety: {safety}", safety = action.safety.as_str()),
+                    format!("Confirm: {confirm}", confirm = action.requires_confirmation),
                     action.description.to_string(),
                 ],
             });

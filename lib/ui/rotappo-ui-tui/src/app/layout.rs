@@ -3,8 +3,8 @@
 use ratatui::layout::{Margin, Position, Rect};
 
 use super::{
-    App, PanelId, COLLAPSED_HEIGHT, FILTER_LABEL, LOG_CONTROLS_BASE_HEIGHT,
-    LOG_MENU_FILTER_LEN, LOG_MENU_STREAM_LEN, STREAM_LABEL,
+    App, COLLAPSED_HEIGHT, FILTER_LABEL, LOG_CONTROLS_BASE_HEIGHT, LOG_MENU_FILTER_LEN,
+    LOG_MENU_STREAM_LEN, PanelId, STREAM_LABEL,
 };
 
 impl App {
@@ -80,9 +80,7 @@ impl App {
     }
 
     pub(crate) fn log_menu_trigger_contains(&self, pos: Position) -> bool {
-        if self.ui.log_filter_tag_area.contains(pos)
-            || self.ui.log_stream_tag_area.contains(pos)
-        {
+        if self.ui.log_filter_tag_area.contains(pos) || self.ui.log_stream_tag_area.contains(pos) {
             return true;
         }
         if self.ui.log_controls_area.height == 0 {
@@ -95,15 +93,21 @@ impl App {
         if inner.height == 0 || pos.y != inner.y {
             return false;
         }
-        let filter_start =
-            self.ui.log_filter_tag_area.x.saturating_sub(FILTER_LABEL.len() as u16);
+        let filter_start = self
+            .ui
+            .log_filter_tag_area
+            .x
+            .saturating_sub(FILTER_LABEL.len() as u16);
         let filter_end = self
             .ui
             .log_filter_tag_area
             .x
             .saturating_add(self.ui.log_filter_tag_area.width);
-        let stream_start =
-            self.ui.log_stream_tag_area.x.saturating_sub(STREAM_LABEL.len() as u16);
+        let stream_start = self
+            .ui
+            .log_stream_tag_area
+            .x
+            .saturating_sub(STREAM_LABEL.len() as u16);
         let stream_end = self
             .ui
             .log_stream_tag_area

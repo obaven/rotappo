@@ -1,7 +1,7 @@
 use anyhow::Result;
 
-use rotappo_ui_presentation::logging::next_log_interval_secs;
 use rotappo_domain::{ActionId, ActionSafety, Event, EventLevel};
+use rotappo_ui_presentation::logging::next_log_interval_secs;
 
 use super::{App, ConfirmPrompt};
 
@@ -69,7 +69,7 @@ impl App {
             });
             self.runtime.events_mut().push(Event::new(
                 EventLevel::Warn,
-                format!("Confirmation required: {}", label),
+                format!("Confirmation required: {label}"),
             ));
             return Ok(());
         }
@@ -83,7 +83,7 @@ impl App {
             } else {
                 self.runtime.events_mut().push(Event::new(
                     EventLevel::Warn,
-                    format!("Action canceled: {}", confirm.label),
+                    format!("Action canceled: {label}", label = confirm.label),
                 ));
             }
         }

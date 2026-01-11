@@ -1,5 +1,8 @@
 #[cfg(all(feature = "module-bootstrappo", feature = "module-rotato"))]
-compile_error!("Enable only one module feature when building the cli bin.");
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    anyhow::bail!("Enable only one module feature when building the cli bin.")
+}
 
 #[cfg(all(feature = "module-bootstrappo", not(feature = "module-rotato")))]
 #[tokio::main]

@@ -8,10 +8,10 @@ use ratatui::{
     widgets::{List, ListItem, Scrollbar, ScrollbarOrientation, ScrollbarState},
 };
 
-use rotappo_domain::EventLevel;
 use crate::app::App;
 use crate::state::HoverPanel;
 use crate::util::{format_age, traveling_glow};
+use rotappo_domain::EventLevel;
 
 /// Render the log list panel.
 ///
@@ -34,7 +34,10 @@ pub fn render_logs(frame: &mut Frame, area: Rect, app: &mut App) {
     let hovered = app.ui.hover_panel == HoverPanel::Logs;
     if app.ui.collapsed_logs {
         let block = crate::ui_panel_block!(
-            format!("Logs ({})", app.ui.log_config.filter.as_str()),
+            format!(
+                "Logs ({filter})",
+                filter = app.ui.log_config.filter.as_str()
+            ),
             hovered
         );
         frame.render_widget(block, area);
@@ -58,7 +61,10 @@ pub fn render_logs(frame: &mut Frame, area: Rect, app: &mut App) {
             };
             let timestamp = format_age(event.timestamp_ms);
             let line = Line::from(vec![
-                Span::styled(format!("[{:<4}]", event.level.as_str()), level_style),
+                Span::styled(
+                    format!("[{level:<4}]", level = event.level.as_str()),
+                    level_style,
+                ),
                 Span::raw(" "),
                 Span::raw(timestamp),
                 Span::raw(" "),
@@ -74,12 +80,14 @@ pub fn render_logs(frame: &mut Frame, area: Rect, app: &mut App) {
         .collect();
 
     let updated_secs = app.ui.last_log_emit.elapsed().as_secs();
-    let title_left =
-        Line::from(format!("Logs ({})", app.ui.log_config.filter.as_str())).left_aligned();
+    let title_left = Line::from(format!(
+        "Logs ({filter})",
+        filter = app.ui.log_config.filter.as_str()
+    ))
+    .left_aligned();
     let title_right =
-        Line::from(format!("events: {} | updated: {}s", total, updated_secs)).right_aligned();
-    let mut list_block =
-        crate::ui_panel_block!(title_left, hovered, app.refresh_pulse_active());
+        Line::from(format!("events: {total} | updated: {updated_secs}s")).right_aligned();
+    let mut list_block = crate::ui_panel_block!(title_left, hovered, app.refresh_pulse_active());
     list_block = list_block.title(title_right);
     let mut list = List::new(items).block(list_block);
     if hovered {
@@ -90,8 +98,8 @@ pub fn render_logs(frame: &mut Frame, area: Rect, app: &mut App) {
 
     if total > max_items && max_items > 0 {
         let mut state = ScrollbarState::new(total).position(app.ui.log_scroll as usize);
-        let bar =
-            Scrollbar::new(ScrollbarOrientation::VerticalRight).style(Style::default().fg(Color::Cyan));
+        let bar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+            .style(Style::default().fg(Color::Cyan));
         frame.render_stateful_widget(
             bar,
             area.inner(Margin {

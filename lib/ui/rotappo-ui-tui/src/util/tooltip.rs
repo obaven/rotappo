@@ -74,9 +74,7 @@ pub fn tooltip_rect_in_corner(
     let (width, height) = tooltip_size(area, lines, max_width_pct, max_height_pct);
     let right_edge = area.x.saturating_add(area.width);
     let bottom_edge = area.y.saturating_add(area.height);
-    let x = right_edge
-        .saturating_sub(width.saturating_add(margin_x).max(1));
-    let y = bottom_edge
-        .saturating_sub(height.saturating_add(margin_y).max(1));
+    let x = right_edge.saturating_sub(width.saturating_add(margin_x).max(1));
+    let y = bottom_edge.saturating_sub(height.saturating_add(margin_y).max(1));
     Rect::new(x.max(area.x), y.max(area.y), width, height)
 }

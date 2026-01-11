@@ -1,12 +1,10 @@
 use anyhow::Result;
-use crossterm::event::{
-    KeyCode, KeyEvent, KeyEventKind, MouseButton, MouseEvent, MouseEventKind,
-};
+use crossterm::event::{KeyCode, KeyEvent, KeyEventKind, MouseButton, MouseEvent, MouseEventKind};
 use ratatui::layout::Margin;
 use std::time::Duration;
 
-use rotappo_ui_presentation::logging::{LogFilter, LOG_INTERVALS_SECS};
 use rotappo_domain::{Event, EventLevel};
+use rotappo_ui_presentation::logging::{LOG_INTERVALS_SECS, LogFilter};
 
 use super::App;
 use crate::state::HoldState;
@@ -140,8 +138,11 @@ impl App {
         {
             return false;
         }
-        let filter_start =
-            self.ui.log_filter_tag_area.x.saturating_sub(super::FILTER_LABEL.len() as u16);
+        let filter_start = self
+            .ui
+            .log_filter_tag_area
+            .x
+            .saturating_sub(super::FILTER_LABEL.len() as u16);
         let filter_end = self
             .ui
             .log_filter_tag_area
@@ -151,8 +152,11 @@ impl App {
             self.toggle_log_menu(crate::state::LogMenuMode::Filter);
             return true;
         }
-        let stream_start =
-            self.ui.log_stream_tag_area.x.saturating_sub(super::STREAM_LABEL.len() as u16);
+        let stream_start = self
+            .ui
+            .log_stream_tag_area
+            .x
+            .saturating_sub(super::STREAM_LABEL.len() as u16);
         let stream_end = self
             .ui
             .log_stream_tag_area
@@ -197,18 +201,16 @@ impl App {
         let cancel_end = cancel_start.saturating_add(8);
         if column >= apply_start && column < apply_end {
             self.ui.settings_selected = 0;
-            self.runtime.events_mut().push(Event::new(
-                EventLevel::Info,
-                "Settings: apply (stub)",
-            ));
+            self.runtime
+                .events_mut()
+                .push(Event::new(EventLevel::Info, "Settings: apply (stub)"));
             return true;
         }
         if column >= cancel_start && column < cancel_end {
             self.ui.settings_selected = 1;
-            self.runtime.events_mut().push(Event::new(
-                EventLevel::Info,
-                "Settings: cancel (stub)",
-            ));
+            self.runtime
+                .events_mut()
+                .push(Event::new(EventLevel::Info, "Settings: cancel (stub)"));
             return true;
         }
         false
@@ -246,7 +248,10 @@ impl App {
         self.sync_action_scroll(index);
         self.runtime.events_mut().push(Event::new(
             EventLevel::Info,
-            format!("Mouse select: action {} at ({},{})", index + 1, column, row),
+            format!(
+                "Mouse select: action {action} at ({column},{row})",
+                action = index + 1
+            ),
         ));
         if trigger {
             self.mark_action_flash(index);

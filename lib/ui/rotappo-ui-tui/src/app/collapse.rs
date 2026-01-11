@@ -8,9 +8,18 @@ impl App {
             self.toggle_settings_panel();
             return true;
         }
-        self.toggle_if_header(PanelId::AssemblyProgress, self.ui.assembly_progress_area, column, row)
-            || self.toggle_if_header(PanelId::Snapshot, self.ui.snapshot_area, column, row)
-            || self.toggle_if_header(PanelId::Capabilities, self.ui.capabilities_area, column, row)
+        self.toggle_if_header(
+            PanelId::AssemblyProgress,
+            self.ui.assembly_progress_area,
+            column,
+            row,
+        ) || self.toggle_if_header(PanelId::Snapshot, self.ui.snapshot_area, column, row)
+            || self.toggle_if_header(
+                PanelId::Capabilities,
+                self.ui.capabilities_area,
+                column,
+                row,
+            )
             || self.toggle_if_header(PanelId::AssemblySteps, self.ui.assembly_area, column, row)
             || self.toggle_if_header(PanelId::Actions, self.ui.actions_area, column, row)
             || self.toggle_if_header(PanelId::Settings, self.ui.settings_area, column, row)
@@ -20,13 +29,7 @@ impl App {
             || self.toggle_if_header(PanelId::Help, self.ui.help_area, column, row)
     }
 
-    fn toggle_if_header(
-        &mut self,
-        panel: PanelId,
-        area: Rect,
-        column: u16,
-        row: u16,
-    ) -> bool {
+    fn toggle_if_header(&mut self, panel: PanelId, area: Rect, column: u16, row: u16) -> bool {
         if area.height < 1 {
             return false;
         }

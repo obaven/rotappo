@@ -7,15 +7,15 @@
 //! let _ = format_age(0);
 //! ```
 
-mod color;
 mod assembly;
+mod color;
 mod problems;
 mod rect;
 mod time;
 mod tooltip;
 
+pub use assembly::{AssemblyLine, assembly_lines, assembly_status_icon, capability_icon};
 pub use color::{animated_color, traveling_glow};
-pub use assembly::{capability_icon, assembly_lines, assembly_status_icon, AssemblyLine};
 pub use problems::collect_problems;
 pub use rect::{anchored_rect, anchored_rect_with_offset, centered_rect};
 pub use time::{format_age, spinner_frame};

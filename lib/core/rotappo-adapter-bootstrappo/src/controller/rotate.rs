@@ -12,9 +12,9 @@ pub async fn rotate(
     if dry_run {
         info!("🔍 DRY-RUN MODE: Preview of rotation targets");
         println!("=== Rotation Preview ===");
-        println!("  Type: {}", rotation);
-        println!("  Assembly: {}", assembly_path);
-        println!("  GitOps Dir: {}", gitops_dir);
+        println!("  Type: {rotation}");
+        println!("  Assembly: {assembly_path}");
+        println!("  GitOps Dir: {gitops_dir}");
         println!("\n✅ Dry-run complete. No rotations were executed.");
         return Ok(());
     }
@@ -31,7 +31,7 @@ pub async fn rotate(
     let gitops_dir = Path::new(&gitops_dir);
 
     use bootstrappo::application::reconciler::ops::hooks::{
-        dns::DnsHook, ingress::IngressHook, tls::TlsHook, HookOperation,
+        HookOperation, dns::DnsHook, ingress::IngressHook, tls::TlsHook,
     };
 
     match rotation.as_str() {
@@ -63,10 +63,9 @@ pub async fn rotate(
             info!("✅ All hooks complete!");
         }
         other => {
-            info!("⚠️ Rotation '{}' not yet implemented", other);
+            info!("⚠️ Rotation '{other}' not yet implemented");
             anyhow::bail!(
-                "Rotation '{}' not yet implemented. Available: ingress, tls, dns, all",
-                other
+                "Rotation '{other}' not yet implemented. Available: ingress, tls, dns, all"
             );
         }
     }

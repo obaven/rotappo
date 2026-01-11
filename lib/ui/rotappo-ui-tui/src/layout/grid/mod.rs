@@ -61,11 +61,8 @@ mod tests {
 
     #[test]
     fn skips_hidden_slots() {
-        let spec = GridSpec::new(
-            vec![TrackSize::Fixed(2)],
-            vec![TrackSize::Fixed(2)],
-        )
-        .with_slots(vec![GridSlot::new("hidden", 0, 0).hidden()]);
+        let spec = GridSpec::new(vec![TrackSize::Fixed(2)], vec![TrackSize::Fixed(2)])
+            .with_slots(vec![GridSlot::new("hidden", 0, 0).hidden()]);
         let layout = GridResolver::resolve(Rect::new(0, 0, 4, 4), &spec);
         assert!(layout.rect("hidden").is_none());
     }
@@ -73,11 +70,13 @@ mod tests {
     #[test]
     fn applies_min_max_and_offsets() {
         let spec = GridSpec::new(vec![TrackSize::Fixed(10)], vec![TrackSize::Fixed(10)])
-            .with_slots(vec![GridSlot::new("slot", 0, 0)
-                .movable(true)
-                .with_min_size(6, 6)
-                .with_max_size(8, 8)
-                .offset(3, 4)]);
+            .with_slots(vec![
+                GridSlot::new("slot", 0, 0)
+                    .movable(true)
+                    .with_min_size(6, 6)
+                    .with_max_size(8, 8)
+                    .offset(3, 4),
+            ]);
         let area = Rect::new(0, 0, 10, 10);
         let layout = GridResolver::resolve(area, &spec);
         let rect = layout.rect("slot").expect("slot rect");
@@ -89,11 +88,13 @@ mod tests {
 
     #[test]
     fn clamps_offsets_to_area() {
-        let spec = GridSpec::new(vec![TrackSize::Fixed(6)], vec![TrackSize::Fixed(6)])
-            .with_slots(vec![GridSlot::new("slot", 0, 0)
-                .movable(true)
-                .with_max_size(4, 4)
-                .offset(10, 10)]);
+        let spec =
+            GridSpec::new(vec![TrackSize::Fixed(6)], vec![TrackSize::Fixed(6)]).with_slots(vec![
+                GridSlot::new("slot", 0, 0)
+                    .movable(true)
+                    .with_max_size(4, 4)
+                    .offset(10, 10),
+            ]);
         let area = Rect::new(0, 0, 6, 6);
         let layout = GridResolver::resolve(area, &spec);
         let rect = layout.rect("slot").expect("slot rect");

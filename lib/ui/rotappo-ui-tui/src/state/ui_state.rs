@@ -3,8 +3,8 @@
 use ratatui::layout::Rect;
 use std::time::Instant;
 
-use rotappo_ui_presentation::logging::LogStreamConfig;
 use rotappo_domain::Event;
+use rotappo_ui_presentation::logging::LogStreamConfig;
 
 use super::{HoldState, HoverPanel, LogMenuMode, Tooltip};
 
@@ -129,5 +129,11 @@ impl UiState {
             action_flash_index: None,
             action_flash_at: None,
         }
+    }
+}
+
+impl Default for UiState {
+    fn default() -> Self {
+        Self::new()
     }
 }

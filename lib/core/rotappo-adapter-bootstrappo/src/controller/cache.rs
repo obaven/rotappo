@@ -7,8 +7,8 @@
 //! - `bootstrappo cache status` - Show cache statistics
 //! - `bootstrappo cache purge` - Clear all cached data
 
-use tracing::info;
 use bootstrappo::ports::ArtifactCache;
+use tracing::info;
 
 /// Show cache statistics.
 pub async fn status() -> anyhow::Result<()> {

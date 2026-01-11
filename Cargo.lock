@@ -2499,9 +2499,11 @@ dependencies = [
  "bootstrappo",
  "bootstrappo-api",
  "inventory",
+ "k8s-openapi",
  "kube",
  "rotappo-domain",
  "rotappo-ports",
+ "rotappo-ui-tui",
  "serde",
  "serde_yaml",
  "tokio",
@@ -2529,6 +2531,8 @@ dependencies = [
 name = "rotappo-ports"
 version = "0.0.1"
 dependencies = [
+ "anyhow",
+ "bootstrappo",
  "rotappo-domain",
 ]
 
@@ -2569,6 +2573,7 @@ name = "rotappo-ui-tui"
 version = "0.0.1"
 dependencies = [
  "anyhow",
+ "bootstrappo",
  "crossterm",
  "ratatui",
  "rotappo-application",
