@@ -6,7 +6,7 @@ framework-agnostic way. They allow new UI surfaces (web, desktop) to
 reuse the same core types without ratatui/crossterm dependencies.
 
 ## Module location
-- `crates/ui/rotappo-ui-core/`
+- `lib/ui/rotappo-ui-core/`
 
 ## Core types
 

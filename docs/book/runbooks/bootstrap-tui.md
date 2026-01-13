@@ -9,16 +9,17 @@ safely without breaking the event-driven UI contract.
 
 - Entry point: `lib/ui/rotappo-ui-tui/src/bootstrap/app.rs`
 - Terminal loop: `lib/ui/rotappo-ui-tui/src/bootstrap/terminal.rs`
+- Shared loop helper: `lib/ui/rotappo-ui-tui/src/terminal.rs`
 - Panels: `lib/ui/rotappo-ui-tui/src/bootstrap/panels/`
 - State: `lib/ui/rotappo-ui-tui/src/bootstrap/state.rs`
 
 The bootstrap UI renders:
 - Header panel
 - Dependency tree panel
-- Component status panel
-- Interactive menu overlay
-- Log overlay (from the control menu)
-- Success summary panel (when complete)
+- Status panel
+- Summary overlay (completion view)
+- Control menu overlay
+- Logs overlay (from the control menu)
 
 ## Adding a new panel
 
@@ -48,6 +49,7 @@ The bootstrap UI renders:
 
 The control menu exposes context-aware actions such as View Logs, Skip, Retry,
 and Adjust Timeout based on the selected component state.
+Adjust Timeout opens a seconds input; press Enter to apply or Esc to cancel.
 
 ## Safety and UX notes
 

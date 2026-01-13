@@ -1,0 +1,51 @@
+id: ARCH-040
+title: 'ARCH-4F: Sibling Cap Directory Restructure'
+type: Task
+layer: 5
+domain: core
+component: layout-hygiene
+cli_surface: []
+
+description: |
+  Restructure lib/ and src/ directory layouts so no directory under those
+  roots has more than five siblings. Preserve module boundaries and
+  update Cargo paths, tests, and docs to match the new layout.
+
+deliverables:
+  - Updated lib/ and src/ directory hierarchy with <=5 siblings per dir
+  - Cargo workspace paths updated for new crate locations
+  - Updated docs and tests referencing new paths
+  - Verification list for post-move checks
+
+acceptance_criteria:
+  - No directory under lib/ or src/ exceeds 5 siblings
+  - Workspace builds resolve new crate paths
+  - Architecture docs reflect the new layout
+
+dependencies:
+  - ARCH-034
+
+phase_gate: gitops
+effort: L
+risk: med
+
+labels:
+  - architecture
+  - hygiene
+  - refactor
+  - structure
+
+source_files:
+  - file: lib
+    context: "Core/UI crate layout"
+  - file: src
+    context: "Bin/lib entrypoints"
+  - file: docs/architecture
+    context: "Architecture docs to update"
+  - file: tests
+    context: "Boundary tests and path references"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-13, status:done)
+assignee: unassigned

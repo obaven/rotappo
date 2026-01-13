@@ -34,7 +34,7 @@ Notes:
 
 ## Directory layout (grouped)
 ```
-crates/
+lib/
   core/
     rotappo-domain/
     rotappo-ports/
@@ -71,19 +71,19 @@ Disallowed edges (examples):
 
 | Path | Target crate | Notes |
 | --- | --- | --- |
-| `crates/core/rotappo-domain/src/*` | `rotappo-domain` | Core model types + snapshot state. |
-| `crates/core/rotappo-ports/src/*` | `rotappo-ports` | Action/Health/Log ports. |
-| `crates/core/rotappo-application/src/*` | `rotappo-application` | Runtime orchestration. |
-| `crates/core/rotappo-ml/src/*` | `rotappo-ml` | ML model implementations. |
-| `crates/ui/rotappo-ui-presentation/src/*` | `rotappo-ui-presentation` | Shared formatting + logging config. |
-| `crates/ui/rotappo-ui-core/src/*` | `rotappo-ui-core` | Framework-agnostic UI types. |
-| `crates/ui/rotappo-ui-terminal/src/*` | `rotappo-ui-terminal` | CLI formatting + dispatch. |
-| `crates/ui/rotappo-ui-terminal/src/cli/*` | `rotappo-ui-terminal` | Bootstrappo CLI clap surface. |
-| `crates/ui/rotappo-ui-tui/src/*` | `rotappo-ui-tui` | Ratatui adapter and TUI logic. |
-| `crates/core/rotappo-adapter-bootstrappo/src/*` | `rotappo-adapter-bootstrappo` | Port impls + bootstrappo mapping. |
-| `crates/core/rotappo-adapter-bootstrappo/src/controller/*` | `rotappo-adapter-bootstrappo` | Bootstrappo command handlers. |
-| `crates/core/rotappo-adapter-analytics/src/*` | `rotappo-adapter-analytics` | Analytics service components. |
-| `crates/core/rotappo-adapter-ml/src/*` | `rotappo-adapter-ml` | ML service components. |
+| `lib/core/rotappo-domain/src/*` | `rotappo-domain` | Core model types + snapshot state. |
+| `lib/core/rotappo-ports/src/*` | `rotappo-ports` | Action/Health/Log ports. |
+| `lib/core/rotappo-application/src/*` | `rotappo-application` | Runtime orchestration. |
+| `lib/core/rotappo-ml/src/*` | `rotappo-ml` | ML model implementations. |
+| `lib/ui/rotappo-ui-presentation/src/*` | `rotappo-ui-presentation` | Shared formatting + logging config. |
+| `lib/ui/rotappo-ui-core/src/*` | `rotappo-ui-core` | Framework-agnostic UI types. |
+| `lib/ui/rotappo-ui-terminal/src/*` | `rotappo-ui-terminal` | CLI formatting + dispatch. |
+| `lib/ui/rotappo-ui-terminal/src/cli/*` | `rotappo-ui-terminal` | Bootstrappo CLI clap surface. |
+| `lib/ui/rotappo-ui-tui/src/*` | `rotappo-ui-tui` | Ratatui adapter and TUI logic. |
+| `lib/core/rotappo-adapter-bootstrappo/src/*` | `rotappo-adapter-bootstrappo` | Port impls + bootstrappo mapping. |
+| `lib/core/rotappo-adapter-bootstrappo/src/controller/*` | `rotappo-adapter-bootstrappo` | Bootstrappo command handlers. |
+| `lib/core/rotappo-adapter-analytics/src/*` | `rotappo-adapter-analytics` | Analytics service components. |
+| `lib/core/rotappo-adapter-ml/src/*` | `rotappo-adapter-ml` | ML service components. |
 | `src/bin/cli.rs` | `cli` | Composition root for bootstrappo CLI. |
 | `src/bin/tui.rs` | `tui` | Composition root for TUI. |
 | `src/bin/analytics-service.rs` | `analytics-service` | Composition root for analytics service. |
@@ -112,11 +112,11 @@ Disallowed edges (examples):
 - Composition roots now live in `src/bin/cli.rs` and `src/bin/tui.rs`.
 - `BootstrappoBackend` exposes ports only; runtime construction happens in bins.
 - TUI `start` accepts injected `Runtime` + `AppContext` instead of a backend.
-- Domain types now live in `crates/core/rotappo-domain`.
+- Domain types now live in `lib/core/rotappo-domain`.
 
 ## Migration checklist (ARCH-3C)
 - [x] Add workspace members for target crates.
-- [x] Scaffold empty crates under `crates/`.
+- [x] Scaffold empty crates under `lib/`.
 - [x] Migrate core domain layer into `rotappo-domain`.
 - [x] Update imports to use `rotappo_domain` crate paths.
 - [x] Migrate ports into `rotappo-ports`.

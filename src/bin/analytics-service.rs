@@ -3,6 +3,7 @@ use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::time::Duration;
+use tokio::sync::watch;
 
 use rotappo_adapter_analytics::AnalyticsService;
 use rotappo_adapter_analytics::cluster_manager::ClusterManager;
@@ -14,6 +15,14 @@ use rotappo_domain::RotappoConfig;
 async fn main() -> anyhow::Result<()> {
     let config_path = config_path();
     let config = RotappoConfig::load_from_path(&config_path)?;
+
+    let (shutdown_tx, shutdown_rx) = watch::channel(false);
+    let shutdown_signal = shutdown_tx.clone();
+    tokio::spawn(async move {
+        if tokio::signal::ctrl_c().await.is_ok() {
+            let _ = shutdown_signal.send(true);
+        }
+    });
 
     let retention = RetentionConfig {
         raw_days: config.analytics.retention.full_resolution_days,
@@ -38,17 +47,25 @@ async fn main() -> anyhow::Result<()> {
         cm,
         Duration::from_secs(config.collection.interval),
     );
-    let _hc = tokio::spawn(mc.run_polling_loop());
+    let _hc = tokio::spawn(mc.run_polling_loop_with_shutdown(shutdown_rx.clone()));
 
-    tokio::spawn(rotappo_adapter_analytics::aggregator::Aggregator::run_hourly(storage.clone()));
+    tokio::spawn(
+        rotappo_adapter_analytics::aggregator::Aggregator::run_hourly_with_shutdown(
+            storage.clone(),
+            shutdown_rx.clone(),
+        ),
+    );
 
-    let kube_client = kube::Client::try_default().await.unwrap_or_else(|_| {
-        eprintln!("Failed to create kube client, scheduler will run without it");
-        // Create a dummy client or handle error. For now we panic or use what we can.
-        // But verifying "verbatim" usually implies it works.
-        // We'll panic if it fails as scheduler depends on it per signature I wrote.
-        panic!("kube client required");
-    });
+    let kube_client = match kube::Client::try_default().await {
+        Ok(client) => Some(client),
+        Err(err) => {
+            tracing::warn!(
+                "Failed to create kube client; scheduler disabled: {}",
+                err
+            );
+            None
+        }
+    };
 
     let mut channels = Vec::new();
     channels.push(rotappo_domain::NotificationChannel::InTui);
@@ -67,17 +84,23 @@ async fn main() -> anyhow::Result<()> {
     {
         let notifier = notifier.clone();
         let service = service.clone();
+        let shutdown_rx = shutdown_rx.clone();
         tokio::spawn(async move {
-            notifier.watch_anomalies(service).await;
+            notifier
+                .watch_anomalies_with_shutdown(service, shutdown_rx)
+                .await;
         });
     }
 
-    tokio::spawn(
-        rotappo_adapter_analytics::scheduler::SchedulerService::run_minute(
-            storage.clone(),
-            kube_client,
-        ),
-    );
+    if let Some(kube_client) = kube_client {
+        tokio::spawn(
+            rotappo_adapter_analytics::scheduler::SchedulerService::run_minute_with_shutdown(
+                storage.clone(),
+                kube_client,
+                shutdown_rx.clone(),
+            ),
+        );
+    }
 
     let addr = parse_addr(&config.services.analytics_url)
         .unwrap_or_else(|| "127.0.0.1:50051".parse().expect("invalid fallback addr"));

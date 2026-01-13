@@ -4,11 +4,9 @@
 //! interface adapter (TUI, web, desktop) without pulling in ratatui
 //! or terminal-specific dependencies (`rotappo-ui-terminal`).
 
-pub mod actions;
-pub mod geometry;
-pub mod input;
-pub mod panel;
-pub mod state;
+mod core;
+
+pub use core::{actions, geometry, input, panel, state};
 
 pub use actions::UiIntent;
 pub use geometry::{UiMargin, UiPoint, UiRect};

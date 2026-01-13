@@ -1,0 +1,51 @@
+id: ARCH-037
+title: 'ARCH-4C: Code Smell + Dead Code Audit'
+type: Task
+layer: 5
+domain: core
+component: code-smell-sweep
+cli_surface: []
+
+description: |
+  Run a targeted code smell sweep to remove dead modules, reduce overly
+  large functions, and standardize error handling and logging patterns.
+  Include distributed-frontend concerns like backpressure, state sync,
+  and long-running loop safety.
+
+deliverables:
+  - Dead code list and removal plan
+  - Simplified hot paths with reduced duplication
+  - Consistent error handling conventions documented
+  - Backpressure and loop safety checklist for adapters
+  - Updated testing checklist for cleanup verification
+
+acceptance_criteria:
+  - No TODO/HACK markers remain in active code paths
+  - Duplicate helper logic is consolidated or removed
+  - Testing checklist covers the cleaned code paths
+  - Long-running loops have explicit budgets and exit conditions
+
+dependencies:
+  - ARCH-034
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - cleanup
+  - refactor
+  - testing
+  - reliability
+
+source_files:
+  - file: lib
+    context: "Codebase-wide cleanup targets"
+  - file: docs/book/testing.md
+    context: "Testing checklist updates"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-06, status:done)
+assignee: unassigned

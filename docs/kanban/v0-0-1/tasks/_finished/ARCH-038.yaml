@@ -1,0 +1,51 @@
+id: ARCH-038
+title: 'ARCH-4D: Robust Documentation + ADRs'
+type: Task
+layer: 5
+domain: core
+component: architecture-docs
+cli_surface: []
+
+description: |
+  Strengthen architecture documentation by adding ADRs, clarifying
+  module responsibilities, and ensuring runbooks and interfaces docs
+  align with the canonical structure. Fold in distributed TUI system
+  design decisions for multi-tool adapters.
+
+deliverables:
+  - ADR template + initial decisions recorded
+  - Module responsibility docs for core and UI layers
+  - Distributed TUI design doc linked from architecture index
+  - Updated runbooks and interface docs reflecting the new layout
+
+acceptance_criteria:
+  - ADRs capture the rationale behind structural changes
+  - Documentation matches the on-disk module layout
+  - Key runbooks point to the correct entrypoints and modules
+  - TUI adapter system design decisions are traceable in ADRs
+
+dependencies:
+  - ARCH-034
+  - ARCH-035
+  - ARCH-039
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - architecture
+  - documentation
+  - adr
+  - systems-design
+
+source_files:
+  - file: docs/architecture
+    context: "Architecture docs and ADRs"
+  - file: docs/book
+    context: "Runbooks and interface documentation"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-06, status:done)
+assignee: unassigned

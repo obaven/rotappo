@@ -1,0 +1,52 @@
+id: UI-047
+title: 'Collapse State + LayoutPolicy Simplification'
+type: Task
+layer: 5
+domain: core
+component: rotappo-tui-layout-policy
+cli_surface:
+  - rotappo ui
+
+description: |
+  Simplify the collapse state flow by choosing a single source of
+  truth (UiState or LayoutPolicy) and removing redundant sync logic.
+  Either wire LayoutPolicy into layout resolution or remove unused
+  policy APIs.
+
+deliverables:
+  - Single-source collapse state with no bidirectional sync
+  - LayoutPolicy trimmed to the features actually used
+  - Collapse behavior updated for resize or documented as manual
+
+acceptance_criteria:
+  - Panel collapse/open behavior is deterministic
+  - No unused LayoutPolicy APIs or tests remain
+  - Layout behavior is documented in code and docs
+
+dependencies:
+  - UI-041
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - ui
+  - tui
+  - layout
+  - policy
+
+source_files:
+  - file: lib/ui/rotappo-ui-tui/src/app/layout.rs
+    context: "Collapse helpers + sync"
+  - file: lib/ui/rotappo-ui-tui/src/app/collapse.rs
+    context: "Panel open/close flow"
+  - file: lib/ui/rotappo-ui-tui/src/layout/policy/layout.rs
+    context: "Policy API surface"
+  - file: lib/ui/rotappo-ui-tui/src/layout/policy/state.rs
+    context: "Policy state + collapse rules"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:done)
+assignee: unassigned

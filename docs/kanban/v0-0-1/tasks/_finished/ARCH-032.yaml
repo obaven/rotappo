@@ -12,7 +12,7 @@ description: |
   TUI bin to depend on the new crate.
 
 deliverables:
-  - TUI interface modules moved into `crates/ui/rotappo-ui-tui`
+  - TUI interface modules moved into `lib/ui/rotappo-ui-tui`
   - `rotappo-ui-tui` depends on application, ui-core, and ui-presentation
   - Imports updated to use `rotappo_ui_tui`
 
@@ -39,7 +39,7 @@ labels:
 source_files:
   - file: src/interfaces/tui
     context: "TUI interface to migrate"
-  - file: crates/ui/rotappo-ui-tui
+  - file: lib/ui/rotappo-ui-tui
     context: "Target crate for TUI logic"
   - file: src/bin/tui.rs
     context: "TUI composition root"

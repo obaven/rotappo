@@ -15,17 +15,20 @@
 //! # }
 //! ```
 
-pub mod app;
-pub mod analytics_client;
-pub mod bootstrap;
-pub mod layout;
-pub mod macros;
-pub mod panels;
-pub mod state;
-pub mod util;
+mod adapter;
+mod runtime;
 
-mod render;
-mod runner;
+pub use adapter::bootstrap;
+pub use adapter::clients::analytics as analytics_client;
+pub use adapter::ui::app;
+pub use adapter::ui::layout;
+pub use adapter::ui::panels;
+pub use adapter::ui::support::macros;
+pub use adapter::ui::support::state;
+pub use adapter::ui::support::util;
+pub use runtime::render;
+pub use runtime::runner;
+pub use runtime::terminal;
 
 pub use bootstrap::start_bootstrap;
 pub use runner::start;

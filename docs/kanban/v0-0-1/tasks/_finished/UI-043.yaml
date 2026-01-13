@@ -1,0 +1,54 @@
+id: UI-043
+title: 'UI-2: Rotappo TUI Simplification + Debt Cleanup'
+type: Epic
+layer: 5
+domain: core
+component: rotappo-tui-cleanup
+cli_surface:
+  - rotappo ui
+
+description: |
+  Reduce redundancy and overengineering in the TUI adapter by
+  consolidating terminal loops, pruning unused layout/panel code,
+  simplifying collapse policy state, and aligning docs with the
+  current nav-based interface.
+
+deliverables:
+  - Shared terminal guard/event loop for main and bootstrap TUIs
+  - Unused layout and legacy panel modules removed or merged
+  - Collapse/layout policy rationalized to a single source of truth
+  - Bootstrap TUI panel paths consolidated
+  - TUI docs updated to reflect current architecture
+
+acceptance_criteria:
+  - rotappo-ui-tui builds without unused modules or dead exports
+  - TUI behavior is unchanged for active nav views and bootstrap TUI
+  - Documentation matches the shipped module layout and smoke tests
+
+dependencies:
+  - UI-004
+  - UI-038
+
+children:
+  - UI-044
+  - UI-045
+  - UI-046
+  - UI-047
+  - UI-048
+  - UI-049
+  - UI-050
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - tui
+  - cleanup
+  - refactor
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:done)
+assignee: unassigned

@@ -1,12 +1,12 @@
 # Presentation and Interfaces
 
-Presentation code lives in `crates/ui/rotappo-ui-presentation` and contains shared formatting
+Presentation code lives in `lib/ui/rotappo-ui-presentation` and contains shared formatting
 and view-model helpers that are UI/CLI agnostic.
 
-Interfaces live under `crates/ui/`:
-- `crates/ui/rotappo-ui-terminal` for CLI formatting and dispatch
-- `crates/ui/rotappo-ui-tui` for TUI rendering, layout, and state
-- `crates/ui/rotappo-ui-core` for framework-agnostic UI contracts
+Interfaces live under `lib/ui/`:
+- `lib/ui/rotappo-ui-terminal` for CLI formatting and dispatch
+- `lib/ui/rotappo-ui-tui` for TUI rendering, layout, and state
+- `lib/ui/rotappo-ui-core` for framework-agnostic UI contracts
 
 Interfaces should only render, handle input, and wire the application
 layer together. The bootstrappo CLI dispatch in `rotappo-ui-terminal`

@@ -1,0 +1,49 @@
+id: UI-044
+title: 'Shared TUI Terminal Loop + Guard'
+type: Task
+layer: 5
+domain: core
+component: rotappo-tui-runtime
+cli_surface:
+  - rotappo ui
+
+description: |
+  Consolidate the terminal setup and event loop used by the main TUI
+  and the bootstrap TUI into a shared helper to eliminate duplication
+  and ensure consistent restore behavior.
+
+deliverables:
+  - Shared TerminalGuard helper for raw mode and alt screen handling
+  - Reusable run loop abstraction for tick + input handling
+  - Bootstrap and main TUI wired to the shared helper
+
+acceptance_criteria:
+  - Both TUIs restore terminal state on exit or panic
+  - No duplicate guard/loop implementations remain
+  - Tick rate and input handling are configurable per TUI
+
+dependencies:
+  - UI-004
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - ui
+  - tui
+  - terminal
+  - refactor
+
+source_files:
+  - file: lib/ui/rotappo-ui-tui/src/runner.rs
+    context: "Main TUI terminal guard + loop"
+  - file: lib/ui/rotappo-ui-tui/src/bootstrap/terminal.rs
+    context: "Bootstrap TUI terminal guard + loop"
+  - file: lib/ui/rotappo-ui-tui/src/bootstrap/mod.rs
+    context: "Bootstrap TUI entrypoint"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:done)
+assignee: unassigned

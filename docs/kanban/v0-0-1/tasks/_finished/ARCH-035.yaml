@@ -1,0 +1,55 @@
+id: ARCH-035
+title: 'ARCH-4A: Directory Layout Canon + Module Index'
+type: Story
+layer: 5
+domain: core
+component: module-layout-canon
+cli_surface: []
+
+description: |
+  Define and document the canonical directory layout for lib/core and
+  lib/ui, including naming rules, module boundaries, and the intended
+  ownership for each folder. Highlight adapter boundaries for the
+  distributed TUI and tool ports (bootstrappo today).
+
+deliverables:
+  - `docs/architecture/ARCH-4-structure.md` module map and layout rules
+  - Updated architecture overview and layered maps to match the canon
+  - Lightweight README or mod-level docs for top-level crates
+  - Adapter boundary map for TUI and tool ports
+
+acceptance_criteria:
+  - The module map matches the actual lib/ directory structure
+  - No docs reference obsolete folders or naming conventions
+  - New crates have clear ownership and boundary descriptions
+  - TUI adapter boundaries and tool ports are explicit
+
+dependencies:
+  - ARCH-034
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - architecture
+  - structure
+  - documentation
+  - tui
+
+source_files:
+  - file: lib/core
+    context: "Core layer crate layout"
+  - file: lib/ui
+    context: "Interface and presentation crate layout"
+  - file: docs/architecture
+    context: "Module map and architecture overview"
+  - file: docs/book/architecture
+    context: "Layered maps and overviews"
+  - file: docs/book/interfaces
+    context: "Interface documentation"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-06, status:done)
+assignee: unassigned

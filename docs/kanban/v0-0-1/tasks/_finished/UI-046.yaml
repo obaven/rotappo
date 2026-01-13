@@ -1,0 +1,54 @@
+id: UI-046
+title: 'Retire Legacy Panel Stack + State'
+type: Story
+layer: 5
+domain: core
+component: rotappo-tui-panels
+cli_surface:
+  - rotappo ui
+
+description: |
+  Remove legacy panel renderers, hover paths, and state fields that
+  are no longer used by the nav-based TUI views. Keep only the panel
+  logic that is exercised by current render paths.
+
+deliverables:
+  - Delete unused panel modules and their exports
+  - Remove hover/scroll logic tied to removed panels
+  - Prune UiState fields and PanelId variants no longer referenced
+  - Remove macros/helpers used only by deleted panels
+
+acceptance_criteria:
+  - Active nav views render without regressions
+  - Input/hover logic only references live panel areas
+  - No unused panel modules remain in rotappo-ui-tui
+
+dependencies:
+  - UI-004
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - tui
+  - panels
+  - cleanup
+
+source_files:
+  - file: lib/ui/rotappo-ui-tui/src/panels
+    context: "Legacy panel renderers"
+  - file: lib/ui/rotappo-ui-tui/src/state/ui_state.rs
+    context: "Panel state fields"
+  - file: lib/ui/rotappo-ui-tui/src/app/hover.rs
+    context: "Hover routing tied to old panels"
+  - file: lib/ui/rotappo-ui-tui/src/app/scroll.rs
+    context: "Scroll routing tied to old panels"
+  - file: lib/ui/rotappo-ui-tui/src/macros.rs
+    context: "Panel macros used by legacy panels"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:done)
+assignee: unassigned

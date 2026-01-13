@@ -17,14 +17,20 @@ adapters -> ports + domain
 ui-terminal -> adapter (bootstrappo CLI handlers)
 
 Crate layout (in progress):
-- `crates/core/rotappo-domain` (domain types)
-- `crates/core/rotappo-ports` (ports)
-- `crates/core/rotappo-application` (runtime orchestration)
-- `crates/core/rotappo-adapter-bootstrappo` (bootstrappo adapter)
-- `crates/ui/rotappo-ui-presentation` (formatting/logging helpers)
-- `crates/ui/rotappo-ui-core` (framework-agnostic UI contracts)
-- `crates/ui/rotappo-ui-terminal` (CLI formatting + dispatch)
-- `crates/ui/rotappo-ui-tui` (ratatui adapter)
+- `lib/core/rotappo-domain` (domain types)
+- `lib/core/rotappo-ports` (ports)
+- `lib/core/rotappo-application` (runtime orchestration)
+- `lib/core/rotappo-adapter-bootstrappo` (bootstrappo adapter)
+- `lib/core/rotappo-adapter-analytics` (analytics adapter)
+- `lib/core/rotappo-adapter-ml` (ML adapter)
+- `lib/core/rotappo-adapter-notification` (notification adapter)
+- `lib/core/rotappo-ml` (ML models and inference helpers)
+- `lib/ui/rotappo-ui-presentation` (formatting/logging helpers)
+- `lib/ui/rotappo-ui-core` (framework-agnostic UI contracts)
+- `lib/ui/rotappo-ui-terminal` (CLI formatting + dispatch)
+- `lib/ui/rotappo-ui-tui` (ratatui adapter)
+
+Canonical layout details live in `docs/architecture/ARCH-4-structure.md`.
 
 Directional rules are enforced by `tests/crate_boundaries.rs` and
 interface checks in `tests/interface_boundaries.rs`.
@@ -32,3 +38,6 @@ interface checks in `tests/interface_boundaries.rs`.
 Composition roots:
 - `src/bin/cli.rs` (bootstrappo CLI entrypoint)
 - `src/bin/tui.rs` (TUI)
+
+Decision records:
+- `docs/architecture/adr/` (ADRs)

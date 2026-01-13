@@ -6,13 +6,15 @@ TUI adapter module so non-TUI surfaces can reuse `ui_core` without
 pulling terminal UI dependencies.
 
 ## Module location
-- `crates/ui/rotappo-ui-tui/`
+- `lib/ui/rotappo-ui-tui/`
 
 ## Contents
-- `runner.rs`: terminal setup and event loop (crossterm)
+- `runner.rs`: TUI entrypoint wiring
+- `terminal.rs`: terminal guard + shared run loop (crossterm)
 - `render.rs`: frame rendering pipeline (ratatui)
-- `panels/`: panel renderers (ratatui)
-- `layout/`: grid layout + resolver (ratatui)
+- `panels/`: main TUI panels (ratatui)
+- `bootstrap/`: bootstrap-only TUI panels and state
+- `layout/`: grid layout + resolver + shell specs (ratatui)
 - `app/`: TUI behavior + input handlers
 - `state/`: TUI state structs (ratatui types remain here for now)
 
@@ -28,3 +30,6 @@ pulling terminal UI dependencies.
 - Map crossterm input into `ui_core::UiInputEvent`.
 - Replace ratatui `Rect` in state with `ui_core::UiRect`.
 - Add feature flag to compile TUI only when requested.
+- See `docs/architecture/ARCH-4-distributed-tui-design.md` for
+  distributed TUI design principles.
+- Decision record: `docs/architecture/adr/0002-distributed-tui-adapter.md`.

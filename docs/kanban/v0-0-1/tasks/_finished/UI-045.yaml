@@ -1,0 +1,53 @@
+id: UI-045
+title: 'Prune Unused TUI Layout Infrastructure'
+type: Task
+layer: 5
+domain: core
+component: rotappo-tui-layout-cleanup
+cli_surface:
+  - rotappo ui
+
+description: |
+  Remove unused layout helpers (cache/renderer/spin lock) and trim
+  unused grid slots/spec helpers that are not referenced by the
+  current render path.
+
+deliverables:
+  - Remove unused GridCache/LayoutRenderer/SpinLock modules + exports
+  - Remove or consolidate unused slot ids/spec helpers
+  - Update tests and docs that reference removed layout pieces
+
+acceptance_criteria:
+  - rotappo-ui-tui compiles with no dead layout modules
+  - Layout tests cover only the active grid specs
+  - No references remain to removed slot ids or helpers
+
+dependencies:
+  - UI-038
+
+phase_gate: gitops
+effort: S
+risk: low
+
+labels:
+  - ui
+  - tui
+  - layout
+  - cleanup
+
+source_files:
+  - file: lib/ui/rotappo-ui-tui/src/layout/grid/cache.rs
+    context: "Grid layout cache (unused)"
+  - file: lib/ui/rotappo-ui-tui/src/layout/renderer.rs
+    context: "LayoutRenderer wrapper (unused)"
+  - file: lib/ui/rotappo-ui-tui/src/layout/grid/spin_lock.rs
+    context: "Spin lock helper (unused)"
+  - file: lib/ui/rotappo-ui-tui/src/layout/shell_spec/specs.rs
+    context: "Unused shell spec helpers"
+  - file: lib/ui/rotappo-ui-tui/src/layout/shell_spec/slots.rs
+    context: "Unused slot ids"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:done)
+assignee: unassigned

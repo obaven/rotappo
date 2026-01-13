@@ -39,7 +39,7 @@ labels:
   - status
 
 source_files:
-  - file: crates/core/rotappo-adapter-bootstrappo/src/controller/
+  - file: lib/core/rotappo-adapter-bootstrappo/src/controller/
     context: "Status/diff pipeline"
   - file: ../bootstrappo/src/application/composition/assembly/builder.rs
     context: "AssemblyBuilder"

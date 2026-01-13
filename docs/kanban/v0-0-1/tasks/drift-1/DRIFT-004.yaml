@@ -36,7 +36,7 @@ labels:
   - hooks
 
 source_files:
-  - file: crates/core/rotappo-adapter-bootstrappo/src/controller/
+  - file: lib/core/rotappo-adapter-bootstrappo/src/controller/
     context: "Explain/status controllers"
   - file: ../bootstrappo/src/application/flows/reconcile/ops/hooks/registry.rs
     context: "Hook registry"

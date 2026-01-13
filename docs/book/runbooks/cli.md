@@ -6,9 +6,9 @@ logic.
 
 ## Architecture map
 - Entry point: `src/bin/cli.rs`
-- CLI parse/dispatch: `crates/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs`
-- Command handlers: `crates/core/rotappo-adapter-bootstrappo/src/controller/`
-- CLI formatting helpers: `crates/ui/rotappo-ui-terminal/src/format.rs`
+- CLI parse/dispatch: `lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs`
+- Command handlers: `lib/core/rotappo-adapter-bootstrappo/src/controller/`
+- CLI formatting helpers: `lib/ui/rotappo-ui-terminal/src/format.rs`
 
 Feature flags:
 - `cli` enables CLI formatters and the `cli` binary
@@ -194,9 +194,9 @@ Notes:
 
 ## Change workflow
 1) Update CLI args/subcommands in
-   `crates/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs`.
+   `lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs`.
 2) Implement or update handlers in
-   `crates/core/rotappo-adapter-bootstrappo/src/controller/`.
+   `lib/core/rotappo-adapter-bootstrappo/src/controller/`.
 3) Keep adapter runtime ports (`health`, `assembly`, `mapping`) private.
 4) Update the inventory doc:
    `docs/architecture/ARCH-1D-cli-inventory.md`.

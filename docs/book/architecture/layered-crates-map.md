@@ -1,15 +1,20 @@
 # Layered Crates Map
 
-The canonical map lives in `docs/architecture/ARCH-1A-layered-map.md`.
+The canonical map lives in `docs/architecture/ARCH-1A-layered-map.md`
+and `docs/architecture/ARCH-4-structure.md`.
 This chapter summarizes the current module tree:
 
 ```
-crates/
+lib/
   core/
     rotappo-domain/
     rotappo-ports/
     rotappo-application/
     rotappo-adapter-bootstrappo/
+    rotappo-adapter-analytics/
+    rotappo-adapter-ml/
+    rotappo-adapter-notification/
+    rotappo-ml/
   ui/
     rotappo-ui-presentation/
     rotappo-ui-core/
@@ -17,6 +22,10 @@ crates/
     rotappo-ui-tui/
 src/
   bin/
+    cli.rs
+    tui.rs
+    analytics-service.rs
+    ml-service.rs
   lib.rs
 ```
 

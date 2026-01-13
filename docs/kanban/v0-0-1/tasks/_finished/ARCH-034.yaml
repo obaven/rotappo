@@ -1,0 +1,63 @@
+id: ARCH-034
+title: 'ARCH-4: Structure Hygiene + Macro Consolidation'
+type: Epic
+layer: 5
+domain: core
+component: architecture-hygiene
+cli_surface: []
+
+description: |
+  Organize the repository into a cleaner, more architecturally explicit
+  structure by standardizing folder layout, consolidating macros and
+  shared helpers, reducing code smell, and documenting the rationale.
+  Apply world-class system design principles for the distributed TUI
+  adapter that speaks to multi-tool hex apps (bootstrappo today).
+
+deliverables:
+  - Directory layout canon and module index
+  - Macro and helper consolidation plan + implementation
+  - Code smell/dead code cleanup scope and execution
+  - Documentation updates and ADRs covering layout decisions
+  - Distributed TUI system design guide for multi-tool hex adapters
+
+acceptance_criteria:
+  - Docs describe the canonical module layout and boundaries
+  - Reusable macros live in a single, documented home
+  - Dead or duplicate helpers are removed with no regressions
+  - Architectural decisions are captured in ADRs
+  - System design principles cover latency, resilience, state sync, and backpressure
+
+dependencies:
+  - ARCH-033
+
+children:
+  - ARCH-035
+  - ARCH-036
+  - ARCH-037
+  - ARCH-038
+  - ARCH-039
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - hygiene
+  - macros
+  - documentation
+  - refactor
+  - systems-design
+
+source_files:
+  - file: lib
+    context: "Current workspace layout and module boundaries"
+  - file: docs/architecture
+    context: "Architecture documentation to align"
+  - file: docs/book
+    context: "Interface and runbook docs"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-06, status:done)
+assignee: unassigned

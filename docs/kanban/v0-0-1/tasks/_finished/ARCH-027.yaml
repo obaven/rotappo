@@ -11,7 +11,7 @@ description: |
   all consumers to depend on the crate instead of the root module.
 
 deliverables:
-  - Port traits and PortSet moved into `crates/core/rotappo-ports`
+  - Port traits and PortSet moved into `lib/core/rotappo-ports`
   - Root crate depends on or re-exports `rotappo-ports`
   - Imports updated to use `rotappo_ports` across application/adapters
 
@@ -36,7 +36,7 @@ labels:
 source_files:
   - file: src/ports
     context: "Ports module to migrate"
-  - file: crates/core/rotappo-ports
+  - file: lib/core/rotappo-ports
     context: "Target crate for port traits"
   - file: Cargo.toml
     context: "Workspace and dependency wiring"

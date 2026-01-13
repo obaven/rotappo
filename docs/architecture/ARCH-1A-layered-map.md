@@ -10,8 +10,8 @@ move action.
 - Identify shared presentation helpers that are UI/CLI agnostic.
 
 ## Current workspace root (summary)
-- crates/core/
-- crates/ui/
+- lib/core/
+- lib/ui/
 - src/bin/
 - src/lib.rs
 
@@ -51,12 +51,16 @@ Composition roots:
 
 ## Target module tree (current)
 
-crates/
+lib/
   core/
     rotappo-domain/
     rotappo-ports/
     rotappo-application/
     rotappo-adapter-bootstrappo/
+    rotappo-adapter-analytics/
+    rotappo-adapter-ml/
+    rotappo-adapter-notification/
+    rotappo-ml/
   ui/
     rotappo-ui-presentation/
     rotappo-ui-core/
@@ -66,22 +70,30 @@ src/
   bin/
     cli.rs
     tui.rs
+    analytics-service.rs
+    ml-service.rs
   lib.rs
 
 Notes:
-- Interfaces are nested under `crates/ui/`.
+- Interfaces are nested under `lib/ui/`.
+- Core adapters live under `lib/core/rotappo-adapter-*`.
+- The canonical structure map lives in `docs/architecture/ARCH-4-structure.md`.
 - `rotappo-ui-presentation` collects UI/CLI-agnostic helpers (formatting,
   log config, view models). UI/CLI should not own these helpers.
 - Use `rotappo_ui_terminal` and `rotappo_ui_tui` for
   public imports (no compatibility re-exports).
 
 ## Completed moves
-- Runtime models -> `crates/core/rotappo-domain/`
-- Orchestration -> `crates/core/rotappo-application/`
-- Formatting/logging -> `crates/ui/rotappo-ui-presentation/`
-- Ports -> `crates/core/rotappo-ports/`
-- Interfaces -> `crates/ui/rotappo-ui-*`
-- Bootstrappo adapter -> `crates/core/rotappo-adapter-bootstrappo/`
+- Runtime models -> `lib/core/rotappo-domain/`
+- Orchestration -> `lib/core/rotappo-application/`
+- Formatting/logging -> `lib/ui/rotappo-ui-presentation/`
+- Ports -> `lib/core/rotappo-ports/`
+- Interfaces -> `lib/ui/rotappo-ui-*`
+- Bootstrappo adapter -> `lib/core/rotappo-adapter-bootstrappo/`
+- Analytics adapter -> `lib/core/rotappo-adapter-analytics/`
+- ML adapter -> `lib/core/rotappo-adapter-ml/`
+- Notification adapter -> `lib/core/rotappo-adapter-notification/`
+- ML models -> `lib/core/rotappo-ml/`
 
 ## Known coupling to verify
 1) Ports must stay domain-only; avoid adapter types.

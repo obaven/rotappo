@@ -1,0 +1,55 @@
+id: ARCH-036
+title: 'ARCH-4B: Macro + Helper Consolidation'
+type: Task
+layer: 5
+domain: core
+component: macro-consolidation
+cli_surface: []
+
+description: |
+  Inventory repeated helper patterns and macro usage across UI and core
+  crates, consolidate them into a single documented home, and replace
+  ad-hoc helpers with shared macros or utilities. Ensure macro design
+  supports multi-tool adapters without leaking cross-layer concerns.
+
+deliverables:
+  - Macro/helper inventory with duplication hotspots
+  - Dedicated macro module or crate with clear ownership
+  - Updated call sites to use consolidated macros/helpers
+  - Macro usage guide in architecture docs
+  - Stability and layering rules for macro APIs
+
+acceptance_criteria:
+  - Duplicate macro patterns are removed or merged
+  - Macro definitions are centralized and documented
+  - Shared helpers reduce boilerplate in hot paths
+  - Macros do not cross domain/presentation/interface boundaries
+
+dependencies:
+  - ARCH-034
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - macros
+  - cleanup
+  - refactor
+  - boundaries
+
+source_files:
+  - file: lib/ui/rotappo-ui-tui/src/layout/dsl.rs
+    context: "Existing layout macro definitions"
+  - file: lib/ui/rotappo-ui-tui/src/util
+    context: "Helper utilities that may be macro candidates"
+  - file: lib/core
+    context: "Shared helpers that may be consolidated"
+  - file: docs/architecture
+    context: "Macro documentation target"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-06, status:done)
+assignee: unassigned

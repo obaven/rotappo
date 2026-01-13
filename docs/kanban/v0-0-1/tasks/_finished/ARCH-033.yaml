@@ -11,7 +11,7 @@ description: |
   external integration stays isolated from UI and application layers.
 
 deliverables:
-  - Bootstrappo adapter moved into `crates/core/rotappo-adapter-bootstrappo`
+  - Bootstrappo adapter moved into `lib/core/rotappo-adapter-bootstrappo`
   - `rotappo-adapter-bootstrappo` depends on `rotappo-domain` and `rotappo-ports`
   - Imports updated to use `rotappo_adapter_bootstrappo`
 
@@ -36,7 +36,7 @@ labels:
 source_files:
   - file: src/adapters/bootstrappo
     context: "Adapter implementation to migrate"
-  - file: crates/core/rotappo-adapter-bootstrappo
+  - file: lib/core/rotappo-adapter-bootstrappo
     context: "Target crate for bootstrappo adapter"
   - file: src/bin
     context: "Composition roots that wire the adapter"

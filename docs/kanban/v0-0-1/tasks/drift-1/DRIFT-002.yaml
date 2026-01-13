@@ -36,7 +36,7 @@ labels:
   - clap
 
 source_files:
-  - file: crates/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs
+  - file: lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs
     context: "CLI parse and dispatch"
 
 status: MustHaves

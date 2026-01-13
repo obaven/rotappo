@@ -6,11 +6,11 @@ future UI surfaces (web, desktop, etc.) can reuse UI contracts without
 pulling CLI or ratatui dependencies.
 
 ## Current interface shape (summary)
-- `crates/ui/rotappo-ui-tui/` is ratatui + crossterm heavy
+- `lib/ui/rotappo-ui-tui/` is ratatui + crossterm heavy
   - runner/render/panels/layout/util depend on ratatui types
   - keyboard/input depends on crossterm
-- `crates/ui/rotappo-ui-terminal/` is CLI formatting only
-- `crates/ui/rotappo-ui-core/` defines framework-agnostic contracts
+- `lib/ui/rotappo-ui-terminal/` is CLI formatting only
+- `lib/ui/rotappo-ui-core/` defines framework-agnostic contracts
 - No direct CLI use inside the TUI tree, but ratatui types are spread
   across most modules, making reuse by non-TUI surfaces difficult.
 
@@ -19,7 +19,7 @@ pulling CLI or ratatui dependencies.
 Option A (explicit separation):
 
 ```
-crates/ui/
+lib/ui/
   rotappo-ui-core/        (framework-agnostic UI contracts)
   rotappo-ui-tui/         (ratatui adapter)
     app/                  (tui state + handlers)
@@ -32,7 +32,7 @@ crates/ui/
 Option B (nested core):
 
 ```
-crates/ui/rotappo-ui-tui/
+lib/ui/rotappo-ui-tui/
   core/           (ui-core contracts)
   ratatui/        (tui adapter implementation)
 ```

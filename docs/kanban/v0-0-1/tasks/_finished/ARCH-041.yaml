@@ -1,0 +1,48 @@
+id: ARCH-041
+title: 'ARCH-4G: TUI LOC Budget Enforcement'
+type: Task
+layer: 5
+domain: core
+component: tui-loc-budget
+cli_surface:
+  - rotappo ui
+
+description: |
+  Enforce a <100 non-comment LOC budget for rotappo-ui-tui Rust files.
+  Split oversized modules into smaller units, update module wiring, and
+  document the LOC rule for ongoing work.
+
+deliverables:
+  - rotappo-ui-tui files split to <=100 LOC (excluding comments)
+  - Module wiring updated to preserve public API
+  - Documentation note for the LOC budget rule
+
+acceptance_criteria:
+  - No rotappo-ui-tui Rust file exceeds 100 non-comment LOC
+  - Paths and re-exports keep existing APIs stable
+  - LOC rule documented for ongoing development
+
+dependencies:
+  - ARCH-034
+  - ARCH-040
+
+phase_gate: gitops
+effort: L
+risk: high
+
+labels:
+  - architecture
+  - tui
+  - refactor
+  - loc-budget
+
+source_files:
+  - file: lib/ui/rotappo-ui-tui/src
+    context: "TUI module layout and file sizes"
+  - file: docs/architecture
+    context: "Architecture docs for LOC rule"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-13, status:done)
+assignee: unassigned

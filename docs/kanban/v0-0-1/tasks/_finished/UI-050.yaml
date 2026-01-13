@@ -1,0 +1,47 @@
+id: UI-050
+title: 'TUI TODO/HACK Cleanup'
+type: Task
+layer: 5
+domain: core
+component: rotappo-tui-polish
+cli_surface:
+  - rotappo ui
+
+description: |
+  Address outstanding TODO/HACK items in the TUI, including bootstrap
+  menu input, dependency tree layering, and graph detail fallbacks.
+
+deliverables:
+  - Bootstrap menu timeout input UI or streamlined flow
+  - Dependency tree layering logic implemented from metadata
+  - Graph detail panel logic without hardcoded registry hacks
+
+acceptance_criteria:
+  - No TODO/HACK markers remain in active TUI code paths
+  - Bootstrap menu interactions are complete and documented
+  - Graph detail panel handles registry nodes consistently
+
+dependencies:
+  - UI-004
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - ui
+  - tui
+  - polish
+
+source_files:
+  - file: lib/ui/rotappo-ui-tui/src/panels/main.rs
+    context: "Graph detail panel HACK"
+  - file: lib/ui/rotappo-ui-tui/src/bootstrap/panels/menu.rs
+    context: "Bootstrap menu TODOs"
+  - file: lib/ui/rotappo-ui-tui/src/bootstrap/panels/dependency_tree.rs
+    context: "Dependency tree TODO"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:done)
+assignee: unassigned

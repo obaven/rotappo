@@ -1,0 +1,55 @@
+id: ARCH-039
+title: 'ARCH-4E: Distributed TUI System Design Principles'
+type: Story
+layer: 5
+domain: core
+component: distributed-tui-design
+cli_surface:
+  - rotappo ui
+
+description: |
+  Define world-class system design principles for the distributed TUI
+  adapter that speaks to multi-tool hex apps (bootstrappo today),
+  covering state synchronization, backpressure, resilience, and
+  extensibility.
+
+deliverables:
+  - Architecture doc for distributed TUI adapter design
+  - Adapter contract outline for multi-tool hex apps
+  - Performance/SLO budgets (frame time, tick rate, event throughput)
+  - Failure mode and recovery patterns
+
+acceptance_criteria:
+  - Docs include component diagrams and event-flow sequencing
+  - State sync, caching, and backpressure strategies are specified
+  - Bootstrappo integration is documented as the current tool adapter
+  - Extensibility plan for additional tools is explicit
+
+dependencies:
+  - ARCH-034
+
+phase_gate: gitops
+effort: M
+risk: med
+
+labels:
+  - architecture
+  - tui
+  - systems-design
+  - distributed
+  - hex
+
+source_files:
+  - file: lib/ui/rotappo-ui-tui
+    context: "Current TUI adapter implementation"
+  - file: lib/core/rotappo-ports
+    context: "Port contracts for tool adapters"
+  - file: docs/architecture
+    context: "System design documentation"
+  - file: docs/book/interfaces
+    context: "Interface docs to align"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-06, status:done)
+assignee: unassigned

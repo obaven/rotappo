@@ -1,0 +1,34 @@
+//! TUI application state and event handling.
+//!
+//! # Examples
+//! ```rust,no_run
+//! use rotappo_application::Runtime;
+//! use rotappo_domain::ActionRegistry;
+//! use rotappo_ui_tui::app::App;
+//! use rotappo_ui_tui::app::AppContext;
+//! use rotappo_ports::PortSet;
+//!
+//! let runtime = Runtime::new_with_ports(ActionRegistry::default(), PortSet::empty());
+//! let context = AppContext::new("localhost", "config.yml", "assembly.yml", PortSet::empty());
+//! let mut app = App::new(runtime, context);
+//! app.on_tick();
+//! ```
+
+pub mod behavior;
+pub mod input;
+pub mod layout;
+pub mod state;
+
+pub use behavior::{actions, core, graph, lifecycle};
+pub use input::{input, keyboard};
+pub use layout::{layout, navigation, panel};
+pub use state::{collapse, hover, scroll, tooltips};
+
+pub(crate) use graph::{GraphDirection, GraphRenderState, TerminalImageProtocol};
+#[doc(inline)]
+pub use navigation::{NavAction, NavSection, NavSubItem, NavView, nav_items};
+#[doc(inline)]
+pub use panel::PanelId;
+
+#[doc(inline)]
+pub use core::{App, AppContext, ConfirmPrompt};

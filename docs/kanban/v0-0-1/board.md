@@ -170,3 +170,35 @@
 - ARCH-031 — [Story] ARCH-3J: Terminal Interface Crate Migration
 - ARCH-032 — [Story] ARCH-3K: TUI Interface Crate Migration
 - ARCH-033 — [Story] ARCH-3L: Bootstrappo Adapter Crate Migration
+
+## M. v0.0.1 UI-2 Board (UI-2) TUI Simplification + Debt Cleanup
+### Backlog
+### Ready
+### In Progress
+### Review
+### Blocked
+### Done
+- UI-044 — [Task] Shared TUI Terminal Loop + Guard
+- UI-045 — [Task] Prune Unused TUI Layout Infrastructure
+- UI-046 — [Story] Retire Legacy Panel Stack + State
+- UI-048 — [Task] Remove Unused Bootstrap Panel Set
+- UI-047 — [Task] Collapse State + LayoutPolicy Simplification
+- UI-049 — [Task] TUI Documentation Alignment
+- UI-050 — [Task] TUI TODO/HACK Cleanup
+- UI-043 — [Epic] UI-2: Rotappo TUI Simplification + Debt Cleanup
+
+## N. v0.0.1 Architecture Board (ARCH-4) Structural Hygiene + Macro Consolidation
+### Backlog
+### Ready
+### In Progress
+### Review
+### Blocked
+### Done
+- ARCH-040 — [Task] ARCH-4F: Sibling Cap Directory Restructure
+- ARCH-041 — [Task] ARCH-4G: TUI LOC Budget Enforcement
+- ARCH-039 — [Story] ARCH-4E: Distributed TUI System Design Principles
+- ARCH-035 — [Story] ARCH-4A: Directory Layout Canon + Module Index
+- ARCH-036 — [Task] ARCH-4B: Macro + Helper Consolidation
+- ARCH-037 — [Task] ARCH-4C: Code Smell + Dead Code Audit
+- ARCH-038 — [Task] ARCH-4D: Robust Documentation + ADRs
+- ARCH-034 — [Epic] ARCH-4: Structure Hygiene + Macro Consolidation

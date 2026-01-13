@@ -38,9 +38,9 @@ labels:
   - yaml
 
 source_files:
-  - file: crates/core/rotappo-adapter-bootstrappo/src/controller/
+  - file: lib/core/rotappo-adapter-bootstrappo/src/controller/
     context: "Catalog controller"
-  - file: crates/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs
+  - file: lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs
     context: "Catalog command wiring"
 
 status: MustHaves

@@ -1,0 +1,49 @@
+id: UI-048
+title: 'Remove Unused Bootstrap Panel Set'
+type: Task
+layer: 5
+domain: core
+component: rotappo-tui-bootstrap
+cli_surface:
+  - rotappo ui
+
+description: |
+  Remove the unused bootstrap panel implementation under panels/
+  or merge it with the active bootstrap TUI to avoid duplicate
+  panel systems.
+
+deliverables:
+  - Remove or consolidate lib/ui/rotappo-ui-tui/src/panels/bootstrap
+  - Ensure bootstrap runbook references only the active panel path
+  - No duplicate bootstrap panel types remain
+
+acceptance_criteria:
+  - rotappo-ui-tui compiles without the unused bootstrap panels
+  - Bootstrap TUI behavior remains unchanged
+  - Documentation points to the active bootstrap panel set
+
+dependencies:
+  - UI-004
+
+phase_gate: gitops
+effort: XS
+risk: low
+
+labels:
+  - ui
+  - tui
+  - bootstrap
+  - cleanup
+
+source_files:
+  - file: lib/ui/rotappo-ui-tui/src/panels/bootstrap
+    context: "Unused bootstrap panel implementation"
+  - file: lib/ui/rotappo-ui-tui/src/bootstrap/panels
+    context: "Active bootstrap panel implementation"
+  - file: docs/book/runbooks/bootstrap-tui.md
+    context: "Bootstrap TUI documentation"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:done)
+assignee: unassigned

@@ -1,0 +1,46 @@
+id: UI-049
+title: 'TUI Documentation Alignment'
+type: Task
+layer: 5
+domain: core
+component: rotappo-tui-docs
+cli_surface: []
+
+description: |
+  Align documentation and smoke-test references with the current
+  nav-based TUI UI and trimmed module layout after cleanup.
+
+deliverables:
+  - Update TUI interface docs to reflect active panels/views
+  - Update testing/checklist docs to match current smoke checks
+  - Update architecture docs for removed or consolidated modules
+
+acceptance_criteria:
+  - Docs describe the current TUI render paths and modules
+  - Smoke test steps map to actual UI views
+  - No docs reference removed modules or panels
+
+dependencies:
+  - UI-046
+
+phase_gate: gitops
+effort: XS
+risk: low
+
+labels:
+  - docs
+  - ui
+  - tui
+
+source_files:
+  - file: docs/book/interfaces/ui.md
+    context: "TUI module overview"
+  - file: docs/book/testing.md
+    context: "TUI smoke checks"
+  - file: docs/architecture/ARCH-2-tui-adapter.md
+    context: "TUI adapter module list"
+
+status: MustHaves
+state: Done
+status_capsule: (owner:@antigravity, updated:2026-01-01, status:done)
+assignee: unassigned

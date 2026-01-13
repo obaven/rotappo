@@ -7,7 +7,7 @@ flags, output modes, and parity notes during migration.
 ## Rotappo CLI formatting (no standalone terminal binary)
 
 Source:
-- `crates/ui/rotappo-ui-terminal`
+- `lib/ui/rotappo-ui-terminal`
 
 Note: The historical `terminal` CLI binary was removed. Rotappo keeps the
 formatting helpers in `rotappo-ui-terminal` and hosts the bootstrappo CLI
@@ -23,8 +23,8 @@ Output modes (formatting helpers):
 Rotappo CLI entrypoint:
 - `cargo run --features cli,module-bootstrappo --bin cli -- --help`
 - Source: `src/bin/cli.rs`
-- CLI parsing/dispatch: `crates/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs`
-- Command handlers: `crates/core/rotappo-adapter-bootstrappo/src/controller/`
+- CLI parsing/dispatch: `lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs`
+- Command handlers: `lib/core/rotappo-adapter-bootstrappo/src/controller/`
 - Source of truth: CLI behavior is defined here; bootstrappo no longer ships CLI logic.
 
 Commands (from MIG-1 scope; verify in bootstrappo):

@@ -12,7 +12,7 @@ description: |
   on a single UI-focused crate.
 
 deliverables:
-  - Presentation helpers moved into `crates/ui/rotappo-ui-presentation`
+  - Presentation helpers moved into `lib/ui/rotappo-ui-presentation`
   - `rotappo-ui-presentation` depends on `rotappo-domain`
   - Imports updated to use `rotappo_ui_presentation`
 
@@ -37,7 +37,7 @@ labels:
 source_files:
   - file: src/presentation
     context: "Presentation helpers to migrate"
-  - file: crates/ui/rotappo-ui-presentation
+  - file: lib/ui/rotappo-ui-presentation
     context: "Target crate for presentation logic"
   - file: Cargo.toml
     context: "Workspace and dependency wiring"
