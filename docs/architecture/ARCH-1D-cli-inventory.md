@@ -1,16 +1,16 @@
 # ARCH-1D CLI Surface Inventory (MIG-1D)
 
-This document inventories the current CLI surfaces for rotappo and
-bootstrappo. It is the single source of truth for CLI command lists,
+This document inventories the current CLI surfaces for phenome and
+primer. It is the single source of truth for CLI command lists,
 flags, output modes, and parity notes during migration.
 
-## Rotappo CLI formatting (no standalone terminal binary)
+## Phenome CLI formatting (no standalone terminal binary)
 
 Source:
-- `lib/ui/rotappo-ui-terminal`
+- `lib/ui/phenome-ui-terminal`
 
-Note: The historical `terminal` CLI binary was removed. Rotappo keeps the
-formatting helpers in `rotappo-ui-terminal` and hosts the bootstrappo CLI
+Note: The historical `terminal` CLI binary was removed. Phenome keeps the
+formatting helpers in `phenome-ui-terminal` and hosts the primer CLI
 execution (see below).
 
 Output modes (formatting helpers):
@@ -18,16 +18,16 @@ Output modes (formatting helpers):
 - `json`
 - `ndjson`
 
-## Bootstrappo CLI (rotappo)
+## Bootstrappo CLI (phenome)
 
-Rotappo CLI entrypoint:
-- `cargo run --features cli,module-bootstrappo --bin cli -- --help`
+Phenome CLI entrypoint:
+- `cargo run --features cli,module-primer --bin cli -- --help`
 - Source: `src/bin/cli.rs`
-- CLI parsing/dispatch: `lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs`
+- CLI parsing/dispatch: `lib/ui/phenome-ui-terminal/src/cli/primer.rs`
 - Command handlers: `lib/adapters/phenome-adapter-primer/src/controller/`
-- Source of truth: CLI behavior is defined here; bootstrappo no longer ships CLI logic.
+- Source of truth: CLI behavior is defined here; primer no longer ships CLI logic.
 
-Commands (from MIG-1 scope; verify in bootstrappo):
+Commands (from MIG-1 scope; verify in primer):
 - `assembly`
 - `reconcile`
 - `rotate`
@@ -38,15 +38,15 @@ Commands (from MIG-1 scope; verify in bootstrappo):
 - `visualize`
 
 Flags and output modes:
-- Capture from `bootstrappo --help` and `bootstrappo <cmd> --help`
+- Capture from `primer --help` and `primer <cmd> --help`
 - Document any output format flags (json, yaml, etc.) here
 
-## Mapping (Bootstrappo -> Rotappo)
+## Mapping (Bootstrappo -> Phenome)
 
-| Bootstrappo command | Rotappo surface | Notes |
+| Bootstrappo command | Phenome surface | Notes |
 | --- | --- | --- |
-| `assembly` | `assembly` | Rotappo assembly renders from snapshot; keep parity with bootstrappo assembly output. |
-| `reconcile` | `actions` | Action registry should list reconcile; execution remains in bootstrappo. |
+| `assembly` | `assembly` | Phenome assembly renders from snapshot; keep parity with primer assembly output. |
+| `reconcile` | `actions` | Action registry should list reconcile; execution remains in primer. |
 | `rotate` | `actions` | Action registry should list rotate. |
 | `debug` | `logs` | Closest surface is logs; map any debug output fields to events. |
 | `nuke` | `actions` | Destructive action; ensure it is clearly labeled. |
@@ -60,15 +60,15 @@ Flags and output modes:
 2) Update CLI snapshots/golden tests for intentional output changes.
 3) Re-verify mapping table for any renamed or new commands.
 4) Keep guardrail checks and CI in sync with the CLI surface.
-5) When migrating bootstrappo CLI logic, keep the rotappo CLI in sync.
+5) When migrating primer CLI logic, keep the phenome CLI in sync.
 
 ## META-11 Bootstrappo self-serve migration notes
 
-- Capture CLI help snapshots in the bootstrappo repo:
-  - `bootstrappo --help`
-  - `bootstrappo <cmd> --help`
+- Capture CLI help snapshots in the primer repo:
+  - `primer --help`
+  - `primer <cmd> --help`
   - If a command has subcommands, also capture
-    `bootstrappo <cmd> <subcmd> --help`.
+    `primer <cmd> <subcmd> --help`.
 - Store snapshots under `primer/tests/fixtures/cli/` with clear
   names (example: `help.top.txt`, `help.assembly.txt`, `help.generate.list.txt`).
 - Add a `primer/tests/cli_golden.rs` harness that runs the binary
@@ -79,4 +79,4 @@ Flags and output modes:
 - For optional output snapshots, only use local fixture inputs (assembly,
   config, cache) and avoid live cluster access.
 - Update the Bootstrappo section of this doc after any CLI change.
-- Keep bootstrappo CLI modules isolated (no rotappo CLI imports).
+- Keep primer CLI modules isolated (no phenome CLI imports).

@@ -51,12 +51,12 @@ args = ["check", "--no-default-features", "--features", "ui-core"]
 [tasks.check-cli]
 workspace = false
 command = "cargo"
-args = ["check", "--no-default-features", "--features", "cli,module-bootstrappo"]
+args = ["check", "--no-default-features", "--features", "cli,module-primer"]
 
 [tasks.check-tui]
 workspace = false
 command = "cargo"
-args = ["check", "--no-default-features", "--features", "tui-ratatui,module-bootstrappo"]
+args = ["check", "--no-default-features", "--features", "tui-ratatui,module-primer"]
 
 [tasks.check-interfaces]
 workspace = false

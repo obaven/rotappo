@@ -19,8 +19,8 @@ deliverables:
   - Deterministic ordering (stable module list)
 
 acceptance_criteria:
-  - `rotappo catalog` prints YAML to stdout
-  - `rotappo catalog --output catalog.yaml` writes the file
+  - `phenome catalog` prints YAML to stdout
+  - `phenome catalog --output catalog.yaml` writes the file
   - Output includes name/domain/kind/engine/required/provides/checks
   - YAML ordering is stable across runs
 
@@ -40,7 +40,7 @@ labels:
 source_files:
   - file: lib/adapters/phenome-adapter-primer/src/controller/
     context: "Catalog controller"
-  - file: lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs
+  - file: lib/ui/phenome-ui-terminal/src/cli/primer.rs
     context: "Catalog command wiring"
 
 status: MustHaves

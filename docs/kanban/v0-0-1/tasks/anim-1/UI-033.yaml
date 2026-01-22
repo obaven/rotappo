@@ -1,11 +1,11 @@
 id: UI-033
-title: 'ANIM-1: Rotappo TUI Animation Pass'
+title: 'ANIM-1: Phenome TUI Animation Pass'
 type: Epic
 layer: 5
 domain: core
-component: rotappo-tui-animation
+component: phenome-tui-animation
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Add motion and visual affordances to the TUI: loading spinners,
@@ -42,7 +42,7 @@ labels:
   - animation
   - ui
   - tui
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Backlog

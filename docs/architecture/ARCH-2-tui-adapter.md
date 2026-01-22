@@ -6,7 +6,7 @@ TUI adapter module so non-TUI surfaces can reuse `ui_core` without
 pulling terminal UI dependencies.
 
 ## Module location
-- `lib/ui/rotappo-ui-tui/`
+- `lib/ui/phenome-ui-tui/`
 
 ## Contents
 - `runner.rs`: TUI entrypoint wiring
@@ -19,12 +19,12 @@ pulling terminal UI dependencies.
 - `state/`: TUI state structs (ratatui types remain here for now)
 
 ## Dependency rules
-- `rotappo-ui-tui` may depend on `rotappo-ui-core`, `rotappo-ui-presentation`, `rotappo-application`.
-- `rotappo-ui-tui` may use ratatui/crossterm.
-- `rotappo-ui-tui` must not import `rotappo-ui-terminal`.
+- `phenome-ui-tui` may depend on `phenome-ui-core`, `phenome-ui-presentation`, `phenome-application`.
+- `phenome-ui-tui` may use ratatui/crossterm.
+- `phenome-ui-tui` must not import `phenome-ui-terminal`.
 
 ## Public entrypoint
-- `src/bin/tui.rs` calls `rotappo_ui_tui::start(runtime, context)`.
+- `src/bin/tui.rs` calls `phenome_ui_tui::start(runtime, context)`.
 
 ## Next steps
 - Map crossterm input into `ui_core::UiInputEvent`.

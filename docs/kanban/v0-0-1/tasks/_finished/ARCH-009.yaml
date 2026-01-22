@@ -1,14 +1,14 @@
 id: ARCH-009
-title: 'MIG-1A: Rotappo CLI Contract Snapshots + Golden Tests'
+title: 'MIG-1A: Phenome CLI Contract Snapshots + Golden Tests'
 type: Story
 layer: 5
 domain: core
-component: migration-cli-rotappo
+component: migration-cli-phenome
 cli_surface:
   - terminal [actions|snapshot|action|problems|logs]
 
 description: |
-  Capture stable CLI outputs for rotappo and lock them in with golden
+  Capture stable CLI outputs for phenome and lock them in with golden
   tests. This ensures CLI formatting and text remain unchanged unless
   intentionally updated.
 
@@ -38,9 +38,9 @@ labels:
 
 source_files:
   - file: src/interfaces/terminal
-    context: "Rotappo CLI formatting helpers"
+    context: "Phenome CLI formatting helpers"
   - file: src/bin/terminal.rs
-    context: "Rotappo CLI entry"
+    context: "Phenome CLI entry"
   - file: tests
     context: "Golden tests and fixtures"
 

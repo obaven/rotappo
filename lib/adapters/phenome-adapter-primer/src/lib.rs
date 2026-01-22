@@ -7,8 +7,8 @@ use anyhow::{Context, Result};
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use bootstrappo::adapters::infrastructure::kube::clients::k8s::K8sClient;
-use bootstrappo::application::events::{EventBus, InteractiveCommand};
+use primer::adapters::infrastructure::kube::clients::k8s::K8sClient;
+use primer::application::events::{EventBus, InteractiveCommand};
 use phenome_domain::Event;
 use phenome_ports::{LogPort, PortSet};
 use tokio::sync::mpsc;
@@ -32,10 +32,10 @@ pub struct BootstrappoBackend {
 
 impl BootstrappoBackend {
     pub fn from_env() -> Result<Self> {
-        let config_path = std::env::var("BOOTSTRAPPO_CONFIG_PATH")
+        let config_path = std::env::var("PRIMER_CONFIG_PATH")
             .map(PathBuf::from)
             .ok();
-        let assembly_path = std::env::var("BOOTSTRAPPO_ASSEMBLY_PATH")
+        let assembly_path = std::env::var("PRIMER_ASSEMBLY_PATH")
             .map(PathBuf::from)
             .ok();
         Self::from_paths(config_path, assembly_path)
@@ -81,7 +81,7 @@ impl BootstrappoBackend {
         let config_path = config_path
             .unwrap_or_else(|| PathBuf::from("../primer/data/configs/bootstrap-config.yaml"));
         let config =
-            bootstrappo::application::config::load_from_file(&config_path).with_context(|| {
+            primer::application::config::load_from_file(&config_path).with_context(|| {
                 format!(
                     "Failed to load Bootstrappo config at {}",
                     config_path.display()

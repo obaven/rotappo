@@ -6,7 +6,7 @@ framework-agnostic way. They allow new UI surfaces (web, desktop) to
 reuse the same core types without ratatui/crossterm dependencies.
 
 ## Module location
-- `lib/ui/rotappo-ui-core/`
+- `lib/ui/phenome-ui-core/`
 
 ## Core types
 
@@ -32,7 +32,7 @@ reuse the same core types without ratatui/crossterm dependencies.
 ## Dependency rules
 - `ui_core` may depend on `domain` and `presentation` only.
 - `ui_core` must not import ratatui or crossterm.
-- `ui_core` must not import `rotappo-ui-terminal`.
+- `ui_core` must not import `phenome-ui-terminal`.
 
 ## Adapter mapping
 - TUI adapter translates crossterm events to `UiInputEvent`.
@@ -40,6 +40,6 @@ reuse the same core types without ratatui/crossterm dependencies.
 - UI intents produced by adapters feed application-level actions.
 
 ## Next steps
-- Move ratatui types out of `rotappo-ui-tui/state` into `ui_core`.
+- Move ratatui types out of `phenome-ui-tui/state` into `ui_core`.
 - Add adapter mapping helpers in the TUI layer.
 - Add feature flags so `ui_core` compiles without TUI dependencies.

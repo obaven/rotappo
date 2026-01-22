@@ -1,12 +1,12 @@
 id: UI-027
-title: 'Rotappo Runtime Ports + Status Abstractions'
+title: 'Phenome Runtime Ports + Status Abstractions'
 type: Story
 layer: 5
 domain: core
-component: rotappo-runtime-ports
+component: phenome-runtime-ports
 cli_surface:
-  - rotappo
-  - rotappo ui
+  - phenome
+  - phenome ui
 
 description: |
   Define ports for action status, health checks, and log streaming so the
@@ -34,7 +34,7 @@ labels:
   - runtime
   - ports
   - refactor
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Done

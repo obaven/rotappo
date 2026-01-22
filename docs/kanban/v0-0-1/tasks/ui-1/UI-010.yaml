@@ -1,16 +1,16 @@
 id: UI-010
-title: 'Rotappo Config Schema + Persistence'
+title: 'Phenome Config Schema + Persistence'
 type: Task
 layer: 5
 domain: core
-component: rotappo-runtime-config
+component: phenome-runtime-config
 cli_surface: []
 
 description: |
   Extend the config system with UI-specific settings for endpoints,
   refresh rates, and theme preferences. Ensure the config merges with
   overlays and can be validated alongside existing config sections.
-  Implement this in lib/rotappo so the UI can run independently.
+  Implement this in lib/phenome so the UI can run independently.
 
 deliverables:
   - UI config struct with defaults and validation rules
@@ -33,11 +33,11 @@ labels:
   - ui
   - config
   - schema
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/src/config.rs
-    context: "Add UI config to Rotappo settings"
+    context: "Add UI config to Phenome settings"
   - file: lib/phenome/src/config/schema.rs
     context: "Expose UI config in schema output"
   - file: lib/phenome/src/config/validation.rs

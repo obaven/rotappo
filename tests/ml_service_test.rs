@@ -1,4 +1,4 @@
-// use rotappo_adapter_ml::MlService;
+// use phenome_adapter_ml::MlService;
 
 #[tokio::test]
 async fn ml_service_constructs() {

@@ -11,7 +11,7 @@ pub struct StorageArgs {
 pub async fn storage(args: StorageArgs) -> Result<()> {
     info!("Scanning for storage devices...");
     let devices =
-        bootstrappo::adapters::infrastructure::kube::discovery::storage::scan_block_devices(
+        primer::adapters::infrastructure::kube::discovery::storage::scan_block_devices(
             args.min_size,
         )?;
 

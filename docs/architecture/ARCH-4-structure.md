@@ -1,7 +1,7 @@
 # ARCH-4 Structure Canon + Module Index
 
 ## Purpose
-Define the canonical repository layout for rotappo, including module
+Define the canonical repository layout for phenome, including module
 boundaries, ownership, and where shared macros/helpers live. This document
 anchors ARCH-4 and aligns the distributed TUI adapter with the hex app
 adapter model (bootstrappo today).
@@ -19,17 +19,17 @@ lib/
   core/
     phenome-domain/
     phenome-ports/
-    rotappo-application/
+    phenome-application/
     phenome-adapter-primer/
-    rotappo-adapter-analytics/
-    rotappo-adapter-ml/
-    rotappo-adapter-notification/
-    rotappo-ml/
+    phenome-adapter-analytics/
+    phenome-adapter-ml/
+    phenome-adapter-notification/
+    phenome-ml/
   ui/
-    rotappo-ui-presentation/
-    rotappo-ui-core/
-    rotappo-ui-terminal/
-    rotappo-ui-tui/
+    phenome-ui-presentation/
+    phenome-ui-core/
+    phenome-ui-terminal/
+    phenome-ui-tui/
 src/
   bin/
     cli.rs
@@ -47,19 +47,19 @@ docs/
 | --- | --- | --- | --- | --- |
 | `lib/domain/phenome-domain` | domain | Core models + invariants | none | core |
 | `lib/ports/phenome-ports` | ports | Port traits + contracts | domain | core |
-| `lib/runtime/rotappo-application` | application | Runtime orchestration | domain, ports | core |
+| `lib/runtime/phenome-application` | application | Runtime orchestration | domain, ports | core |
 | `lib/adapters/phenome-adapter-primer` | adapters | Bootstrappo integration | domain, ports | integrations |
-| `lib/adapters/rotappo-adapter-analytics` | adapters | Analytics service adapter | domain, ports | integrations |
-| `lib/adapters/rotappo-adapter-ml` | adapters | ML service adapter | domain, ports | integrations |
-| `lib/adapters/rotappo-adapter-notification` | adapters | Notification adapter | domain, ports | integrations |
-| `lib/runtime/rotappo-ml` | core | ML models + inference helpers | domain | ml |
-| `lib/ui/rotappo-ui-presentation` | presentation | Shared formatting + logging | domain, ports | interfaces |
-| `lib/ui/rotappo-ui-core` | ui-core | Framework-agnostic UI contracts | domain, ports | interfaces |
-| `lib/ui/rotappo-ui-terminal` | interfaces | CLI rendering + dispatch | presentation, application, ports | interfaces |
-| `lib/ui/rotappo-ui-tui` | interfaces | Ratatui adapter + TUI UI | presentation, application, ports | interfaces |
+| `lib/adapters/phenome-adapter-analytics` | adapters | Analytics service adapter | domain, ports | integrations |
+| `lib/adapters/phenome-adapter-ml` | adapters | ML service adapter | domain, ports | integrations |
+| `lib/adapters/phenome-adapter-notification` | adapters | Notification adapter | domain, ports | integrations |
+| `lib/runtime/phenome-ml` | core | ML models + inference helpers | domain | ml |
+| `lib/ui/phenome-ui-presentation` | presentation | Shared formatting + logging | domain, ports | interfaces |
+| `lib/ui/phenome-ui-core` | ui-core | Framework-agnostic UI contracts | domain, ports | interfaces |
+| `lib/ui/phenome-ui-terminal` | interfaces | CLI rendering + dispatch | presentation, application, ports | interfaces |
+| `lib/ui/phenome-ui-tui` | interfaces | Ratatui adapter + TUI UI | presentation, application, ports | interfaces |
 
 ## TUI Module Index (Adapter)
-`lib/ui/rotappo-ui-tui/src/` is split into:
+`lib/ui/phenome-ui-tui/src/` is split into:
 - `app/`: input, navigation, and state transitions.
 - `layout/`: grid specs + resolver helpers.
 - `panels/`: renderers for active views and overlays.
@@ -70,8 +70,8 @@ docs/
 ## Macro and Helper Location Rules
 - Layer-specific macros live in the layer that owns them.
 - Cross-layer macros must be proposed in ARCH-4B and documented.
-- Helpers that are UI/CLI agnostic belong in `rotappo-ui-presentation`.
-- Ratatui or crossterm helpers stay in `rotappo-ui-tui`.
+- Helpers that are UI/CLI agnostic belong in `phenome-ui-presentation`.
+- Ratatui or crossterm helpers stay in `phenome-ui-tui`.
 - Macro inventory and usage guidance lives in `docs/architecture/ARCH-4-macros.md`.
 
 ## Ownership and Boundaries

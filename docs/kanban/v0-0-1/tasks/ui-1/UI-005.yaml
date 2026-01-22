@@ -1,24 +1,24 @@
 id: UI-005
-title: 'UI-1D: Rotappo Web UI + API'
+title: 'UI-1D: Phenome Web UI + API'
 type: Epic
 layer: 5
 domain: core
-component: rotappo-web
+component: phenome-web
 cli_surface:
-  - rotappo server
+  - phenome server
 
 description: |
   Provide a web dashboard for Bootstrappo with a local API server and
   live event streaming. This enables remote visibility, collaboration,
-  and browser-based operations. Package the web UI as Rotappo under
-  lib/rotappo and integrate with the Rotato GitOps app at
+  and browser-based operations. Package the web UI as Phenome under
+  lib/phenome and integrate with the Rotato GitOps app at
   /home/jdean/gitops/apps/security/rotato.
 
 deliverables:
   - HTTP API for state snapshots, actions, and health
   - SSE or WebSocket event streaming for logs and step updates
   - Web UI shell with routing and API client
-  - GitOps app packaging for Rotappo web UI (Rotato integration)
+  - GitOps app packaging for Phenome web UI (Rotato integration)
   - Dashboard views for action, capabilities, and storage status
 
 acceptance_criteria:
@@ -45,7 +45,7 @@ labels:
   - web
   - api
   - dashboard
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Backlog

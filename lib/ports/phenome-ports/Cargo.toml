@@ -8,4 +8,4 @@ publish = false
 anyhow = "1.0.100"
 async-trait = "0.1.83"
 phenome-domain = { path = "../../domain/phenome-domain" }
-bootstrappo = { path = "../../../../primer" }
+primer = { path = "../../../../primer" }

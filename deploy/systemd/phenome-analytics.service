@@ -1,0 +1,10 @@
+[Unit]
+Description=Phenome Analytics Service
+After=network.target
+
+[Service]
+ExecStart=%h/.cargo/bin/phenome analytics-service
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

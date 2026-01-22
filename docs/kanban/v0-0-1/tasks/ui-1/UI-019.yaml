@@ -1,9 +1,9 @@
 id: UI-019
-title: 'Rotappo Web UI Shell + Routing'
+title: 'Phenome Web UI Shell + Routing'
 type: Story
 layer: 5
 domain: core
-component: rotappo-web-shell
+component: phenome-web-shell
 cli_surface: []
 
 description: |
@@ -32,7 +32,7 @@ labels:
   - ui
   - web
   - frontend
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/web/README.md

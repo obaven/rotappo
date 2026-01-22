@@ -1,6 +1,6 @@
 # Architecture Index
 
-This directory hosts architecture reference docs and ADRs for rotappo.
+This directory hosts architecture reference docs and ADRs for phenome.
 
 Core references:
 - `docs/architecture/ARCH-4-structure.md` (canonical layout + ownership)

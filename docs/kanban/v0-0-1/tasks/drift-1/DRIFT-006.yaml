@@ -3,13 +3,13 @@ title: 'Docs + Tests for Meta-17 CLI Surface'
 type: Task
 layer: 5
 domain: core
-component: rotappo-docs-tests
+component: phenome-docs-tests
 cli_surface:
   - bootstrappo [status|diff|explain|catalog]
 
 description: |
   Update runbooks and add tests for the new CLI commands. Ensure the
-  bootstrappo CLI runbook reflects Meta-17 surfaces and add coverage
+  primer CLI runbook reflects Meta-17 surfaces and add coverage
   for catalog/status/diff output where feasible.
 
 deliverables:

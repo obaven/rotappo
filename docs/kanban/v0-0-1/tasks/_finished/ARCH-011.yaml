@@ -7,8 +7,8 @@ component: migration-cli-boundary
 cli_surface: []
 
 description: |
-  Enforce that rotappo does not depend on bootstrappo CLI modules and
-  bootstrappo does not import rotappo CLI logic. Add automated checks
+  Enforce that phenome does not depend on primer CLI modules and
+  bootstrappo does not import phenome CLI logic. Add automated checks
   so accidental cross-repo coupling is caught early.
 
 deliverables:
@@ -17,8 +17,8 @@ deliverables:
   - Documentation for allowed and forbidden imports
 
 acceptance_criteria:
-  - Checks fail if rotappo references bootstrappo CLI modules
-  - Checks fail if bootstrappo references rotappo CLI modules
+  - Checks fail if phenome references primer CLI modules
+  - Checks fail if bootstrappo references phenome CLI modules
   - Boundary checks run in CI and locally
 
 dependencies:
@@ -38,7 +38,7 @@ source_files:
   - file: Makefile.toml
     context: "Guardrail task wiring"
   - file: src
-    context: "Rotappo codebase"
+    context: "Phenome codebase"
   - file: ../primer/src/cli
     context: "Bootstrappo CLI modules"
 

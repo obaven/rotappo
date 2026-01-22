@@ -1,11 +1,11 @@
 id: UI-026
-title: 'Rotappo TUI Module Decomposition'
+title: 'Phenome TUI Module Decomposition'
 type: Story
 layer: 5
 domain: core
-component: rotappo-tui-modules
+component: phenome-tui-modules
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Split the TUI into smaller modules by panel and state so each panel
@@ -33,7 +33,7 @@ labels:
   - ui
   - tui
   - refactor
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Done

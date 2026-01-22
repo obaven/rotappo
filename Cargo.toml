@@ -1,47 +1,29 @@
 [package]
-name = "rotappo"
+name = "phenome"
 version = "0.0.1"
 edition = "2024"
 
-[workspace]
-members = [
-  ".",
-  "lib/domain/phenome-domain",
-  "lib/ports/phenome-ports",
-  "lib/runtime/rotappo-application",
-  "lib/adapters/phenome-adapter-primer",
-  "lib/adapters/rotappo-adapter-analytics",
-  "lib/adapters/rotappo-adapter-ml",
-  "lib/adapters/rotappo-adapter-notification",
-  "lib/runtime/rotappo-ml",
-  "lib/ui/rotappo-ui-presentation",
-  "lib/ui/rotappo-ui-core",
-  "lib/ui/rotappo-ui-terminal",
-  "lib/ui/rotappo-ui-tui",
-]
-resolver = "2"
-
 [features]
-module-bootstrappo = [
+module-primer = [
   "dep:phenome-adapter-primer",
-  "rotappo-ui-terminal/bootstrappo-cli",
+  "phenome-ui-terminal/primer-cli",
 ]
-module-rotato = ["rotappo-ui-terminal/rotato-cli"]
-cli = ["dep:rotappo-ui-terminal", "dep:tokio"]
-ui-core = ["dep:rotappo-ui-core"]
-tui = ["ui-core", "dep:rotappo-ui-tui", "dep:tokio"]
-analytics = ["dep:rotappo-adapter-analytics"]
-ml = ["dep:rotappo-adapter-ml", "dep:rotappo-ml"]
+module-plasmid = ["phenome-ui-terminal/plasmid-cli"]
+cli = ["dep:phenome-ui-terminal", "dep:tokio"]
+ui-core = ["dep:phenome-ui-core"]
+tui = ["ui-core", "dep:phenome-ui-tui", "dep:tokio"]
+analytics = ["dep:phenome-adapter-analytics"]
+ml = ["dep:phenome-adapter-ml", "dep:phenome-ml"]
 
 [[bin]]
 name = "cli"
 path = "src/bin/cli.rs"
-required-features = ["cli", "module-bootstrappo"]
+required-features = ["cli", "module-primer"]
 
 [[bin]]
 name = "tui"
 path = "src/bin/tui.rs"
-required-features = ["tui", "module-bootstrappo"]
+required-features = ["tui", "module-primer"]
 
 [[bin]]
 name = "analytics-service"
@@ -56,20 +38,20 @@ required-features = ["ml"]
 [dependencies]
 anyhow = "1.0.100"
 phenome-adapter-primer = { path = "lib/adapters/phenome-adapter-primer", optional = true }
-rotappo-adapter-analytics = { path = "lib/adapters/rotappo-adapter-analytics", optional = true }
-rotappo-adapter-ml = { path = "lib/adapters/rotappo-adapter-ml", optional = true }
-rotappo-application = { path = "lib/runtime/rotappo-application" }
+phenome-adapter-analytics = { path = "lib/adapters/phenome-adapter-analytics", optional = true }
+phenome-adapter-ml = { path = "lib/adapters/phenome-adapter-ml", optional = true }
+phenome-application = { path = "lib/runtime/phenome-application" }
 phenome-domain = { path = "lib/domain/phenome-domain" }
-rotappo-ml = { path = "lib/runtime/rotappo-ml", optional = true }
-rotappo-ui-core = { path = "lib/ui/rotappo-ui-core", optional = true }
-rotappo-ui-terminal = { path = "lib/ui/rotappo-ui-terminal", optional = true }
-rotappo-ui-tui = { path = "lib/ui/rotappo-ui-tui", optional = true }
+phenome-ml = { path = "lib/runtime/phenome-ml", optional = true }
+phenome-ui-core = { path = "lib/ui/phenome-ui-core", optional = true }
+phenome-ui-terminal = { path = "lib/ui/phenome-ui-terminal", optional = true }
+phenome-ui-tui = { path = "lib/ui/phenome-ui-tui", optional = true }
 tokio = { version = "1.48.0", features = ["full"], optional = true }
 
 [dev-dependencies]
-rotappo-ui-presentation = { path = "lib/ui/rotappo-ui-presentation" }
-rotappo-ui-terminal = { path = "lib/ui/rotappo-ui-terminal" }
-rotappo-adapter-analytics = { path = "lib/adapters/rotappo-adapter-analytics" }
-rotappo-adapter-ml = { path = "lib/adapters/rotappo-adapter-ml" }
+phenome-ui-presentation = { path = "lib/ui/phenome-ui-presentation" }
+phenome-ui-terminal = { path = "lib/ui/phenome-ui-terminal" }
+phenome-adapter-analytics = { path = "lib/adapters/phenome-adapter-analytics" }
+phenome-adapter-ml = { path = "lib/adapters/phenome-adapter-ml" }
 tempfile = "3.24.0"
 tokio = { version = "1.48.0", features = ["full", "test-util"] }

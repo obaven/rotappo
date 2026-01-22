@@ -7,18 +7,18 @@ component: application-migration
 cli_surface: []
 
 description: |
-  Move the runtime orchestration logic into rotappo-application and
+  Move the runtime orchestration logic into phenome-application and
   update consumers to import the new crate.
 
 deliverables:
-  - Runtime module moved into `lib/runtime/rotappo-application`
-  - `rotappo-application` depends on `phenome-domain` and `phenome-ports`
-  - Imports updated to use `rotappo_application` in adapters/interfaces/bins
+  - Runtime module moved into `lib/runtime/phenome-application`
+  - `phenome-application` depends on `phenome-domain` and `phenome-ports`
+  - Imports updated to use `phenome_application` in adapters/interfaces/bins
 
 acceptance_criteria:
   - No `src/application` module remains in the root crate
-  - `rotappo-application` builds with only domain and ports deps
-  - `cargo check -p rotappo` succeeds after migration
+  - `phenome-application` builds with only domain and ports deps
+  - `cargo check -p phenome` succeeds after migration
 
 dependencies:
   - ARCH-027
@@ -36,7 +36,7 @@ labels:
 source_files:
   - file: src/application
     context: "Runtime module to migrate"
-  - file: lib/runtime/rotappo-application
+  - file: lib/runtime/phenome-application
     context: "Target crate for application logic"
   - file: Cargo.toml
     context: "Workspace and dependency wiring"

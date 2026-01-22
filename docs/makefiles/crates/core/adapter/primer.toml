@@ -1,9 +1,9 @@
-[tasks.check-crate-core-adapter-bootstrappo]
+[tasks.check-crate-core-adapter-primer]
 workspace = false
 command = "cargo"
 args = ["check", "-p", "phenome-adapter-primer"]
 
-[tasks.test-crate-core-adapter-bootstrappo]
+[tasks.test-crate-core-adapter-primer]
 workspace = false
 command = "cargo"
 args = ["test", "-p", "phenome-adapter-primer"]

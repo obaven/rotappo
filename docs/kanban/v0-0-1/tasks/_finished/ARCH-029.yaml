@@ -8,18 +8,18 @@ cli_surface: []
 
 description: |
   Move presentation formatting and logging helpers into
-  rotappo-ui-presentation so UI and terminal interfaces can depend
+  phenome-ui-presentation so UI and terminal interfaces can depend
   on a single UI-focused crate.
 
 deliverables:
-  - Presentation helpers moved into `lib/ui/rotappo-ui-presentation`
-  - `rotappo-ui-presentation` depends on `phenome-domain`
-  - Imports updated to use `rotappo_ui_presentation`
+  - Presentation helpers moved into `lib/ui/phenome-ui-presentation`
+  - `phenome-ui-presentation` depends on `phenome-domain`
+  - Imports updated to use `phenome_ui_presentation`
 
 acceptance_criteria:
   - No `src/presentation` module remains in the root crate
-  - UI and terminal modules compile against `rotappo-ui-presentation`
-  - `cargo check -p rotappo` succeeds after migration
+  - UI and terminal modules compile against `phenome-ui-presentation`
+  - `cargo check -p phenome` succeeds after migration
 
 dependencies:
   - ARCH-024
@@ -37,7 +37,7 @@ labels:
 source_files:
   - file: src/presentation
     context: "Presentation helpers to migrate"
-  - file: lib/ui/rotappo-ui-presentation
+  - file: lib/ui/phenome-ui-presentation
     context: "Target crate for presentation logic"
   - file: Cargo.toml
     context: "Workspace and dependency wiring"

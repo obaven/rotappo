@@ -7,10 +7,10 @@ pub async fn nuke(assembly: String, aggressive: bool, dry_run: bool) -> anyhow::
 
     if dry_run {
         info!("🔍 DRY-RUN MODE: Showing deletion order without executing");
-        let config = bootstrappo::application::config::load_from_file(&assembly)?;
-        let modules = bootstrappo::application::runtime::registry::get_all_modules(&config);
+        let config = primer::application::config::load_from_file(&assembly)?;
+        let modules = primer::application::runtime::registry::get_all_modules(&config);
         let assembly_data =
-            bootstrappo::application::composition::assembly::builder::AssemblyBuilder::new(config)
+            primer::application::composition::assembly::builder::AssemblyBuilder::new(config)
                 .with_modules(modules)
                 .build()?;
         let steps = assembly_data.execution_order()?;
@@ -38,23 +38,23 @@ pub async fn nuke(assembly: String, aggressive: bool, dry_run: bool) -> anyhow::
         }
     }
 
-    let config = bootstrappo::application::config::load_from_file(&assembly)?;
-    let modules = bootstrappo::application::runtime::registry::get_all_modules(&config);
+    let config = primer::application::config::load_from_file(&assembly)?;
+    let modules = primer::application::runtime::registry::get_all_modules(&config);
     let assembly_data =
-        bootstrappo::application::composition::assembly::builder::AssemblyBuilder::new(config)
+        primer::application::composition::assembly::builder::AssemblyBuilder::new(config)
             .with_modules(modules)
             .build()?;
     let client = kube::Client::try_default().await?;
     let cmd = std::sync::Arc::new(
-        bootstrappo::application::runtime::modules::io::command::CommandAdapter::new(),
+        primer::application::runtime::modules::io::command::CommandAdapter::new(),
     );
 
     // Always use timing for nuke operations (it's useful for diagnostics)
-    let options = bootstrappo::application::nuke::NukeOptions::default()
+    let options = primer::application::nuke::NukeOptions::default()
         .with_timing()
         .with_timing_output("nuke-timing.json");
 
-    bootstrappo::application::nuke::nuke_cluster_with_options(client, &assembly_data, options, cmd)
+    primer::application::nuke::nuke_cluster_with_options(client, &assembly_data, options, cmd)
         .await?;
 
     // If aggressive, also reset K3s data directory

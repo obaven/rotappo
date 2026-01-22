@@ -1,9 +1,9 @@
 [tasks.check-crate-core-application]
 workspace = false
 command = "cargo"
-args = ["check", "-p", "rotappo-application"]
+args = ["check", "-p", "phenome-application"]
 
 [tasks.test-crate-core-application]
 workspace = false
 command = "cargo"
-args = ["test", "-p", "rotappo-application"]
+args = ["test", "-p", "phenome-application"]

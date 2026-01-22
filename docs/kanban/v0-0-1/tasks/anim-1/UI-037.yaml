@@ -3,9 +3,9 @@ title: 'Tooltip Stacking + Non-Intrusive Layout'
 type: Task
 layer: 5
 domain: core
-component: rotappo-tui-animation
+component: phenome-tui-animation
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Rework tooltip presentation to support stacking and pinned overlays
@@ -31,7 +31,7 @@ labels:
   - animation
   - ui
   - tui
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Backlog

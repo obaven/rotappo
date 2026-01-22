@@ -5,7 +5,7 @@ layer: 5
 domain: core
 component: distributed-tui-design
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Define world-class system design principles for the distributed TUI
@@ -40,7 +40,7 @@ labels:
   - hex
 
 source_files:
-  - file: lib/ui/rotappo-ui-tui
+  - file: lib/ui/phenome-ui-tui
     context: "Current TUI adapter implementation"
   - file: lib/ports/phenome-ports
     context: "Port contracts for tool adapters"

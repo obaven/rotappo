@@ -1,12 +1,12 @@
 use std::collections::HashMap;
 
-use bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache;
+use primer::application::runtime::modules::runtime::k8s::cache::ClusterCache;
 use bootstrappo_api::contract::assembly::{Check, Step};
 use bootstrappo_api::contract::config::Config;
 use validator::Validate;
 
 pub fn module_specs() -> HashMap<String, (String, Option<String>)> {
-    bootstrappo::application::runtime::registry::get_all_specs()
+    primer::application::runtime::registry::get_all_specs()
         .into_iter()
         .map(|spec| {
             (

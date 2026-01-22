@@ -1,11 +1,11 @@
 id: UI-043
-title: 'UI-2: Rotappo TUI Simplification + Debt Cleanup'
+title: 'UI-2: Phenome TUI Simplification + Debt Cleanup'
 type: Epic
 layer: 5
 domain: core
-component: rotappo-tui-cleanup
+component: phenome-tui-cleanup
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Reduce redundancy and overengineering in the TUI adapter by
@@ -21,7 +21,7 @@ deliverables:
   - TUI docs updated to reflect current architecture
 
 acceptance_criteria:
-  - rotappo-ui-tui builds without unused modules or dead exports
+  - phenome-ui-tui builds without unused modules or dead exports
   - TUI behavior is unchanged for active nav views and bootstrap TUI
   - Documentation matches the shipped module layout and smoke tests
 

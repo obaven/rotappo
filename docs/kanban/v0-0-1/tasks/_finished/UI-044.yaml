@@ -3,9 +3,9 @@ title: 'Shared TUI Terminal Loop + Guard'
 type: Task
 layer: 5
 domain: core
-component: rotappo-tui-runtime
+component: phenome-tui-runtime
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Consolidate the terminal setup and event loop used by the main TUI
@@ -36,11 +36,11 @@ labels:
   - refactor
 
 source_files:
-  - file: lib/ui/rotappo-ui-tui/src/runner.rs
+  - file: lib/ui/phenome-ui-tui/src/runner.rs
     context: "Main TUI terminal guard + loop"
-  - file: lib/ui/rotappo-ui-tui/src/bootstrap/terminal.rs
+  - file: lib/ui/phenome-ui-tui/src/bootstrap/terminal.rs
     context: "Bootstrap TUI terminal guard + loop"
-  - file: lib/ui/rotappo-ui-tui/src/bootstrap/mod.rs
+  - file: lib/ui/phenome-ui-tui/src/bootstrap/mod.rs
     context: "Bootstrap TUI entrypoint"
 
 status: MustHaves

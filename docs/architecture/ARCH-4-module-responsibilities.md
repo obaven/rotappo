@@ -7,18 +7,18 @@ canonical layout in `docs/architecture/ARCH-4-structure.md`.
 ## Core Layer (lib/domain, lib/ports, lib/runtime, lib/adapters)
 - `phenome-domain`: Domain models, enums, invariants, and identifiers.
 - `phenome-ports`: Port traits + contracts that adapters implement.
-- `rotappo-application`: Runtime orchestration, pipelines, and state sync.
+- `phenome-application`: Runtime orchestration, pipelines, and state sync.
 - `phenome-adapter-primer`: Bootstrappo adapter implementations.
-- `rotappo-adapter-analytics`: Analytics service adapter + schedulers.
-- `rotappo-adapter-ml`: ML service adapter and inference hooks.
-- `rotappo-adapter-notification`: Notification adapter.
-- `rotappo-ml`: ML models + local inference helpers.
+- `phenome-adapter-analytics`: Analytics service adapter + schedulers.
+- `phenome-adapter-ml`: ML service adapter and inference hooks.
+- `phenome-adapter-notification`: Notification adapter.
+- `phenome-ml`: ML models + local inference helpers.
 
 ## UI Layer (lib/ui)
-- `rotappo-ui-presentation`: UI-agnostic formatting, labels, and log helpers.
-- `rotappo-ui-core`: Framework-agnostic UI contracts and types.
-- `rotappo-ui-terminal`: CLI formatting + dispatch for bootstrappo CLI.
-- `rotappo-ui-tui`: Ratatui adapter + TUI panels, layout, and bootstrap UI.
+- `phenome-ui-presentation`: UI-agnostic formatting, labels, and log helpers.
+- `phenome-ui-core`: Framework-agnostic UI contracts and types.
+- `phenome-ui-terminal`: CLI formatting + dispatch for primer CLI.
+- `phenome-ui-tui`: Ratatui adapter + TUI panels, layout, and bootstrap UI.
 
 ## Supporting Notes
 - Each crate has a README at its root that defines ownership and boundaries.

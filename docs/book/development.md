@@ -41,17 +41,17 @@ cargo make doc
 cargo make docbook
 ```
 
-Bootstrappo CLI (rotappo, source of truth):
+Bootstrappo CLI (phenome, source of truth):
 
 ```
-cargo run --features cli,module-bootstrappo --bin cli -- --help
+cargo run --features cli,module-primer --bin cli -- --help
 ```
 
 Guardrail checks:
 
 ```
 cargo make check-cli-stability
-cargo make check-cli-bootstrappo-surface
+cargo make check-cli-primer-surface
 cargo make check-interfaces
 cargo make check-boundaries
 cargo make check-guardrails

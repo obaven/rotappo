@@ -1,11 +1,11 @@
 id: UI-014
-title: 'Rotappo TUI Shell + Layout Scaffolding'
+title: 'Phenome TUI Shell + Layout Scaffolding'
 type: Story
 layer: 5
 domain: core
-component: rotappo-tui-shell
+component: phenome-tui-shell
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Create the terminal UI shell using ratatui and crossterm. Establish
@@ -35,7 +35,7 @@ labels:
   - ui
   - tui
   - terminal
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/src/bin/tui.rs

@@ -10,7 +10,7 @@ use std::io::BufRead;
 use std::sync::Arc;
 use tracing::{info, warn};
 
-use bootstrappo::application::events::{EventPayload, InteractiveCommand};
+use primer::application::events::{EventPayload, InteractiveCommand};
 use phenome_domain::{Event, EventLevel};
 use phenome_ports::InMemoryLogPort;
 use tokio::sync::mpsc;
@@ -30,7 +30,7 @@ pub struct ReconcileArgs {
     pub interactive: bool,
 }
 
-/// Handles the `bootstrappo reconcile` command.
+/// Handles the `primer reconcile` command.
 ///
 /// ## Behavior
 /// - Watch mode: Uses event-driven Reconciler with cluster watchers
@@ -52,24 +52,24 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
     );
 
     // 1. Load Config
-    bootstrappo::application::config::load()?;
-    let config = bootstrappo::application::config::instance();
+    primer::application::config::load()?;
+    let config = primer::application::config::instance();
 
     // 1.5 Initialize infrastructure adapters
     let fs = Arc::new(
-        bootstrappo::adapters::infrastructure::core::filesystem::RealFilesystemAdapter::new(),
+        primer::adapters::infrastructure::core::filesystem::RealFilesystemAdapter::new(),
     );
     let k8s_client =
-        bootstrappo::adapters::infrastructure::kube::clients::k8s::K8sClient::new().await?;
-    let k8s: Arc<dyn bootstrappo::ports::kubernetes::KubernetesPort> = Arc::new(k8s_client.clone());
-    let helm = Arc::new(bootstrappo::adapters::infrastructure::helm::HelmBinaryAdapter::new());
+        primer::adapters::infrastructure::kube::clients::k8s::K8sClient::new().await?;
+    let k8s: Arc<dyn primer::ports::kubernetes::KubernetesPort> = Arc::new(k8s_client.clone());
+    let helm = Arc::new(primer::adapters::infrastructure::helm::HelmBinaryAdapter::new());
     let cmd =
-        Arc::new(bootstrappo::application::runtime::modules::io::command::CommandAdapter::new());
+        Arc::new(primer::application::runtime::modules::io::command::CommandAdapter::new());
 
     // 2. Build Assembly
-    let modules = bootstrappo::application::runtime::registry::get_all_modules(config.as_ref());
+    let modules = primer::application::runtime::registry::get_all_modules(config.as_ref());
     let mut assembly =
-        bootstrappo::application::composition::assembly::builder::AssemblyBuilder::new(
+        primer::application::composition::assembly::builder::AssemblyBuilder::new(
             config.as_ref().clone(),
         )
         .with_modules(modules)
@@ -90,9 +90,9 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
             warn!("--bootstrap-tui forces converge mode (watch disabled)");
         }
 
-        let mode = bootstrappo::application::reconciler::ReconcileMode::Converge;
+        let mode = primer::application::reconciler::ReconcileMode::Converge;
 
-        let mut options = bootstrappo::application::reconciler::ReconcileOptions::default();
+        let mut options = primer::application::reconciler::ReconcileOptions::default();
         if timing_enabled {
             options = options.with_timing();
         }
@@ -108,12 +108,12 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
 
         let discovery_client = kube::Client::try_default().await?;
         let discovery = Arc::new(
-            bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache::new(
+            primer::application::runtime::modules::runtime::k8s::cache::ClusterCache::new(
                 discovery_client,
             ),
         );
 
-        let event_bus = bootstrappo::application::events::EventBus::default();
+        let event_bus = primer::application::events::EventBus::default();
         let log_port = InMemoryLogPort::default();
         let log_task = {
             let log_port = log_port.clone();
@@ -127,7 +127,7 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
             })
         };
         let assembly_for_tui = assembly.clone();
-        let mut reconciler = bootstrappo::application::reconciler::Reconciler::with_options(
+        let mut reconciler = primer::application::reconciler::Reconciler::with_options(
             assembly,
             mode,
             options,
@@ -156,7 +156,7 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         ports.logs = Arc::new(log_port);
 
         let tui_handle =
-            tokio::task::spawn_blocking(move || rotappo_ui_tui::start_bootstrap(ports));
+            tokio::task::spawn_blocking(move || phenome_ui_tui::start_bootstrap(ports));
         let reconcile_handle = tokio::spawn(async move { reconciler.run().await });
 
         tui_handle.await.context("Bootstrap TUI task failed")??;
@@ -168,10 +168,10 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         // Watch mode: Use the event-driven Reconciler
         info!("Running in Watch mode with event-driven Reconciler");
 
-        let mode = bootstrappo::application::reconciler::ReconcileMode::Watch;
+        let mode = primer::application::reconciler::ReconcileMode::Watch;
 
         // Build options with enabled features
-        let mut options = bootstrappo::application::reconciler::ReconcileOptions::default();
+        let mut options = primer::application::reconciler::ReconcileOptions::default();
         if timing_enabled {
             options = options.with_timing();
         }
@@ -190,11 +190,11 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
 
         let discovery_client = kube::Client::try_default().await?;
         let discovery = Arc::new(
-            bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache::new(
+            primer::application::runtime::modules::runtime::k8s::cache::ClusterCache::new(
                 discovery_client,
             ),
         );
-        let mut reconciler = bootstrappo::application::reconciler::Reconciler::with_options(
+        let mut reconciler = primer::application::reconciler::Reconciler::with_options(
             assembly,
             mode,
             options,
@@ -232,15 +232,15 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         // BSP-227: Create native K8sClient for namespace and manifest operations
         let discovery_client = kube::Client::try_default().await?;
         let discovery = Arc::new(
-            bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache::new(
+            primer::application::runtime::modules::runtime::k8s::cache::ClusterCache::new(
                 discovery_client,
             ),
         );
 
         // BSP-148: Pass force flag to context for fast-path skip bypass
-        let mut context = bootstrappo::application::context::ModuleContext::new(
+        let mut context = primer::application::context::ModuleContext::new(
             config.clone(),
-            bootstrappo::application::context::ModuleMode::Apply,
+            primer::application::context::ModuleMode::Apply,
             fs.clone(),
             k8s.clone(),
             helm.clone(),
@@ -260,7 +260,7 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
 
         // BSP-153: Enable cache for Helm charts if --cache flag is set
         if args.cache {
-            match bootstrappo::adapters::cache::CacheManager::new() {
+            match primer::adapters::cache::CacheManager::new() {
                 Ok(cache_manager) => {
                     info!("Artifact cache enabled");
                     context.cache = Some(std::sync::Arc::new(cache_manager));
@@ -274,7 +274,7 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         // BSP-145: Enable timing in converge mode
         if timing_enabled {
             info!("Timing instrumentation enabled (converge mode)");
-            bootstrappo::application::bootstrap::bootstrap_with_timing(
+            primer::application::bootstrap::bootstrap_with_timing(
                 &context,
                 Some(&assembly),
                 args.timing_output.as_deref(),
@@ -284,7 +284,7 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
             if args.parallel {
                 info!("Note: --parallel is currently only supported in --watch mode");
             }
-            bootstrappo::application::bootstrap::bootstrap(&context, Some(&assembly)).await?;
+            primer::application::bootstrap::bootstrap(&context, Some(&assembly)).await?;
         }
 
         info!("Bootstrap completed successfully.");

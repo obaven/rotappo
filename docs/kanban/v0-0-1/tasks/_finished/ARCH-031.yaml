@@ -8,13 +8,13 @@ cli_surface:
   - terminal
 
 description: |
-  Move terminal formatting and output logic into rotappo-ui-terminal
+  Move terminal formatting and output logic into phenome-ui-terminal
   so CLI logic can be reused outside the root crate.
 
 deliverables:
-  - Terminal interface modules moved into `lib/ui/rotappo-ui-terminal`
-  - `rotappo-ui-terminal` depends on `phenome-domain` and `rotappo-ui-presentation`
-  - Imports updated to use `rotappo_ui_terminal`
+  - Terminal interface modules moved into `lib/ui/phenome-ui-terminal`
+  - `phenome-ui-terminal` depends on `phenome-domain` and `phenome-ui-presentation`
+  - Imports updated to use `phenome_ui_terminal`
 
 acceptance_criteria:
   - No `src/interfaces/terminal` module remains in the root crate
@@ -37,7 +37,7 @@ labels:
 source_files:
   - file: src/interfaces/terminal
     context: "Terminal interface to migrate"
-  - file: lib/ui/rotappo-ui-terminal
+  - file: lib/ui/phenome-ui-terminal
     context: "Target crate for terminal logic"
   - file: src/bin/terminal.rs
     context: "Terminal composition root"

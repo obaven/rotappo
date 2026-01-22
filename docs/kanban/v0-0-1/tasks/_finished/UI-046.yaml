@@ -3,9 +3,9 @@ title: 'Retire Legacy Panel Stack + State'
 type: Story
 layer: 5
 domain: core
-component: rotappo-tui-panels
+component: phenome-tui-panels
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Remove legacy panel renderers, hover paths, and state fields that
@@ -21,7 +21,7 @@ deliverables:
 acceptance_criteria:
   - Active nav views render without regressions
   - Input/hover logic only references live panel areas
-  - No unused panel modules remain in rotappo-ui-tui
+  - No unused panel modules remain in phenome-ui-tui
 
 dependencies:
   - UI-004
@@ -37,15 +37,15 @@ labels:
   - cleanup
 
 source_files:
-  - file: lib/ui/rotappo-ui-tui/src/panels
+  - file: lib/ui/phenome-ui-tui/src/panels
     context: "Legacy panel renderers"
-  - file: lib/ui/rotappo-ui-tui/src/state/ui_state.rs
+  - file: lib/ui/phenome-ui-tui/src/state/ui_state.rs
     context: "Panel state fields"
-  - file: lib/ui/rotappo-ui-tui/src/app/hover.rs
+  - file: lib/ui/phenome-ui-tui/src/app/hover.rs
     context: "Hover routing tied to old panels"
-  - file: lib/ui/rotappo-ui-tui/src/app/scroll.rs
+  - file: lib/ui/phenome-ui-tui/src/app/scroll.rs
     context: "Scroll routing tied to old panels"
-  - file: lib/ui/rotappo-ui-tui/src/macros.rs
+  - file: lib/ui/phenome-ui-tui/src/macros.rs
     context: "Panel macros used by legacy panels"
 
 status: MustHaves

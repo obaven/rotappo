@@ -3,12 +3,12 @@ title: 'DRIFT-1: Meta-17 CLI Registry + Validation Surface'
 type: Epic
 layer: 5
 domain: core
-component: rotappo-cli-bootstrappo
+component: phenome-cli-primer
 cli_surface:
   - bootstrappo [status|diff|explain|catalog]
 
 description: |
-  Deliver the Meta-17 CLI surface in rotappo for bootstrappo module
+  Deliver the Meta-17 CLI surface in phenome for bootstrappo module
   registry and validation flows. Add status/diff/explain/catalog
   commands that use the new module/assembly APIs and expose a stable
   operator-facing output format.
@@ -21,10 +21,10 @@ deliverables:
   - Docs and tests covering the new CLI surface
 
 acceptance_criteria:
-  - `rotappo status` reports checks and observed signals
-  - `rotappo diff` compares enabled modules vs satisfied signals
-  - `rotappo explain <module>` prints requires/provides/checks/engine
-  - `rotappo catalog` emits deterministic YAML output
+  - `phenome status` reports checks and observed signals
+  - `phenome diff` compares enabled modules vs satisfied signals
+  - `phenome explain <module>` prints requires/provides/checks/engine
+  - `phenome catalog` emits deterministic YAML output
   - Docs and tests updated for the new CLI surface
 
 dependencies: []

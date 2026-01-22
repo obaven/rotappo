@@ -3,9 +3,9 @@ title: 'LAYOUT-1C: Collapse/Open Policy Engine'
 type: Story
 layer: 5
 domain: core
-component: rotappo-tui-layout-policy
+component: phenome-tui-layout-policy
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Centralize collapse/open logic in a layout policy engine so the grid

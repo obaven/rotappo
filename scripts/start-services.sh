@@ -13,13 +13,13 @@ trap cleanup EXIT
 
 (
   cd "${ROOT_DIR}"
-  cargo run --bin analytics-service --features analytics >/tmp/rotappo-analytics.log 2>&1 &
+  cargo run --bin analytics-service --features analytics >/tmp/phenome-analytics.log 2>&1 &
   echo $! >"${ANALYTICS_PID_FILE}"
 )
 
 (
   cd "${ROOT_DIR}"
-  cargo run --bin ml-service --features ml >/tmp/rotappo-ml.log 2>&1 &
+  cargo run --bin ml-service --features ml >/tmp/phenome-ml.log 2>&1 &
   echo $! >"${ML_PID_FILE}"
 )
 
@@ -27,5 +27,5 @@ sleep 2
 
 (
   cd "${ROOT_DIR}"
-  cargo run --bin tui --features tui,module-bootstrappo
+  cargo run --bin tui --features tui,module-primer
 )

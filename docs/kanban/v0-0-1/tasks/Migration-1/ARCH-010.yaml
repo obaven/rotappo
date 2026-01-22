@@ -3,14 +3,14 @@ title: 'MIG-1B: Bootstrappo CLI Contract Snapshots + Golden Tests'
 type: Story
 layer: 5
 domain: core
-component: migration-cli-bootstrappo
+component: migration-cli-primer
 cli_surface:
   - bootstrappo [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
 
 description: |
-  Record bootstrappo CLI outputs and help text to prevent accidental
-  drift during rotappo refactors. Tests live alongside bootstrappo but
-  are tracked here to keep parity with rotappo expectations.
+  Record primer CLI outputs and help text to prevent accidental
+  drift during phenome refactors. Tests live alongside bootstrappo but
+  are tracked here to keep parity with phenome expectations.
 
 deliverables:
   - CLI help/usage snapshots for bootstrappo commands

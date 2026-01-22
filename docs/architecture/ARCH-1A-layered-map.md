@@ -1,6 +1,6 @@
 # ARCH-1A Layered Module Map + Target Tree
 
-This document defines the target layered architecture for rotappo and
+This document defines the target layered architecture for phenome and
 the module tree that supports it. It is intentionally a map, not a
 move action.
 
@@ -31,9 +31,9 @@ Dependency rules:
 - application -> ports
 - adapters -> ports + domain
 - interfaces do not import adapters directly (use wiring/composition), except
-  the bootstrappo CLI dispatch in `rotappo-ui-terminal`.
+  the primer CLI dispatch in `phenome-ui-terminal`.
 - domain does not import adapters, interfaces, or presentation
-- CLI dispatch in `rotappo-ui-terminal` may call adapter handlers.
+- CLI dispatch in `phenome-ui-terminal` may call adapter handlers.
 
 ASCII dependency map:
 
@@ -49,7 +49,7 @@ ASCII dependency map:
           [domain] <------------ [adapters]
 
 Composition roots:
-- src/bin/cli.rs (bootstrappo CLI entrypoint)
+- src/bin/cli.rs (primer CLI entrypoint)
 - src/bin/tui.rs (TUI)
 
 ## Target module tree (current)
@@ -60,18 +60,18 @@ lib/
   ports/
     phenome-ports/
   runtime/
-    rotappo-application/
-    rotappo-ml/
+    phenome-application/
+    phenome-ml/
   adapters/
     phenome-adapter-primer/
-    rotappo-adapter-analytics/
-    rotappo-adapter-ml/
-    rotappo-adapter-notification/
+    phenome-adapter-analytics/
+    phenome-adapter-ml/
+    phenome-adapter-notification/
   ui/
-    rotappo-ui-presentation/
-    rotappo-ui-core/
-    rotappo-ui-terminal/
-    rotappo-ui-tui/
+    phenome-ui-presentation/
+    phenome-ui-core/
+    phenome-ui-terminal/
+    phenome-ui-tui/
 src/
   bin/
     cli.rs
@@ -82,24 +82,24 @@ src/
 
 Notes:
 - Interfaces are nested under `lib/ui/`.
-- Core adapters live under `lib/adapters/rotappo-adapter-*`.
+- Core adapters live under `lib/adapters/phenome-adapter-*`.
 - The canonical structure map lives in `docs/architecture/ARCH-4-structure.md`.
-- `rotappo-ui-presentation` collects UI/CLI-agnostic helpers (formatting,
+- `phenome-ui-presentation` collects UI/CLI-agnostic helpers (formatting,
   log config, view models). UI/CLI should not own these helpers.
-- Use `rotappo_ui_terminal` and `rotappo_ui_tui` for
+- Use `phenome_ui_terminal` and `phenome_ui_tui` for
   public imports (no compatibility re-exports).
 
 ## Completed moves
 - Runtime models -> `lib/domain/phenome-domain/`
-- Orchestration -> `lib/runtime/rotappo-application/`
-- Formatting/logging -> `lib/ui/rotappo-ui-presentation/`
+- Orchestration -> `lib/runtime/phenome-application/`
+- Formatting/logging -> `lib/ui/phenome-ui-presentation/`
 - Ports -> `lib/ports/phenome-ports/`
-- Interfaces -> `lib/ui/rotappo-ui-*`
+- Interfaces -> `lib/ui/phenome-ui-*`
 - Bootstrappo adapter -> `lib/adapters/phenome-adapter-primer/`
-- Analytics adapter -> `lib/adapters/rotappo-adapter-analytics/`
-- ML adapter -> `lib/adapters/rotappo-adapter-ml/`
-- Notification adapter -> `lib/adapters/rotappo-adapter-notification/`
-- ML models -> `lib/runtime/rotappo-ml/`
+- Analytics adapter -> `lib/adapters/phenome-adapter-analytics/`
+- ML adapter -> `lib/adapters/phenome-adapter-ml/`
+- Notification adapter -> `lib/adapters/phenome-adapter-notification/`
+- ML models -> `lib/runtime/phenome-ml/`
 
 ## Known coupling to verify
 1) Ports must stay domain-only; avoid adapter types.

@@ -3,9 +3,9 @@ title: 'LAYOUT-1D: Migrate TUI Panels to Grid Layout'
 type: Task
 layer: 5
 domain: core
-component: rotappo-tui-layout-migration
+component: phenome-tui-layout-migration
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Replace bespoke layout wiring in the current TUI with the grid layout

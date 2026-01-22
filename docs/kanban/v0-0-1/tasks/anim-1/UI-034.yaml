@@ -3,9 +3,9 @@ title: 'TUI Loading + Status Animations'
 type: Story
 layer: 5
 domain: core
-component: rotappo-tui-animation
+component: phenome-tui-animation
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Add animated spinner indicators for running steps/actions and
@@ -30,7 +30,7 @@ labels:
   - animation
   - ui
   - tui
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Backlog

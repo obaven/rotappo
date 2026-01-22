@@ -128,13 +128,13 @@ impl BootstrapPort for NullBootstrapPort {
         std::collections::HashMap::new()
     }
 
-    fn dependency_graph(&self) -> &bootstrappo::domain::models::assembly::Assembly {
-        static EMPTY: std::sync::OnceLock<bootstrappo::domain::models::assembly::Assembly> =
+    fn dependency_graph(&self) -> &primer::domain::models::assembly::Assembly {
+        static EMPTY: std::sync::OnceLock<primer::domain::models::assembly::Assembly> =
             std::sync::OnceLock::new();
-        EMPTY.get_or_init(bootstrappo::domain::models::assembly::Assembly::default)
+        EMPTY.get_or_init(primer::domain::models::assembly::Assembly::default)
     }
 
-    fn timing_history(&self) -> Option<bootstrappo::application::timing::TimingHistory> {
+    fn timing_history(&self) -> Option<primer::application::timing::TimingHistory> {
         None
     }
 
@@ -148,7 +148,7 @@ impl BootstrapPort for NullBootstrapPort {
 
     fn send_command(
         &self,
-        _cmd: bootstrappo::application::events::InteractiveCommand,
+        _cmd: primer::application::events::InteractiveCommand,
     ) -> anyhow::Result<()> {
         Ok(())
     }
@@ -156,13 +156,13 @@ impl BootstrapPort for NullBootstrapPort {
     fn get_detailed_status(
         &self,
         _component_id: &str,
-    ) -> anyhow::Result<bootstrappo::application::readiness::DetailedStatus> {
-        Ok(bootstrappo::application::readiness::DetailedStatus::empty())
+    ) -> anyhow::Result<primer::application::readiness::DetailedStatus> {
+        Ok(primer::application::readiness::DetailedStatus::empty())
     }
 
     fn registry_specs(
         &self,
-    ) -> std::collections::HashMap<String, bootstrappo::domain::models::module::spec::ModuleSpec>
+    ) -> std::collections::HashMap<String, primer::domain::models::module::spec::ModuleSpec>
     {
         std::collections::HashMap::new()
     }

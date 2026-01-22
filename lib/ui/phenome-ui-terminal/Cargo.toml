@@ -1,0 +1,29 @@
+[package]
+name = "phenome-ui-terminal"
+version = "0.0.1"
+edition = "2024"
+publish = false
+
+[features]
+default = []
+primer-cli = [
+  "dep:clap",
+  "dep:dotenv",
+  "dep:phenome-adapter-primer",
+  "dep:tracing",
+  "dep:tracing-subscriber",
+]
+plasmid-cli = []
+
+[dependencies]
+anyhow = "1.0.100"
+clap = { version = "4.5.53", features = ["derive", "env"], optional = true }
+dotenv = { version = "0.15", optional = true }
+serde = { version = "1.0.210", features = ["derive"] }
+serde_json = "1.0.128"
+tracing = { version = "0.1.44", optional = true }
+tracing-subscriber = { version = "0.3", optional = true }
+
+phenome-adapter-primer = { path = "../../adapters/phenome-adapter-primer", optional = true }
+phenome-domain = { path = "../../domain/phenome-domain" }
+phenome-ui-presentation = { path = "../phenome-ui-presentation" }

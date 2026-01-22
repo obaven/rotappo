@@ -1,15 +1,15 @@
 id: UI-008
-title: 'Rotappo Runtime Event Bus + Log Stream'
+title: 'Phenome Runtime Event Bus + Log Stream'
 type: Story
 layer: 5
 domain: core
-component: rotappo-runtime-events
+component: phenome-runtime-events
 cli_surface: []
 
 description: |
   Provide an event bus for runtime notifications and a log stream that
   bridges tracing output into UI-friendly messages. This enables live
-  dashboards and terminal log panes. Implement in lib/rotappo so the
+  dashboards and terminal log panes. Implement in lib/phenome so the
   event stream can be shared across TUI, web, and desktop.
 
 deliverables:
@@ -35,7 +35,7 @@ labels:
   - runtime
   - events
   - logging
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/src/runtime/events.rs

@@ -7,11 +7,11 @@ safely without breaking the event-driven UI contract.
 
 ## Current layout
 
-- Entry point: `lib/ui/rotappo-ui-tui/src/bootstrap/app.rs`
-- Terminal loop: `lib/ui/rotappo-ui-tui/src/bootstrap/terminal.rs`
-- Shared loop helper: `lib/ui/rotappo-ui-tui/src/terminal.rs`
-- Panels: `lib/ui/rotappo-ui-tui/src/bootstrap/panels/`
-- State: `lib/ui/rotappo-ui-tui/src/bootstrap/state.rs`
+- Entry point: `lib/ui/phenome-ui-tui/src/bootstrap/app.rs`
+- Terminal loop: `lib/ui/phenome-ui-tui/src/bootstrap/terminal.rs`
+- Shared loop helper: `lib/ui/phenome-ui-tui/src/terminal.rs`
+- Panels: `lib/ui/phenome-ui-tui/src/bootstrap/panels/`
+- State: `lib/ui/phenome-ui-tui/src/bootstrap/state.rs`
 
 The bootstrap UI renders:
 - Header panel
@@ -24,13 +24,13 @@ The bootstrap UI renders:
 ## Adding a new panel
 
 1) Create a new panel module in
-   `lib/ui/rotappo-ui-tui/src/bootstrap/panels/`.
-2) Add it to `lib/ui/rotappo-ui-tui/src/bootstrap/panels/mod.rs`.
+   `lib/ui/phenome-ui-tui/src/bootstrap/panels/`.
+2) Add it to `lib/ui/phenome-ui-tui/src/bootstrap/panels/mod.rs`.
 3) Update `BootstrapApp::render` to include the panel in the layout.
 4) If the panel needs input handling, add keys to
    `BootstrapApp::handle_key_event`.
 5) If the panel depends on Bootstrap state, extend
-   `lib/ui/rotappo-ui-tui/src/bootstrap/state.rs`.
+   `lib/ui/phenome-ui-tui/src/bootstrap/state.rs`.
 
 ## Data flow
 

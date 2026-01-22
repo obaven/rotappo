@@ -444,55 +444,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bootstrappo"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "async-walkdir",
- "base64",
- "bootstrappo-adapters",
- "bootstrappo-domain",
- "bootstrappo-macros",
- "bootstrappo-ports",
- "bootstrappo-shared",
- "chrono",
- "clap",
- "cloudflare",
- "dirs",
- "dotenv",
- "fluvio-helm",
- "futures",
- "graphviz-rust",
- "hex",
- "http",
- "indicatif",
- "inventory",
- "ipnetwork",
- "k8s-openapi",
- "kube",
- "petgraph 0.8.3",
- "rand 0.9.2",
- "regex",
- "reqwest",
- "rsa",
- "schemars 1.2.0",
- "serde",
- "serde_json",
- "serde_yaml",
- "sha-crypt",
- "sha2",
- "sysinfo 0.37.2",
- "textwrap",
- "tokio",
- "tokio-util",
- "tracing",
- "tracing-subscriber",
- "uuid",
- "validator",
-]
-
-[[package]]
 name = "bootstrappo-adapters"
 version = "0.1.0"
 dependencies = [
@@ -3100,17 +3051,36 @@ dependencies = [
 ]
 
 [[package]]
+name = "phenome"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "phenome-adapter-primer",
+ "phenome-domain",
+ "rotappo-adapter-analytics",
+ "rotappo-adapter-ml",
+ "rotappo-application",
+ "rotappo-ml",
+ "rotappo-ui-core",
+ "rotappo-ui-presentation",
+ "rotappo-ui-terminal",
+ "rotappo-ui-tui",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
 name = "phenome-adapter-primer"
 version = "0.0.1"
 dependencies = [
  "anyhow",
- "bootstrappo",
  "bootstrappo-api",
  "inventory",
  "k8s-openapi",
  "kube",
  "phenome-domain",
  "phenome-ports",
+ "primer",
  "rotappo-ui-tui",
  "serde",
  "serde_yaml",
@@ -3135,8 +3105,8 @@ version = "0.0.1"
 dependencies = [
  "anyhow",
  "async-trait",
- "bootstrappo",
  "phenome-domain",
+ "primer",
 ]
 
 [[package]]
@@ -3764,6 +3734,55 @@ dependencies = [
 ]
 
 [[package]]
+name = "primer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "async-walkdir",
+ "base64",
+ "bootstrappo-adapters",
+ "bootstrappo-domain",
+ "bootstrappo-macros",
+ "bootstrappo-ports",
+ "bootstrappo-shared",
+ "chrono",
+ "clap",
+ "cloudflare",
+ "dirs",
+ "dotenv",
+ "fluvio-helm",
+ "futures",
+ "graphviz-rust",
+ "hex",
+ "http",
+ "indicatif",
+ "inventory",
+ "ipnetwork",
+ "k8s-openapi",
+ "kube",
+ "petgraph 0.8.3",
+ "rand 0.9.2",
+ "regex",
+ "reqwest",
+ "rsa",
+ "schemars 1.2.0",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "sha-crypt",
+ "sha2",
+ "sysinfo 0.37.2",
+ "textwrap",
+ "tokio",
+ "tokio-util",
+ "tracing",
+ "tracing-subscriber",
+ "uuid",
+ "validator",
+]
+
+[[package]]
 name = "proc-macro-crate"
 version = "3.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4256,25 +4275,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rotappo"
-version = "0.0.1"
-dependencies = [
- "anyhow",
- "phenome-adapter-primer",
- "phenome-domain",
- "rotappo-adapter-analytics",
- "rotappo-adapter-ml",
- "rotappo-application",
- "rotappo-ml",
- "rotappo-ui-core",
- "rotappo-ui-presentation",
- "rotappo-ui-terminal",
- "rotappo-ui-tui",
- "tempfile",
- "tokio",
-]
-
-[[package]]
 name = "rotappo-adapter-analytics"
 version = "0.0.1"
 dependencies = [
@@ -4407,11 +4407,11 @@ version = "0.0.1"
 dependencies = [
  "anyhow",
  "base64",
- "bootstrappo",
  "crossterm 0.28.1",
  "graphviz-rust",
  "phenome-domain",
  "phenome-ports",
+ "primer",
  "ratatui",
  "rotappo-adapter-analytics",
  "rotappo-application",

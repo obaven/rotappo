@@ -8,13 +8,13 @@ cli_surface:
   - tui
 
 description: |
-  Move ratatui-based TUI logic into rotappo-ui-tui and update the
+  Move ratatui-based TUI logic into phenome-ui-tui and update the
   TUI bin to depend on the new crate.
 
 deliverables:
-  - TUI interface modules moved into `lib/ui/rotappo-ui-tui`
-  - `rotappo-ui-tui` depends on application, ui-core, and ui-presentation
-  - Imports updated to use `rotappo_ui_tui`
+  - TUI interface modules moved into `lib/ui/phenome-ui-tui`
+  - `phenome-ui-tui` depends on application, ui-core, and ui-presentation
+  - Imports updated to use `phenome_ui_tui`
 
 acceptance_criteria:
   - No `src/interfaces/tui` module remains in the root crate
@@ -39,7 +39,7 @@ labels:
 source_files:
   - file: src/interfaces/tui
     context: "TUI interface to migrate"
-  - file: lib/ui/rotappo-ui-tui
+  - file: lib/ui/phenome-ui-tui
     context: "Target crate for TUI logic"
   - file: src/bin/tui.rs
     context: "TUI composition root"

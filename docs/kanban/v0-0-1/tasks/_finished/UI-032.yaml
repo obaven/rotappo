@@ -3,10 +3,10 @@ title: 'FIX-1: Shared Action/Problem Formatting'
 type: Task
 layer: 5
 domain: core
-component: rotappo-formatting
+component: phenome-formatting
 cli_surface:
-  - rotappo ui
-  - rotappo
+  - phenome ui
+  - phenome
 
 description: |
   Reduce formatting duplication by extracting shared action and problem
@@ -31,7 +31,7 @@ labels:
   - fix
   - formatting
   - cleanup
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Done

@@ -4,11 +4,11 @@ digraph CrateMap {
 
   domain [label="phenome-domain"];
   ports [label="phenome-ports"];
-  application [label="rotappo-application"];
-  presentation [label="rotappo-ui-presentation"];
-  ui_core [label="rotappo-ui-core"];
-  terminal_iface [label="rotappo-ui-terminal"];
-  tui_iface [label="rotappo-ui-tui"];
+  application [label="phenome-application"];
+  presentation [label="phenome-ui-presentation"];
+  ui_core [label="phenome-ui-core"];
+  terminal_iface [label="phenome-ui-terminal"];
+  tui_iface [label="phenome-ui-tui"];
   adapter_bootstrappo [label="phenome-adapter-primer"];
   bin_bootstrappo [label="cli (bin)"];
   bin_tui [label="tui (bin)"];

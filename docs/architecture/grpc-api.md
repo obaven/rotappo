@@ -6,6 +6,6 @@ The analytics and ML services expose gRPC endpoints for:
 - Anomaly detection results
 - Recommendation lists
 
-Endpoints are configurable via `rotappo-config.yaml` and default to:
+Endpoints are configurable via `phenome-config.yaml` and default to:
 - Analytics: http://localhost:50051
 - ML: http://localhost:50052

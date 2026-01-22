@@ -3,9 +3,9 @@ title: 'LAYOUT-1B: Layout Macro DSL + Composition'
 type: Story
 layer: 5
 domain: core
-component: rotappo-tui-layout-dsl
+component: phenome-tui-layout-dsl
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Build macro helpers for declaring grid layouts with composable

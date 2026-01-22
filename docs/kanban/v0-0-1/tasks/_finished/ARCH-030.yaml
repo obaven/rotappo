@@ -7,13 +7,13 @@ component: ui-core-migration
 cli_surface: []
 
 description: |
-  Move framework-agnostic UI contracts into rotappo-ui-core and keep
+  Move framework-agnostic UI contracts into phenome-ui-core and keep
   the crate ratatui/terminal free.
 
 deliverables:
-  - UI core modules moved into `lib/ui/rotappo-ui-core`
-  - `rotappo-ui-core` depends on `phenome-domain` and `rotappo-ui-presentation`
-  - Imports updated to use `rotappo_ui_core`
+  - UI core modules moved into `lib/ui/phenome-ui-core`
+  - `phenome-ui-core` depends on `phenome-domain` and `phenome-ui-presentation`
+  - Imports updated to use `phenome_ui_core`
 
 acceptance_criteria:
   - No `src/interfaces/ui_core` module remains in the root crate
@@ -36,7 +36,7 @@ labels:
 source_files:
   - file: src/interfaces/ui_core
     context: "UI core contracts to migrate"
-  - file: lib/ui/rotappo-ui-core
+  - file: lib/ui/phenome-ui-core
     context: "Target crate for ui-core"
   - file: tests
     context: "Interface boundary tests"

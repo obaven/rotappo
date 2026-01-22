@@ -1,13 +1,13 @@
-//! Cluster lifecycle command handlers for bootstrappo CLI commands.
+//! Cluster lifecycle command handlers for primer CLI commands.
 
 use std::path::Path;
 use tracing::info;
 
-use bootstrappo::adapters::infrastructure::kube::cluster::K3sBootstrapConfig;
-use bootstrappo::application::events::{EventBus, EventPayload};
-use bootstrappo::application::flows::cluster::{detect_existing_cluster, init_cluster_with_events};
-use bootstrappo::application::runtime::modules::io::command::CommandAdapter;
-use bootstrappo::ports::CommandPort;
+use primer::adapters::infrastructure::kube::cluster::K3sBootstrapConfig;
+use primer::application::events::{EventBus, EventPayload};
+use primer::application::flows::cluster::{detect_existing_cluster, init_cluster_with_events};
+use primer::application::runtime::modules::io::command::CommandAdapter;
+use primer::ports::CommandPort;
 
 const K3S_UNINSTALL_PATH: &str = "/usr/local/bin/k3s-uninstall.sh";
 
@@ -53,7 +53,7 @@ pub async fn init(skip_upgrade: bool, force: bool) -> anyhow::Result<()> {
     println!("Kubeconfig: {}", cluster_info.kubeconfig_path.display());
     println!();
     println!("Next steps:");
-    println!("  bootstrappo reconcile  # Deploy components");
+    println!("  primer reconcile  # Deploy components");
 
     Ok(())
 }

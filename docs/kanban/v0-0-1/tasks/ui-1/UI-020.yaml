@@ -1,9 +1,9 @@
 id: UI-020
-title: 'Rotappo Web Dashboard: Action, Capabilities, Storage'
+title: 'Phenome Web Dashboard: Action, Capabilities, Storage'
 type: Story
 layer: 5
 domain: core
-component: rotappo-web-dashboard
+component: phenome-web-dashboard
 cli_surface: []
 
 description: |
@@ -34,7 +34,7 @@ labels:
   - web
   - dashboard
   - storage
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/web/src/app/dashboard

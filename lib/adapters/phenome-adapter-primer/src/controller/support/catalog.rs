@@ -1,7 +1,7 @@
 use serde::Serialize;
 
-use bootstrappo::application::api::BootstrappoApi;
-use bootstrappo::domain::models::module::EngineMeta;
+use primer::application::api::BootstrappoApi;
+use primer::domain::models::module::EngineMeta;
 
 #[derive(Serialize)]
 struct Catalog {

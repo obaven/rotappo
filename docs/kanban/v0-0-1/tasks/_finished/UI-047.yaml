@@ -3,9 +3,9 @@ title: 'Collapse State + LayoutPolicy Simplification'
 type: Task
 layer: 5
 domain: core
-component: rotappo-tui-layout-policy
+component: phenome-tui-layout-policy
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Simplify the collapse state flow by choosing a single source of
@@ -37,13 +37,13 @@ labels:
   - policy
 
 source_files:
-  - file: lib/ui/rotappo-ui-tui/src/app/layout.rs
+  - file: lib/ui/phenome-ui-tui/src/app/layout.rs
     context: "Collapse helpers + sync"
-  - file: lib/ui/rotappo-ui-tui/src/app/collapse.rs
+  - file: lib/ui/phenome-ui-tui/src/app/collapse.rs
     context: "Panel open/close flow"
-  - file: lib/ui/rotappo-ui-tui/src/layout/policy/layout.rs
+  - file: lib/ui/phenome-ui-tui/src/layout/policy/layout.rs
     context: "Policy API surface"
-  - file: lib/ui/rotappo-ui-tui/src/layout/policy/state.rs
+  - file: lib/ui/phenome-ui-tui/src/layout/policy/state.rs
     context: "Policy state + collapse rules"
 
 status: MustHaves

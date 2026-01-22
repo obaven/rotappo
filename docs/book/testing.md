@@ -12,12 +12,12 @@ Recommended checks:
 - `cargo fmt --check`
 - `cargo clippy --all-targets`
 - `cargo make check-cli-stability`
-- `cargo make check-cli-bootstrappo-surface`
+- `cargo make check-cli-primer-surface`
 - `cargo test --test interface_boundaries`
 - `cargo test --test crate_boundaries`
 - `cargo test --test cli_golden` (CLI output snapshots)
 - `UPDATE_CLI_SNAPSHOTS=1 cargo test --test cli_golden` (update fixtures)
-- `cargo check --features cli,module-bootstrappo --bin cli` (bootstrappo CLI)
+- `cargo check --features cli,module-primer --bin cli` (primer CLI)
 - CLI output parity for action/problem formatting
 - TUI smoke checks (navbar navigation, Analytics Real-time view renders, Topology Assembly view renders, Terminal Log Stream view updates, notifications overlay toggles)
 

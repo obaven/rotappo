@@ -1,16 +1,16 @@
 id: UI-006
-title: 'UI-1E: Rotappo Cross-Platform Desktop App'
+title: 'UI-1E: Phenome Cross-Platform Desktop App'
 type: Epic
 layer: 5
 domain: core
-component: rotappo-desktop
+component: phenome-desktop
 cli_surface: []
 
 description: |
   Deliver a cross-platform desktop app that wraps the web UI with
   native packaging, local runtime integration, and OS-level features.
   This becomes the primary long-lived operator console. The desktop
-  app lives in lib/rotappo to keep it independent from Bootstrappo.
+  app lives in lib/phenome to keep it independent from Bootstrappo.
 
 deliverables:
   - Desktop shell using Tauri or Dioxus
@@ -40,7 +40,7 @@ labels:
   - desktop
   - cross-platform
   - packaging
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Backlog

@@ -11,7 +11,7 @@
 pub async fn registry() -> anyhow::Result<()> {
     println!("=== Registered Modules ===");
     println!();
-    for reg in inventory::iter::<bootstrappo::application::runtime::registry::ComponentRegistration>
+    for reg in inventory::iter::<primer::application::runtime::registry::ComponentRegistration>
     {
         let spec = &reg.spec;
         println!("• {} (v{})", spec.name, spec.version);
@@ -35,10 +35,10 @@ pub async fn registry() -> anyhow::Result<()> {
 
 /// Print the execution order of an assembly.
 pub async fn assembly_order(assembly: String) -> anyhow::Result<()> {
-    let config = bootstrappo::application::config::load_from_file(&assembly)?;
-    let modules = bootstrappo::application::runtime::registry::get_all_modules(&config);
+    let config = primer::application::config::load_from_file(&assembly)?;
+    let modules = primer::application::runtime::registry::get_all_modules(&config);
     let assembly =
-        bootstrappo::application::composition::assembly::builder::AssemblyBuilder::new(config)
+        primer::application::composition::assembly::builder::AssemblyBuilder::new(config)
             .with_modules(modules)
             .build()?;
     let steps = assembly.execution_order()?;

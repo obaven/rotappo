@@ -1,7 +1,7 @@
 use tracing::info;
 
-use bootstrappo::application::composition::assembly::builder::AssemblyBuilder;
-use bootstrappo::application::flows::reconcile::core::assembly::validation;
+use primer::application::composition::assembly::builder::AssemblyBuilder;
+use primer::application::flows::reconcile::core::assembly::validation;
 
 #[derive(Debug, Clone)]
 pub struct AssemblyVisualizeArgs {
@@ -15,8 +15,8 @@ pub struct AssemblyVisualizeArgs {
 /// Validate an assembly config file.
 pub async fn validate(path: String) -> anyhow::Result<()> {
     info!("Validating config: {}", path);
-    let config = bootstrappo::application::config::load_from_file(&path)?;
-    let modules = bootstrappo::application::runtime::registry::get_all_modules(&config);
+    let config = primer::application::config::load_from_file(&path)?;
+    let modules = primer::application::runtime::registry::get_all_modules(&config);
     let assembly = AssemblyBuilder::new(config).with_modules(modules).build()?;
 
     let report = validation::rules::validate_with_diagnostics(&assembly);
@@ -39,11 +39,11 @@ pub async fn validate(path: String) -> anyhow::Result<()> {
 
 /// Generate a visualization of the assembly.
 pub async fn visualize(args: AssemblyVisualizeArgs) -> anyhow::Result<()> {
-    let config = bootstrappo::application::config::load_from_file(&args.path)?;
-    let modules = bootstrappo::application::runtime::registry::get_all_modules(&config);
+    let config = primer::application::config::load_from_file(&args.path)?;
+    let modules = primer::application::runtime::registry::get_all_modules(&config);
     let assembly = AssemblyBuilder::new(config).with_modules(modules).build()?;
 
-    use bootstrappo::application::reconciler::visualize::{LayerType, OutputFormat, ViewType};
+    use primer::application::reconciler::visualize::{LayerType, OutputFormat, ViewType};
 
     let view_type = match args.view.to_lowercase().as_str() {
         "full" => ViewType::Full,
@@ -87,11 +87,11 @@ pub async fn visualize(args: AssemblyVisualizeArgs) -> anyhow::Result<()> {
     }
 
     let visualizer = std::sync::Arc::new(
-        bootstrappo::application::runtime::modules::support::visualizer::VisualizerAdapter::new(),
+        primer::application::runtime::modules::support::visualizer::VisualizerAdapter::new(),
     );
 
     info!("Generating {} view → {}", args.view, output_path);
-    bootstrappo::application::reconciler::visualize::generate(
+    primer::application::reconciler::visualize::generate(
         &assembly,
         view_type,
         output_format,

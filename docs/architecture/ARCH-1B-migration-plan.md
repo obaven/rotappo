@@ -10,13 +10,13 @@ CLI/TUI behavior stable while updating public paths directly.
 
 ## Stage action
 1) Presentation extraction
-   - Move formatting/logging into `lib/ui/rotappo-ui-presentation/`.
+   - Move formatting/logging into `lib/ui/phenome-ui-presentation/`.
    - Checkpoints: build, CLI output parity smoke.
    - Rollback: restore previous modules.
 
 2) Domain/application split
    - Move runtime models into `lib/domain/phenome-domain/`.
-   - Move orchestration into `lib/runtime/rotappo-application/`.
+   - Move orchestration into `lib/runtime/phenome-application/`.
    - Checkpoints: unit tests, TUI smoke.
    - Rollback: collapse modules back into a single runtime module.
 
@@ -29,12 +29,12 @@ CLI/TUI behavior stable while updating public paths directly.
 
 4) Interface rename (completed)
    - Move interface modules into `lib/ui/`.
-   - Update bin imports and internal paths to use `rotappo-ui-*` crates.
+   - Update bin imports and internal paths to use `phenome-ui-*` crates.
    - Checkpoints: compile and CLI/TUI smoke.
    - Rollback: restore original module paths.
 
 ## Validation checklist
-- `cargo test -p rotappo` (or workspace equivalent) per stage.
+- `cargo test -p phenome` (or workspace equivalent) per stage.
 - CLI: confirm output parity for action/problem formatting.
 - TUI: smoke check layout + key panels render.
 - Ensure no domain imports from `interfaces` or `adapters`.

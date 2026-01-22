@@ -10,4 +10,4 @@
 
 ## Troubleshooting
 - Ensure analytics service is reachable for historical data.
-- Check logs in `/tmp/rotappo-ml.log` when using the start script.
+- Check logs in `/tmp/phenome-ml.log` when using the start script.

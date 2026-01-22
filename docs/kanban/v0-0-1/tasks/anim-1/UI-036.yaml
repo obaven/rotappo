@@ -3,9 +3,9 @@ title: 'TUI Scrollbars'
 type: Task
 layer: 5
 domain: core
-component: rotappo-tui-animation
+component: phenome-tui-animation
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Add scrollbars for action steps and logs panels to indicate scroll
@@ -31,7 +31,7 @@ labels:
   - animation
   - ui
   - tui
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Backlog

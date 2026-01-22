@@ -1,11 +1,11 @@
 id: UI-015
-title: 'Rotappo TUI Action + Gate Status View'
+title: 'Phenome TUI Action + Gate Status View'
 type: Story
 layer: 5
 domain: core
-component: rotappo-tui-action
+component: phenome-tui-action
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Render action steps with readiness and gate status in the TUI. This
@@ -34,7 +34,7 @@ labels:
   - tui
   - action
   - gates
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/src/tui/views/action.rs

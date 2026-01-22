@@ -23,23 +23,23 @@ workspace = false
 command = "cargo"
 args = ["test", "--test", "cli_golden"]
 
-[tasks.check-cli-bootstrappo]
+[tasks.check-cli-primer]
 workspace = false
 command = "cargo"
-args = ["check", "--no-default-features", "--features", "cli,module-bootstrappo", "--bin", "cli"]
+args = ["check", "--no-default-features", "--features", "cli,module-primer", "--bin", "cli"]
 
-[tasks.check-cli-bootstrappo-visualize]
+[tasks.check-cli-primer-visualize]
 workspace = false
 command = "cargo"
-args = ["test", "--features", "cli,module-bootstrappo", "--test", "cli_bootstrappo_visualize"]
+args = ["test", "--features", "cli,module-primer", "--test", "cli_primer_visualize"]
 
-[tasks.check-cli-bootstrappo-surface]
+[tasks.check-cli-primer-surface]
 workspace = false
-dependencies = ["check-cli-bootstrappo", "check-cli-bootstrappo-visualize"]
+dependencies = ["check-cli-primer", "check-cli-primer-visualize"]
 
 [tasks.check-cli-stability]
 workspace = false
-dependencies = ["check-cli-snapshots", "check-cli-boundaries", "check-cli-bootstrappo-surface"]
+dependencies = ["check-cli-snapshots", "check-cli-boundaries", "check-cli-primer-surface"]
 
 [tasks.check-boundaries]
 workspace = false

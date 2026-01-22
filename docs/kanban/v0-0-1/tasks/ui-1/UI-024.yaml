@@ -1,9 +1,9 @@
 id: UI-024
-title: 'Rotappo Desktop Packaging + Updates + Notifications'
+title: 'Phenome Desktop Packaging + Updates + Notifications'
 type: Task
 layer: 5
 domain: core
-component: rotappo-desktop-package
+component: phenome-desktop-package
 cli_surface: []
 
 description: |
@@ -31,7 +31,7 @@ labels:
   - ui
   - desktop
   - packaging
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/desktop/tauri.conf.json

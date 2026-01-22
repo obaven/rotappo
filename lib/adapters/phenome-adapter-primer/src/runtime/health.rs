@@ -4,9 +4,9 @@ use std::sync::{Arc, RwLock};
 use std::thread;
 use std::time::Duration;
 
-use bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache;
-use bootstrappo::application::runtime::registry;
-use bootstrappo::ports::module::{HealthStatus, ModuleContext, ModuleMode};
+use primer::application::runtime::modules::runtime::k8s::cache::ClusterCache;
+use primer::application::runtime::registry;
+use primer::ports::module::{HealthStatus, ModuleContext, ModuleMode};
 use bootstrappo_api::contract::config::Config;
 use kube::Client;
 

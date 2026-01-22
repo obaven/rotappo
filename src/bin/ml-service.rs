@@ -2,8 +2,8 @@ use std::env;
 use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
 
-use rotappo_adapter_ml::grpc::GrpcServer;
-use rotappo_adapter_ml::MlService;
+use phenome_adapter_ml::grpc::GrpcServer;
+use phenome_adapter_ml::MlService;
 use phenome_domain::RotappoConfig;
 
 #[tokio::main]
@@ -24,10 +24,10 @@ fn config_path() -> PathBuf {
     }
 
     if let Ok(home) = env::var("HOME") {
-        return Path::new(&home).join(".rotappo").join("config.yaml");
+        return Path::new(&home).join(".phenome").join("config.yaml");
     }
 
-    PathBuf::from("rotappo-config.yaml")
+    PathBuf::from("phenome-config.yaml")
 }
 
 fn parse_addr(raw: &str) -> Option<SocketAddr> {

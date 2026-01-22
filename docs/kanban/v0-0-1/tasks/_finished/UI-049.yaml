@@ -3,7 +3,7 @@ title: 'TUI Documentation Alignment'
 type: Task
 layer: 5
 domain: core
-component: rotappo-tui-docs
+component: phenome-tui-docs
 cli_surface: []
 
 description: |

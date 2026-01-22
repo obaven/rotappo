@@ -36,17 +36,17 @@ use k8s_openapi::api::networking::v1::Ingress;
 use kube::api::ListParams;
 use tokio::sync::mpsc;
 
-use bootstrappo::adapters::infrastructure::kube::clients::k8s::K8sClient;
-use bootstrappo::application::events::{
+use primer::adapters::infrastructure::kube::clients::k8s::K8sClient;
+use primer::application::events::{
     BootstrapEvent, EventBus, EventPayload, InteractiveCommand,
 };
-use bootstrappo::application::readiness::{DetailedStatus, map_check_to_readiness};
-use bootstrappo::application::timing::TimingHistory;
-use bootstrappo::application::timing::storage::{
+use primer::application::readiness::{DetailedStatus, map_check_to_readiness};
+use primer::application::timing::TimingHistory;
+use primer::application::timing::storage::{
     cluster::ClusterTimingStorage, local::LocalTimingStorage,
 };
-use bootstrappo::domain::models::assembly::Assembly;
-use bootstrappo::domain::models::module::spec::ModuleSpec;
+use primer::domain::models::assembly::Assembly;
+use primer::domain::models::module::spec::ModuleSpec;
 
 use phenome_ports::{
     AccessStatus, AccessUrlInfo, BootstrapPort, BootstrapStatus, ComponentState, ComponentStatus,
@@ -492,7 +492,7 @@ impl BootstrapPort for BootstrapAdapter {
     }
 
     fn registry_specs(&self) -> HashMap<String, ModuleSpec> {
-        let specs = bootstrappo::application::runtime::registry::get_all_specs();
+        let specs = primer::application::runtime::registry::get_all_specs();
         specs
             .into_iter()
             .map(|spec| (spec.name.to_string(), spec.clone()))
@@ -534,8 +534,8 @@ impl DetailedStatusCache {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use bootstrappo::application::events::{DeferReason, EventPayload, TimingBreakdown};
-    use bootstrappo::application::readiness::status::{
+    use primer::application::events::{DeferReason, EventPayload, TimingBreakdown};
+    use primer::application::readiness::status::{
         BasicStatus, ReadinessPhase, ReadinessStatus,
     };
 

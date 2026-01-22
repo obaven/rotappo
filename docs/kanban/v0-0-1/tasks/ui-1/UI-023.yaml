@@ -1,9 +1,9 @@
 id: UI-023
-title: 'Rotappo Desktop Local Runtime Bridge'
+title: 'Phenome Desktop Local Runtime Bridge'
 type: Task
 layer: 5
 domain: core
-component: rotappo-desktop-bridge
+component: phenome-desktop-bridge
 cli_surface: []
 
 description: |
@@ -33,7 +33,7 @@ labels:
   - ui
   - desktop
   - ipc
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/desktop/src/ipc.rs

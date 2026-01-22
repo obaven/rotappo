@@ -1,22 +1,22 @@
 id: UI-002
-title: 'UI-1A: Rotappo Runtime + State API'
+title: 'UI-1A: Phenome Runtime + State API'
 type: Epic
 layer: 5
 domain: core
-component: rotappo-runtime
+component: phenome-runtime
 cli_surface:
-  - rotappo ui
-  - rotappo server
+  - phenome ui
+  - phenome server
 
 description: |
   Create a shared runtime that exposes actions, state snapshots, and
   event streams for all UI surfaces. This runtime becomes the single
   source of truth for UI data and command execution. Implement the
-  runtime inside rotappo so it can be developed independently and
+  runtime inside phenome so it can be developed independently and
   adapted for Bootstrappo and Rotato.
 
 deliverables:
-  - Rotappo runtime modules under phenome/src/runtime
+  - Phenome runtime modules under phenome/src/runtime
   - Action router and command registry used by all surfaces
   - State snapshot model aggregating action, capabilities, and health
   - Event bus for logs and step transitions
@@ -28,7 +28,7 @@ acceptance_criteria:
   - State snapshot can be fetched without heavy cluster polling
   - Log and event streams support live UIs (TUI/Web/Desktop)
   - Runtime remains usable without any UI (headless CLI mode)
-  - Runtime compiles as an independent crate under rotappo
+  - Runtime compiles as an independent crate under phenome
 
 dependencies:
   - UI-001
@@ -48,7 +48,7 @@ labels:
   - runtime
   - api
   - core
-  - rotappo
+  - phenome
 
 source_files:
   - file: ../primer/src/main.rs

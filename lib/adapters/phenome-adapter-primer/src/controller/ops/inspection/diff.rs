@@ -1,4 +1,4 @@
-use bootstrappo::application::api::BootstrappoApi;
+use primer::application::api::BootstrappoApi;
 
 pub async fn diff() -> anyhow::Result<()> {
     let (config, discovery) = super::status::load_config_and_discovery().await?;

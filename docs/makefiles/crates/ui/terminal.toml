@@ -1,14 +1,14 @@
 [tasks.check-crate-ui-terminal]
 workspace = false
 command = "cargo"
-args = ["check", "-p", "rotappo-ui-terminal"]
+args = ["check", "-p", "phenome-ui-terminal"]
 
 [tasks.test-crate-ui-terminal]
 workspace = false
 command = "cargo"
-args = ["test", "-p", "rotappo-ui-terminal"]
+args = ["test", "-p", "phenome-ui-terminal"]
 
-[tasks.check-crate-ui-terminal-bootstrappo]
+[tasks.check-crate-ui-terminal-primer]
 workspace = false
 command = "cargo"
-args = ["check", "-p", "rotappo-ui-terminal", "--features", "bootstrappo-cli"]
+args = ["check", "-p", "phenome-ui-terminal", "--features", "primer-cli"]

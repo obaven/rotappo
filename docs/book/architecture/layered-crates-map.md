@@ -9,17 +9,17 @@ lib/
   core/
     phenome-domain/
     phenome-ports/
-    rotappo-application/
+    phenome-application/
     phenome-adapter-primer/
-    rotappo-adapter-analytics/
-    rotappo-adapter-ml/
-    rotappo-adapter-notification/
-    rotappo-ml/
+    phenome-adapter-analytics/
+    phenome-adapter-ml/
+    phenome-adapter-notification/
+    phenome-ml/
   ui/
-    rotappo-ui-presentation/
-    rotappo-ui-core/
-    rotappo-ui-terminal/
-    rotappo-ui-tui/
+    phenome-ui-presentation/
+    phenome-ui-core/
+    phenome-ui-terminal/
+    phenome-ui-tui/
 src/
   bin/
     cli.rs
@@ -33,4 +33,4 @@ Key rules:
 - domain does not import adapters, presentation, or interfaces.
 - ui-presentation does not import adapters or interfaces.
 - ui interfaces only depend on application, ports, domain, and ui-presentation.
-- `rotappo-ui-terminal` may depend on the bootstrappo adapter for CLI dispatch.
+- `phenome-ui-terminal` may depend on the bootstrappo adapter for CLI dispatch.

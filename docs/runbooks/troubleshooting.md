@@ -10,5 +10,5 @@
 - Confirm analytics has stored metrics for the selected time window.
 
 ## Services fail to start
-- Validate `rotappo-config.yaml` paths and permissions.
+- Validate `phenome-config.yaml` paths and permissions.
 - Ensure required ports (50051/50052) are available.

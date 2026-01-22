@@ -19,18 +19,18 @@ pub async fn rotate(
         return Ok(());
     }
 
-    let config = bootstrappo::application::config::load_from_file(&assembly_path)?;
-    let modules = bootstrappo::application::runtime::registry::get_all_modules(&config);
+    let config = primer::application::config::load_from_file(&assembly_path)?;
+    let modules = primer::application::runtime::registry::get_all_modules(&config);
     let action_data =
-        bootstrappo::application::composition::assembly::builder::AssemblyBuilder::new(config)
+        primer::application::composition::assembly::builder::AssemblyBuilder::new(config)
             .with_modules(modules)
             .build()?;
     let fs = std::sync::Arc::new(
-        bootstrappo::adapters::infrastructure::core::filesystem::RealFilesystemAdapter::new(),
+        primer::adapters::infrastructure::core::filesystem::RealFilesystemAdapter::new(),
     );
     let gitops_dir = Path::new(&gitops_dir);
 
-    use bootstrappo::application::reconciler::ops::hooks::{
+    use primer::application::reconciler::ops::hooks::{
         HookOperation, dns::DnsHook, ingress::IngressHook, tls::TlsHook,
     };
 

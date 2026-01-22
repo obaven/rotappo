@@ -5,10 +5,10 @@ use std::sync::Arc;
 use std::time::Duration;
 use tokio::sync::watch;
 
-use rotappo_adapter_analytics::AnalyticsService;
-use rotappo_adapter_analytics::cluster_manager::ClusterManager;
-use rotappo_adapter_analytics::grpc::GrpcServer;
-use rotappo_adapter_analytics::storage::sqlite::{RetentionConfig, SqliteStorage};
+use phenome_adapter_analytics::AnalyticsService;
+use phenome_adapter_analytics::cluster_manager::ClusterManager;
+use phenome_adapter_analytics::grpc::GrpcServer;
+use phenome_adapter_analytics::storage::sqlite::{RetentionConfig, SqliteStorage};
 use phenome_domain::RotappoConfig;
 
 #[tokio::main]
@@ -34,7 +34,7 @@ async fn main() -> anyhow::Result<()> {
     )?);
 
     let ml_url = config.services.ml_url.clone();
-    let ml_client = rotappo_adapter_analytics::grpc::MlClient::connect(&ml_url).await?;
+    let ml_client = phenome_adapter_analytics::grpc::MlClient::connect(&ml_url).await?;
 
     let service = AnalyticsService::new(storage.clone(), ml_client);
     let service = Arc::new(service);
@@ -43,14 +43,14 @@ async fn main() -> anyhow::Result<()> {
     for cluster_config in config.clusters {
         cm.add_cluster(cluster_config.context).await?;
     }
-    let mc = rotappo_adapter_analytics::metrics_collector::MetricsCollector::new(
+    let mc = phenome_adapter_analytics::metrics_collector::MetricsCollector::new(
         cm,
         Duration::from_secs(config.collection.interval),
     );
     let _hc = tokio::spawn(mc.run_polling_loop_with_shutdown(shutdown_rx.clone()));
 
     tokio::spawn(
-        rotappo_adapter_analytics::aggregator::Aggregator::run_hourly_with_shutdown(
+        phenome_adapter_analytics::aggregator::Aggregator::run_hourly_with_shutdown(
             storage.clone(),
             shutdown_rx.clone(),
         ),
@@ -80,7 +80,7 @@ async fn main() -> anyhow::Result<()> {
     }
 
     let notifier =
-        Arc::new(rotappo_adapter_analytics::notification::NotificationService::new(channels));
+        Arc::new(phenome_adapter_analytics::notification::NotificationService::new(channels));
     {
         let notifier = notifier.clone();
         let service = service.clone();
@@ -94,7 +94,7 @@ async fn main() -> anyhow::Result<()> {
 
     if let Some(kube_client) = kube_client {
         tokio::spawn(
-            rotappo_adapter_analytics::scheduler::SchedulerService::run_minute_with_shutdown(
+            phenome_adapter_analytics::scheduler::SchedulerService::run_minute_with_shutdown(
                 storage.clone(),
                 kube_client,
                 shutdown_rx.clone(),
@@ -114,10 +114,10 @@ fn config_path() -> PathBuf {
     }
 
     if let Ok(home) = env::var("HOME") {
-        return Path::new(&home).join(".rotappo").join("config.yaml");
+        return Path::new(&home).join(".phenome").join("config.yaml");
     }
 
-    PathBuf::from("rotappo-config.yaml")
+    PathBuf::from("phenome-config.yaml")
 }
 
 fn parse_addr(raw: &str) -> Option<SocketAddr> {

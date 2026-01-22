@@ -6,14 +6,14 @@ error-handling and loop-safety conventions for distributed adapters.
 
 ## Dead Code Findings + Removal Plan
 Removed:
-- Unused analytics renderers in `lib/ui/rotappo-ui-tui/src/panels/main.rs`.
+- Unused analytics renderers in `lib/ui/phenome-ui-tui/src/panels/main.rs`.
 Adjusted:
 - Added retention and scheduler loop entrypoints to match analytics service wiring.
 
 Deferred (documented for follow-up):
-- `rotappo-adapter-analytics` scheduler execution uses a stub executor.
-- `rotappo-adapter-notification` InTUI delivery logs to tracing only.
-- `rotappo-ml` anomaly detection uses Z-score only; Isolation Forest is deferred.
+- `phenome-adapter-analytics` scheduler execution uses a stub executor.
+- `phenome-adapter-notification` InTUI delivery logs to tracing only.
+- `phenome-ml` anomaly detection uses Z-score only; Isolation Forest is deferred.
 
 ## Error Handling Conventions
 - Return `anyhow::Result` at adapter boundaries; add context to IO failures.

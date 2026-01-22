@@ -7,8 +7,8 @@ use phenome_domain::{
     Capability, CapabilityStatus, ComponentHealthStatus, Event, EventLevel, HealthSnapshot,
     HealthStatus, Snapshot,
 };
-use rotappo_ui_presentation::formatting;
-use rotappo_ui_terminal::{
+use phenome_ui_presentation::formatting;
+use phenome_ui_terminal::{
     OutputMode, format_actions, format_assembly, format_events, format_problems, format_snapshot,
 };
 

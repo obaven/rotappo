@@ -1,11 +1,11 @@
 id: UI-016
-title: 'Rotappo TUI Action Panel + Confirmations'
+title: 'Phenome TUI Action Panel + Confirmations'
 type: Story
 layer: 5
 domain: core
-component: rotappo-tui-actions
+component: phenome-tui-actions
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Provide an action launcher in the TUI that lists available runtime
@@ -36,7 +36,7 @@ labels:
   - tui
   - actions
   - safety
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/src/tui/views/actions.rs

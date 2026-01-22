@@ -1,11 +1,11 @@
 id: UI-017
-title: 'Rotappo TUI Log + Event Stream Panel'
+title: 'Phenome TUI Log + Event Stream Panel'
 type: Task
 layer: 5
 domain: core
-component: rotappo-tui-logs
+component: phenome-tui-logs
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Add a log and event panel to the terminal UI with filtering and
@@ -34,7 +34,7 @@ labels:
   - ui
   - tui
   - logs
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/src/tui/views/logs.rs

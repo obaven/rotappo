@@ -3,13 +3,13 @@ title: 'CLI Status + Diff + Explain Commands'
 type: Story
 layer: 5
 domain: core
-component: rotappo-ui-terminal
+component: phenome-ui-terminal
 cli_surface:
   - bootstrappo [status|diff|explain]
 
 description: |
-  Add the status, diff, and explain commands to the bootstrappo CLI
-  surface in rotappo. Wire clap parsing, help text, and dispatch to
+  Add the status, diff, and explain commands to the primer CLI
+  surface in phenome. Wire clap parsing, help text, and dispatch to
   adapter controllers that implement the Meta-17 behavior.
 
 deliverables:
@@ -18,9 +18,9 @@ deliverables:
   - Basic error handling + exit codes for missing modules
 
 acceptance_criteria:
-  - `rotappo status --help` shows command usage and flags
-  - `rotappo diff --help` shows command usage and flags
-  - `rotappo explain <module>` fails with a clear error if missing
+  - `phenome status --help` shows command usage and flags
+  - `phenome diff --help` shows command usage and flags
+  - `phenome explain <module>` fails with a clear error if missing
   - Commands route to adapter logic without panics
 
 dependencies:
@@ -36,7 +36,7 @@ labels:
   - clap
 
 source_files:
-  - file: lib/ui/rotappo-ui-terminal/src/cli/bootstrappo.rs
+  - file: lib/ui/phenome-ui-terminal/src/cli/primer.rs
     context: "CLI parse and dispatch"
 
 status: MustHaves

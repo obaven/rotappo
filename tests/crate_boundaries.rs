@@ -19,14 +19,14 @@ fn is_dependency_section(section: &str) -> bool {
 
 fn section_dependency_name(section: &str) -> Option<&str> {
     let last = section.split('.').next_back()?;
-    if last.starts_with("rotappo-") {
+    if last.starts_with("phenome-") {
         Some(last)
     } else {
         None
     }
 }
 
-fn extract_rotappo_deps(path: &Path) -> BTreeSet<String> {
+fn extract_phenome_deps(path: &Path) -> BTreeSet<String> {
     let content = fs::read_to_string(path)
         .unwrap_or_else(|err| panic!("failed to read {}: {}", path.display(), err));
     let mut deps = BTreeSet::new();
@@ -50,7 +50,7 @@ fn extract_rotappo_deps(path: &Path) -> BTreeSet<String> {
         if in_deps {
             if let Some((key, _)) = trimmed.split_once('=') {
                 let key = key.trim();
-                if key.starts_with("rotappo-") {
+                if key.starts_with("phenome-") {
                     deps.insert(key.to_string());
                 }
             }
@@ -70,7 +70,7 @@ fn assert_allowed_deps(rule: &CrateRule) {
         );
     }
 
-    let deps = extract_rotappo_deps(&manifest_path);
+    let deps = extract_phenome_deps(&manifest_path);
     let allowed: BTreeSet<String> = rule.allowed.iter().map(|dep| dep.to_string()).collect();
     let disallowed: Vec<_> = deps
         .iter()
@@ -80,7 +80,7 @@ fn assert_allowed_deps(rule: &CrateRule) {
 
     if !disallowed.is_empty() {
         panic!(
-            "{} depends on disallowed rotappo crates: {:?} (allowed: {:?})",
+            "{} depends on disallowed phenome crates: {:?} (allowed: {:?})",
             rule.name, disallowed, rule.allowed
         );
     }
@@ -100,43 +100,43 @@ fn crate_dependency_boundaries() {
             allowed: &["phenome-domain"],
         },
         CrateRule {
-            name: "rotappo-application",
-            manifest_path: "lib/runtime/rotappo-application/Cargo.toml",
+            name: "phenome-application",
+            manifest_path: "lib/runtime/phenome-application/Cargo.toml",
             allowed: &["phenome-domain", "phenome-ports"],
         },
         CrateRule {
             name: "phenome-adapter-primer",
             manifest_path: "lib/adapters/phenome-adapter-primer/Cargo.toml",
-            allowed: &["phenome-domain", "phenome-ports", "rotappo-ui-tui"],
+            allowed: &["phenome-domain", "phenome-ports", "phenome-ui-tui"],
         },
         CrateRule {
-            name: "rotappo-ui-presentation",
-            manifest_path: "lib/ui/rotappo-ui-presentation/Cargo.toml",
+            name: "phenome-ui-presentation",
+            manifest_path: "lib/ui/phenome-ui-presentation/Cargo.toml",
             allowed: &["phenome-domain"],
         },
         CrateRule {
-            name: "rotappo-ui-core",
-            manifest_path: "lib/ui/rotappo-ui-core/Cargo.toml",
-            allowed: &["phenome-domain", "rotappo-ui-presentation"],
+            name: "phenome-ui-core",
+            manifest_path: "lib/ui/phenome-ui-core/Cargo.toml",
+            allowed: &["phenome-domain", "phenome-ui-presentation"],
         },
         CrateRule {
-            name: "rotappo-ui-terminal",
-            manifest_path: "lib/ui/rotappo-ui-terminal/Cargo.toml",
+            name: "phenome-ui-terminal",
+            manifest_path: "lib/ui/phenome-ui-terminal/Cargo.toml",
             allowed: &[
                 "phenome-domain",
-                "rotappo-ui-presentation",
+                "phenome-ui-presentation",
                 "phenome-adapter-primer",
             ],
         },
         CrateRule {
-            name: "rotappo-ui-tui",
-            manifest_path: "lib/ui/rotappo-ui-tui/Cargo.toml",
+            name: "phenome-ui-tui",
+            manifest_path: "lib/ui/phenome-ui-tui/Cargo.toml",
             allowed: &[
                 "phenome-domain",
-                "rotappo-application",
+                "phenome-application",
                 "phenome-ports",
-                "rotappo-ui-core",
-                "rotappo-ui-presentation",
+                "phenome-ui-core",
+                "phenome-ui-presentation",
             ],
         },
     ];

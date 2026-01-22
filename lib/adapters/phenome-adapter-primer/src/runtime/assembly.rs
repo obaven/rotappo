@@ -74,8 +74,8 @@ impl AssemblyPort for BootstrappoAssemblyPort {
 }
 
 fn build_assembly(config: &BootstrappoConfig) -> Result<BootstrappoAssembly> {
-    let modules = bootstrappo::application::runtime::registry::get_all_modules(config);
-    bootstrappo::application::composition::assembly::builder::AssemblyBuilder::new(config.clone())
+    let modules = primer::application::runtime::registry::get_all_modules(config);
+    primer::application::composition::assembly::builder::AssemblyBuilder::new(config.clone())
         .with_modules(modules)
         .build()
         .context("Failed to build assembly from config")

@@ -7,9 +7,9 @@ This checklist keeps the refactor safe across UI, CLI, and runtime.
 - Ports expose domain types only; adapters translate external types.
 - UI depends on application + presentation only.
 - CLI dispatch may call adapter handlers; keep it TUI-free.
-- Shared formatting/logging lives under `rotappo-ui-presentation`.
-- CLI boundaries: rotappo never imports bootstrappo CLI modules, and
-  bootstrappo CLI never imports rotappo crates.
+- Shared formatting/logging lives under `phenome-ui-presentation`.
+- CLI boundaries: phenome never imports primer CLI modules, and
+  primer CLI never imports phenome crates.
 - Avoid compatibility shims; update call sites with moved paths.
 - Update doc tests with new paths when public APIs move.
 - Avoid circular dependencies (adapters -> ports -> domain only).
@@ -26,8 +26,8 @@ This checklist keeps the refactor safe across UI, CLI, and runtime.
 - Adapter types leaking into ports: review imports and enforce linting.
 
 ## Suggested validation per PR
-- `cargo test -p rotappo` (or workspace equivalent).
-- `cargo run --features cli,module-bootstrappo --bin cli -- --help` for CLI surface sanity.
+- `cargo test -p phenome` (or workspace equivalent).
+- `cargo run --features cli,module-primer --bin cli -- --help` for CLI surface sanity.
 - Manual TUI smoke check (header, action, logs panels).
 - Doc tests updated alongside any public path changes.
 - `cargo test --test interface_boundaries` to enforce interface layering.

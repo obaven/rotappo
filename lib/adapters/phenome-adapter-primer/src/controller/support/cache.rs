@@ -4,15 +4,15 @@
 //! CLI entry point for cache management commands.
 //!
 //! ## BSP-146: Artifact Cache
-//! - `bootstrappo cache status` - Show cache statistics
-//! - `bootstrappo cache purge` - Clear all cached data
+//! - `primer cache status` - Show cache statistics
+//! - `primer cache purge` - Clear all cached data
 
-use bootstrappo::ports::ArtifactCache;
+use primer::ports::ArtifactCache;
 use tracing::info;
 
 /// Show cache statistics.
 pub async fn status() -> anyhow::Result<()> {
-    let cache = bootstrappo::adapters::cache::CacheManager::new()?;
+    let cache = primer::adapters::cache::CacheManager::new()?;
     let stats = cache.stats()?;
     println!("{}", stats.summary());
     Ok(())
@@ -20,7 +20,7 @@ pub async fn status() -> anyhow::Result<()> {
 
 /// Purge all cached data.
 pub async fn purge(force: bool) -> anyhow::Result<()> {
-    let cache = bootstrappo::adapters::cache::CacheManager::new()?;
+    let cache = primer::adapters::cache::CacheManager::new()?;
 
     if !force {
         println!("This will delete all cached Helm charts and rendered manifests.");

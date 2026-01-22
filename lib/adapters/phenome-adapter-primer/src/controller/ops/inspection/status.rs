@@ -2,12 +2,12 @@ use std::collections::HashSet;
 use std::sync::Arc;
 use std::time::Duration;
 
-use bootstrappo::application::api::BootstrappoApi;
-use bootstrappo::application::flows::reconcile::core::assembly::validation::{
+use primer::application::api::BootstrappoApi;
+use primer::application::flows::reconcile::core::assembly::validation::{
     Severity, ValidationReport,
 };
-use bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache;
-use bootstrappo::ports::discovery::ClusterDiscoveryPort;
+use primer::application::runtime::modules::runtime::k8s::cache::ClusterCache;
+use primer::ports::discovery::ClusterDiscoveryPort;
 
 pub async fn status() -> anyhow::Result<()> {
     let (config, discovery) = load_config_and_discovery().await?;
@@ -31,11 +31,11 @@ pub async fn status() -> anyhow::Result<()> {
 }
 
 pub(crate) async fn load_config_and_discovery() -> anyhow::Result<(
-    Arc<bootstrappo::application::config::Config>,
+    Arc<primer::application::config::Config>,
     Arc<dyn ClusterDiscoveryPort>,
 )> {
-    bootstrappo::application::config::load()?;
-    let config = bootstrappo::application::config::instance();
+    primer::application::config::load()?;
+    let config = primer::application::config::instance();
 
     let client = kube::Client::try_default().await?;
     let discovery = Arc::new(ClusterCache::new(client));
@@ -87,7 +87,7 @@ fn print_signals(observed: &HashSet<String>) {
     }
 }
 
-fn print_checks(checks: &[bootstrappo::application::api::status::CheckResult]) {
+fn print_checks(checks: &[primer::application::api::status::CheckResult]) {
     if checks.is_empty() {
         println!("Checks: none");
         return;

@@ -7,7 +7,7 @@ on latency, resilience, state synchronization, and extensibility so the TUI
 remains responsive as more tools and adapters come online.
 
 ## Scope
-- Applies to the TUI adapter in `lib/ui/rotappo-ui-tui`.
+- Applies to the TUI adapter in `lib/ui/phenome-ui-tui`.
 - Assumes the hex boundary pattern: interface adapters talk to tool ports.
 - Bootstrappo is the current tool adapter; additional tools should follow the
   same contract.

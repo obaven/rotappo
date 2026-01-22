@@ -1,12 +1,12 @@
 [tasks.build-release-cli]
 workspace = false
 command = "cargo"
-args = ["build", "--release", "--bin", "cli", "--features", "cli,module-bootstrappo"]
+args = ["build", "--release", "--bin", "cli", "--features", "cli,module-primer"]
 
 [tasks.build-release-tui]
 workspace = false
 command = "cargo"
-args = ["build", "--release", "--bin", "tui", "--features", "tui-ratatui,module-bootstrappo"]
+args = ["build", "--release", "--bin", "tui", "--features", "tui-ratatui,module-primer"]
 
 [tasks.build-release]
 workspace = false

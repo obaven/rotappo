@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rotappo-analytics
+  name: phenome-analytics
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rotappo-analytics
+      app: phenome-analytics
   template:
     metadata:
       labels:
-        app: rotappo-analytics
+        app: phenome-analytics
     spec:
       containers:
         - name: analytics
-          image: rotappo-analytics:latest
+          image: phenome-analytics:latest
           args: ["analytics-service"]
           ports:
             - containerPort: 50051

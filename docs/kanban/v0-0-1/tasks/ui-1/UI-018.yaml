@@ -1,11 +1,11 @@
 id: UI-018
-title: 'Rotappo Web API Server + Event Streaming'
+title: 'Phenome Web API Server + Event Streaming'
 type: Story
 layer: 5
 domain: core
-component: rotappo-web-api
+component: phenome-web-api
 cli_surface:
-  - rotappo server
+  - phenome server
 
 description: |
   Implement a local HTTP API that exposes runtime state snapshots,
@@ -36,7 +36,7 @@ labels:
   - web
   - api
   - streaming
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/src/web/server.rs

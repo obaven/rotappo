@@ -1,11 +1,11 @@
 id: UI-029
-title: 'Rotappo UI Macro Helpers'
+title: 'Phenome UI Macro Helpers'
 type: Task
 layer: 5
 domain: core
-component: rotappo-ui-macros
+component: phenome-ui-macros
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Add macro helpers to reduce boilerplate in TUI rendering and layout
@@ -33,7 +33,7 @@ labels:
   - ui
   - macros
   - cleanup
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Done

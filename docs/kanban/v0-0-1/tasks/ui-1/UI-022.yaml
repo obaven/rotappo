@@ -1,9 +1,9 @@
 id: UI-022
-title: 'Rotappo Desktop Shell + Webview Integration'
+title: 'Phenome Desktop Shell + Webview Integration'
 type: Story
 layer: 5
 domain: core
-component: rotappo-desktop-shell
+component: phenome-desktop-shell
 cli_surface: []
 
 description: |
@@ -32,7 +32,7 @@ labels:
   - ui
   - desktop
   - webview
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/desktop/README.md

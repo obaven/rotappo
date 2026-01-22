@@ -1,8 +1,8 @@
 use phenome_adapter_primer::BootstrappoBackend;
-use rotappo_application::Runtime;
+use phenome_application::Runtime;
 use phenome_domain::ActionRegistry;
-use rotappo_ui_tui as tui;
-use rotappo_ui_tui::app::AppContext;
+use phenome_ui_tui as tui;
+use phenome_ui_tui::app::AppContext;
 
 fn main() -> anyhow::Result<()> {
     // 1. Initialize backend (Sync) - do this before starting any global runtime

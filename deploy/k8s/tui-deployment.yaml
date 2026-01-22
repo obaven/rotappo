@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rotappo-tui
+  name: phenome-tui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rotappo-tui
+      app: phenome-tui
   template:
     metadata:
       labels:
-        app: rotappo-tui
+        app: phenome-tui
     spec:
       containers:
         - name: tui
-          image: rotappo-tui:latest
+          image: phenome-tui:latest
           args: ["tui"]

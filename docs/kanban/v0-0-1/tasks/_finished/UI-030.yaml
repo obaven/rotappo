@@ -3,9 +3,9 @@ title: 'FIX-1: TUI State Deduplication'
 type: Task
 layer: 5
 domain: core
-component: rotappo-ui-state
+component: phenome-ui-state
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Consolidate hover, scroll, tooltip, and selection logic into a shared
@@ -32,7 +32,7 @@ labels:
   - fix
   - ui
   - cleanup
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Done

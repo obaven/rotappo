@@ -6,11 +6,11 @@ future UI surfaces (web, desktop, etc.) can reuse UI contracts without
 pulling CLI or ratatui dependencies.
 
 ## Current interface shape (summary)
-- `lib/ui/rotappo-ui-tui/` is ratatui + crossterm heavy
+- `lib/ui/phenome-ui-tui/` is ratatui + crossterm heavy
   - runner/render/panels/layout/util depend on ratatui types
   - keyboard/input depends on crossterm
-- `lib/ui/rotappo-ui-terminal/` is CLI formatting only
-- `lib/ui/rotappo-ui-core/` defines framework-agnostic contracts
+- `lib/ui/phenome-ui-terminal/` is CLI formatting only
+- `lib/ui/phenome-ui-core/` defines framework-agnostic contracts
 - No direct CLI use inside the TUI tree, but ratatui types are spread
   across most modules, making reuse by non-TUI surfaces difficult.
 
@@ -20,19 +20,19 @@ Option A (explicit separation):
 
 ```
 lib/ui/
-  rotappo-ui-core/        (framework-agnostic UI contracts)
-  rotappo-ui-tui/         (ratatui adapter)
+  phenome-ui-core/        (framework-agnostic UI contracts)
+  phenome-ui-tui/         (ratatui adapter)
     app/                  (tui state + handlers)
     layout/               (ratatui layout)
     panels/               (ratatui renderers)
     runner.rs             (crossterm loop)
-  rotappo-ui-terminal/    (CLI formatting helpers)
+  phenome-ui-terminal/    (CLI formatting helpers)
 ```
 
 Option B (nested core):
 
 ```
-lib/ui/rotappo-ui-tui/
+lib/ui/phenome-ui-tui/
   core/           (ui-core contracts)
   ratatui/        (tui adapter implementation)
 ```
@@ -50,21 +50,21 @@ allows additional adapters (web, desktop) without naming conflicts.
 - `ui-core`: builds framework-agnostic UI contracts only
 - `tui-ratatui`: builds the TUI adapter (depends on `ui-core`; requires a module feature)
 - `cli`: builds CLI helpers and formatter output (requires a module feature)
-- `module-bootstrappo`: enables the bootstrappo CLI surface (with `cli`)
-- `module-rotato`: enables the rotato CLI surface (with `cli`)
+- `module-primer`: enables the primer CLI surface (with `cli`)
+- `module-plasmid`: enables the plasmid CLI surface (with `cli`)
 
 Examples:
 - `cargo check --no-default-features --features ui-core`
-- `cargo check --no-default-features --features tui-ratatui,module-bootstrappo`
-- `cargo check --no-default-features --features cli,module-bootstrappo`
+- `cargo check --no-default-features --features tui-ratatui,module-primer`
+- `cargo check --no-default-features --features cli,module-primer`
 
 ## Guardrail tests
 - Ensure `ui_core` compiles without ratatui/crossterm.
-- Static check to prevent `ui_core` importing `rotappo-ui-terminal`.
-- Build matrix tasks for `ui-core`, `tui-ratatui + module-bootstrappo`, `cli + module-bootstrappo` features.
+- Static check to prevent `ui_core` importing `phenome-ui-terminal`.
+- Build matrix tasks for `ui-core`, `tui-ratatui + module-primer`, `cli + module-primer` features.
 
 ## Migration steps (high level)
-1) Extract UI-core contracts (state/events/models) from `rotappo-ui-tui`.
-2) Move ratatui/crossterm code into `rotappo-ui-tui` adapter.
+1) Extract UI-core contracts (state/events/models) from `phenome-ui-tui`.
+2) Move ratatui/crossterm code into `phenome-ui-tui` adapter.
 3) Add feature flags + build matrix tasks.
 4) Add guardrail tests.

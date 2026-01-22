@@ -9,20 +9,20 @@ cli_surface:
   - bootstrappo [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
 
 description: |
-  Preserve the CLI surface for both rotappo and bootstrappo while the
+  Preserve the CLI surface for both phenome and bootstrappo while the
   runtime architecture evolves. Establish guardrails so CLI behavior
   stays stable and neither repo migrates CLI logic into the other.
 
 deliverables:
-  - CLI contract snapshots for rotappo and bootstrappo
+  - CLI contract snapshots for phenome and bootstrappo
   - Golden tests for CLI outputs and help text
   - Boundary checks that prevent cross-repo CLI dependencies
   - CI/cargo-make tasks that enforce the guardrails
 
 acceptance_criteria:
   - CLI output remains stable for approved fixtures
-  - No rotappo code imports bootstrappo CLI modules
-  - No bootstrappo CLI imports rotappo modules
+  - No phenome code imports primer CLI modules
+  - No primer CLI imports phenome modules
   - Guardrail checks run in CI and locally via cargo-make
 
 dependencies: []
@@ -39,9 +39,9 @@ labels:
 
 source_files:
   - file: src/interfaces/terminal
-    context: "Rotappo CLI surface"
+    context: "Phenome CLI surface"
   - file: src/bin/terminal.rs
-    context: "Rotappo CLI entry"
+    context: "Phenome CLI entry"
   - file: ../primer/src/cli
     context: "Bootstrappo CLI surface"
   - file: ../primer/src/main.rs

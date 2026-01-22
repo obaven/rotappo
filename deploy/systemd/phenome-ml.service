@@ -1,0 +1,10 @@
+[Unit]
+Description=Phenome ML Service
+After=network.target
+
+[Service]
+ExecStart=%h/.cargo/bin/phenome ml-service
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

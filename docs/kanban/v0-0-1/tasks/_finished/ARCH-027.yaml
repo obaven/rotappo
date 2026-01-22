@@ -18,7 +18,7 @@ deliverables:
 acceptance_criteria:
   - No `src/ports` module remains in the root crate
   - `phenome-ports` depends only on `phenome-domain`
-  - `cargo check -p rotappo` succeeds after migration
+  - `cargo check -p phenome` succeeds after migration
 
 dependencies:
   - ARCH-024

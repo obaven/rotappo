@@ -40,9 +40,9 @@ labels:
   - boundaries
 
 source_files:
-  - file: lib/ui/rotappo-ui-tui/src/layout/dsl.rs
+  - file: lib/ui/phenome-ui-tui/src/layout/dsl.rs
     context: "Existing layout macro definitions"
-  - file: lib/ui/rotappo-ui-tui/src/util
+  - file: lib/ui/phenome-ui-tui/src/util
     context: "Helper utilities that may be macro candidates"
   - file: lib
     context: "Shared helpers that may be consolidated"

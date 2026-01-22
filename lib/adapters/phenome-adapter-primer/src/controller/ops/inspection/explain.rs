@@ -1,11 +1,11 @@
-use bootstrappo::application::api::BootstrappoApi;
-use bootstrappo::application::flows::reconcile::ops::hooks::registry::all_hook_specs;
-use bootstrappo::domain::models::module::EngineMeta;
-use bootstrappo::domain::models::signal::SignalRef;
+use primer::application::api::BootstrappoApi;
+use primer::application::flows::reconcile::ops::hooks::registry::all_hook_specs;
+use primer::domain::models::module::EngineMeta;
+use primer::domain::models::signal::SignalRef;
 
 pub async fn explain(module: String) -> anyhow::Result<()> {
-    bootstrappo::application::config::load()?;
-    let config = bootstrappo::application::config::instance();
+    primer::application::config::load()?;
+    let config = primer::application::config::instance();
     let api = BootstrappoApi::new();
 
     let spec = api

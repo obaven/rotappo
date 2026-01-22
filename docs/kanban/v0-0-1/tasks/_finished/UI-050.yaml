@@ -3,9 +3,9 @@ title: 'TUI TODO/HACK Cleanup'
 type: Task
 layer: 5
 domain: core
-component: rotappo-tui-polish
+component: phenome-tui-polish
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Address outstanding TODO/HACK items in the TUI, including bootstrap
@@ -34,11 +34,11 @@ labels:
   - polish
 
 source_files:
-  - file: lib/ui/rotappo-ui-tui/src/panels/main.rs
+  - file: lib/ui/phenome-ui-tui/src/panels/main.rs
     context: "Graph detail panel HACK"
-  - file: lib/ui/rotappo-ui-tui/src/bootstrap/panels/menu.rs
+  - file: lib/ui/phenome-ui-tui/src/bootstrap/panels/menu.rs
     context: "Bootstrap menu TODOs"
-  - file: lib/ui/rotappo-ui-tui/src/bootstrap/panels/dependency_tree.rs
+  - file: lib/ui/phenome-ui-tui/src/bootstrap/panels/dependency_tree.rs
     context: "Dependency tree TODO"
 
 status: MustHaves

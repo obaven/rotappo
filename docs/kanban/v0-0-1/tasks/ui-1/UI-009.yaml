@@ -1,16 +1,16 @@
 id: UI-009
-title: 'Rotappo Runtime Action Router + Safety Gate'
+title: 'Phenome Runtime Action Router + Safety Gate'
 type: Story
 layer: 5
 domain: core
-component: rotappo-runtime-actions
+component: phenome-runtime-actions
 cli_surface: []
 
 description: |
   Implement an action router that executes core operations and exposes
   structured results. Add safety gates for destructive actions and
   standardize dry-run handling across surfaces. The router lives in
-  lib/rotappo with adapters for Bootstrappo and Rotato.
+  lib/phenome with adapters for Bootstrappo and Rotato.
 
 deliverables:
   - Action enum covering reconcile, validate, visualize, rotate, nuke
@@ -36,7 +36,7 @@ labels:
   - runtime
   - actions
   - safety
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/src/runtime/actions.rs

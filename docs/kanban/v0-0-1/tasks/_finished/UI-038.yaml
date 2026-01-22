@@ -1,11 +1,11 @@
 id: UI-038
-title: 'LAYOUT-1: Rotappo TUI Grid Layout System'
+title: 'LAYOUT-1: Phenome TUI Grid Layout System'
 type: Epic
 layer: 5
 domain: core
-component: rotappo-tui-layout
+component: phenome-tui-layout
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Introduce a composable grid layout system for Ratatui components so

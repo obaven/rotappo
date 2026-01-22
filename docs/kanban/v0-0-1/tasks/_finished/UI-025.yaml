@@ -1,15 +1,15 @@
 id: UI-025
-title: 'META-1: Rotappo Ports + Adapters Refactor'
+title: 'META-1: Phenome Ports + Adapters Refactor'
 type: Epic
 layer: 5
 domain: core
-component: rotappo-architecture
+component: phenome-architecture
 cli_surface:
-  - rotappo ui
-  - rotappo
+  - phenome ui
+  - phenome
 
 description: |
-  Restructure the Rotappo codebase into smaller modules following
+  Restructure the Phenome codebase into smaller modules following
   ports-and-adapters. Reduce boilerplate and centralize shared UI
   patterns while keeping behavior stable.
 
@@ -43,7 +43,7 @@ labels:
   - meta
   - refactor
   - architecture
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Done

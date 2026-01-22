@@ -3,11 +3,11 @@ use std::time::{Duration, Instant};
 
 use anyhow::Result;
 
-pub use bootstrappo::application::events::InteractiveCommand;
-use bootstrappo::application::readiness::{DetailedStatus, ReadinessStatus};
-use bootstrappo::application::timing::TimingHistory;
-use bootstrappo::domain::models::assembly::Assembly;
-use bootstrappo::domain::models::module::spec::ModuleSpec;
+pub use primer::application::events::InteractiveCommand;
+use primer::application::readiness::{DetailedStatus, ReadinessStatus};
+use primer::application::timing::TimingHistory;
+use primer::domain::models::assembly::Assembly;
+use primer::domain::models::module::spec::ModuleSpec;
 
 #[derive(Debug, Clone)]
 pub struct ComponentState {

@@ -1,17 +1,17 @@
 id: UI-004
-title: 'UI-1C: Rotappo Terminal UI (Fullstack Terminal App)'
+title: 'UI-1C: Phenome Terminal UI (Fullstack Terminal App)'
 type: Epic
 layer: 5
 domain: core
-component: rotappo-tui
+component: phenome-tui
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Build an htop-style terminal UI for Bootstrappo using ratatui,
   enabling live status monitoring and action triggers from a single
   screen. This is the primary local operator experience. Implement
-  the TUI in the lib/rotappo crate to keep it decoupled from the CLI.
+  the TUI in the lib/phenome crate to keep it decoupled from the CLI.
 
 deliverables:
   - TUI shell with layouts, keybindings, and help panel
@@ -43,7 +43,7 @@ labels:
   - tui
   - terminal
   - experience
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Done

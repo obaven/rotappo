@@ -3,10 +3,10 @@ title: 'FIX-1: Log Stream Configuration Cleanup'
 type: Task
 layer: 5
 domain: core
-component: rotappo-logging
+component: phenome-logging
 cli_surface:
-  - rotappo ui
-  - rotappo
+  - phenome ui
+  - phenome
 
 description: |
   Centralize log stream interval and filtering configuration so UI and
@@ -32,7 +32,7 @@ labels:
   - fix
   - logging
   - cleanup
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Done

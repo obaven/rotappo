@@ -1,6 +1,6 @@
 # TUI
 
-TUI code lives in `lib/ui/rotappo-ui-tui/` and is split into:
+TUI code lives in `lib/ui/phenome-ui-tui/` and is split into:
 - app: application state and interactions
 - analytics_client: analytics gRPC client + cache updates
 - bootstrap: bootstrappo bootstrap UI panels and state
@@ -26,7 +26,7 @@ Collapse state lives in `UiState` and is toggled explicitly by input handlers;
 the layout system does not auto-collapse panels on resize.
 
 Build:
-- `cargo run --bin tui --features tui,module-bootstrappo`
+- `cargo run --bin tui --features tui,module-primer`
 
 System design principles:
 - `docs/architecture/ARCH-4-distributed-tui-design.md`

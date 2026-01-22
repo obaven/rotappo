@@ -1,9 +1,9 @@
 id: UI-021
-title: 'Rotappo Web Actions + Access Guardrails'
+title: 'Phenome Web Actions + Access Guardrails'
 type: Task
 layer: 5
 domain: core
-component: rotappo-web-auth
+component: phenome-web-auth
 cli_surface: []
 
 description: |
@@ -34,7 +34,7 @@ labels:
   - web
   - actions
   - security
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/web/src/app/actions

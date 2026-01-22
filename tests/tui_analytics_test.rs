@@ -1,7 +1,7 @@
-// use rotappo_application::Runtime;
+// use phenome_application::Runtime;
 // use phenome_domain::ActionRegistry;
 // use phenome_ports::PortSet;
-// use rotappo_ui_tui::app::{App, AppContext};
+// use phenome_ui_tui::app::{App, AppContext};
 
 // #[test]
 // fn tui_initializes_analytics_state() {

@@ -38,50 +38,52 @@ fn find_forbidden_dependencies(paths: &[PathBuf], forbidden: &[String]) -> Vec<S
 fn cli_boundaries_are_enforced() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
 
-    let mut rotappo_files = Vec::new();
+    let mut phenome_files = Vec::new();
     for dir in ["src", "crates", "tests"] {
         let path = root.join(dir);
         if path.exists() {
-            collect_rs_files(&path, &mut rotappo_files)
+            collect_rs_files(&path, &mut phenome_files)
                 .unwrap_or_else(|err| panic!("failed to scan {}: {}", path.display(), err));
         }
     }
     assert!(
-        !rotappo_files.is_empty(),
-        "no rotappo sources found in src, crates, or tests"
+        !phenome_files.is_empty(),
+        "no phenome sources found in src, crates, or tests"
     );
 
-    let rotappo_forbidden = vec![format!("{}::{}", "bootstrappo", "cli")];
-    let rotappo_hits = find_forbidden_dependencies(&rotappo_files, &rotappo_forbidden);
+    let phenome_forbidden = vec![format!("{}::{}", "primer", "cli")];
+    let phenome_hits = find_forbidden_dependencies(&phenome_files, &phenome_forbidden);
     assert!(
-        rotappo_hits.is_empty(),
-        "rotappo must not import bootstrappo CLI modules:\n{}",
-        rotappo_hits.join("\n")
+        phenome_hits.is_empty(),
+        "phenome must not import primer CLI modules:\n{}",
+        phenome_hits.join("\n")
     );
 
-    let bootstrappo_root = root.join("..").join("bootstrappo");
+    let primer_root = root.join("..").join("primer");
     assert!(
-        bootstrappo_root.exists(),
-        "bootstrappo repo not found at {}",
-        bootstrappo_root.display()
+        primer_root.exists(),
+        "primer repo not found at {}",
+        primer_root.display()
     );
 
-    let mut bootstrappo_files = Vec::new();
+    let mut primer_files = Vec::new();
     for dir in ["src/cli", "src/bin"] {
-        let path = bootstrappo_root.join(dir);
+        let path = primer_root.join(dir);
         if path.exists() {
-            collect_rs_files(&path, &mut bootstrappo_files)
+            collect_rs_files(&path, &mut primer_files)
                 .unwrap_or_else(|err| panic!("failed to scan {}: {}", path.display(), err));
         }
     }
-    if !bootstrappo_files.is_empty() {
-        let bootstrappo_forbidden = vec!["rotappo_".to_string(), "rotappo::".to_string()];
-        let bootstrappo_hits =
-            find_forbidden_dependencies(&bootstrappo_files, &bootstrappo_forbidden);
+    if !primer_files.is_empty() {
+        let primer_forbidden = vec![
+            "phenome_".to_string(),
+            "phenome::".to_string(),
+        ];
+        let primer_hits = find_forbidden_dependencies(&primer_files, &primer_forbidden);
         assert!(
-            bootstrappo_hits.is_empty(),
-            "bootstrappo CLI must not import rotappo crates:\n{}",
-            bootstrappo_hits.join("\n")
+            primer_hits.is_empty(),
+            "primer CLI must not import phenome crates:\n{}",
+            primer_hits.join("\n")
         );
     }
 }

@@ -3,9 +3,9 @@ title: 'LAYOUT-1A: Grid Model + Rect Resolver'
 type: Story
 layer: 5
 domain: core
-component: rotappo-tui-layout-core
+component: phenome-tui-layout-core
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Define the grid layout data model and resolve it into concrete Ratatui

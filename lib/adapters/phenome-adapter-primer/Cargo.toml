@@ -14,8 +14,8 @@ serde = { version = "1.0.219", features = ["derive"] }
 tokio = { version = "1.48.0", features = ["rt-multi-thread", "sync", "time"] }
 tracing = "0.1.44"
 validator = "0.20.0"
-bootstrappo = { path = "../../../../primer" }
+primer = { path = "../../../../primer" }
 bootstrappo-api = { path = "../../../../primer/lib/api" }
 phenome-domain = { path = "../../domain/phenome-domain" }
 phenome-ports = { path = "../../ports/phenome-ports" }
-rotappo-ui-tui = { path = "../../ui/rotappo-ui-tui" }
+phenome-ui-tui = { path = "../../ui/phenome-ui-tui" }

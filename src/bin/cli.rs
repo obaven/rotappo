@@ -1,17 +1,17 @@
-#[cfg(all(feature = "module-bootstrappo", feature = "module-rotato"))]
+#[cfg(all(feature = "module-primer", feature = "module-plasmid"))]
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     anyhow::bail!("Enable only one module feature when building the cli bin.")
 }
 
-#[cfg(all(feature = "module-bootstrappo", not(feature = "module-rotato")))]
+#[cfg(all(feature = "module-primer", not(feature = "module-plasmid")))]
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    rotappo_ui_terminal::cli::bootstrappo::run().await
+    phenome_ui_terminal::cli::primer::run().await
 }
 
-#[cfg(all(feature = "module-rotato", not(feature = "module-bootstrappo")))]
+#[cfg(all(feature = "module-plasmid", not(feature = "module-primer")))]
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    rotappo_ui_terminal::cli::rotato::run().await
+    phenome_ui_terminal::cli::plasmid::run().await
 }

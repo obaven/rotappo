@@ -2,7 +2,7 @@ use anyhow::{Context, Result};
 use tracing::info;
 
 use super::generate::StorageArgs;
-use bootstrappo::ports::visualizer::{OutputFormat, VisualizerPort};
+use primer::ports::visualizer::{OutputFormat, VisualizerPort};
 
 pub async fn generate_storage(
     args: StorageArgs,
@@ -12,7 +12,7 @@ pub async fn generate_storage(
 ) -> Result<()> {
     info!("Scanning for storage devices to visualize...");
     let devices =
-        bootstrappo::adapters::infrastructure::kube::discovery::storage::scan_block_devices(
+        primer::adapters::infrastructure::kube::discovery::storage::scan_block_devices(
             args.min_size,
         )?;
 
@@ -23,7 +23,7 @@ pub async fn generate_storage(
 
     // Load Config to get App Assignments
     // We try to load, but if it fails (no file), we warn and verify only physical layout
-    if let Err(e) = bootstrappo::application::config::load() {
+    if let Err(e) = primer::application::config::load() {
         tracing::warn!(
             "Failed to load config for app assignment optimization: {}",
             e
@@ -31,11 +31,11 @@ pub async fn generate_storage(
     }
     // We can assume load() might have worked or we have default.
     // If load failed, instance() panics or returns default.
-    // Ideally bootstrappo::application::config should be safe.
+    // Ideally primer::application::config should be safe.
     // Let's assume for CLI usage, load failure is bad, but we might be running against no config.
     // Safe guard:
-    let config_arc = if bootstrappo::application::config::instance_exists() {
-        Some(bootstrappo::application::config::instance())
+    let config_arc = if primer::application::config::instance_exists() {
+        Some(primer::application::config::instance())
     } else {
         None
     };
@@ -91,8 +91,8 @@ pub async fn generate_storage(
 
     // 2. Render Apps (Logical Layer)
     if let Some(config) = config_arc {
-        use bootstrappo::application::runtime::registry;
-        use bootstrappo::ports::module::{ModuleContext, ModuleMode};
+        use primer::application::runtime::registry;
+        use primer::ports::module::{ModuleContext, ModuleMode};
         use std::collections::{BTreeMap, HashMap};
         use std::sync::Arc;
 
@@ -386,7 +386,7 @@ pub async fn generate_storage(
     }
 
     let visualizer =
-        bootstrappo::application::runtime::modules::support::visualizer::VisualizerAdapter::new();
+        primer::application::runtime::modules::support::visualizer::VisualizerAdapter::new();
     visualizer
         .render(
             &dot,

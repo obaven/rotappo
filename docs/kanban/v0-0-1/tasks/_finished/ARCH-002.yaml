@@ -8,7 +8,7 @@ cli_surface: []
 
 description: |
   Define the target layered architecture and a concrete module tree
-  for rotappo. The map should clarify which modules are domain,
+  for phenome. The map should clarify which modules are domain,
   application/runtime, ports, adapters, and interface layers, and
   make explicit where shared presentation helpers live.
 

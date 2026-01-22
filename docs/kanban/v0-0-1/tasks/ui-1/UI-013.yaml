@@ -1,12 +1,12 @@
 id: UI-013
-title: 'Rotappo CLI Prompt/Confirm + Dry-run Guardrails'
+title: 'Phenome CLI Prompt/Confirm + Dry-run Guardrails'
 type: Task
 layer: 5
 domain: core
-component: rotappo-cli-safety
+component: phenome-cli-safety
 cli_surface:
-  - rotappo ui
-  - rotappo server
+  - phenome ui
+  - phenome server
   - bootstrappo rotate
   - bootstrappo nuke
   - bootstrappo reconcile
@@ -38,7 +38,7 @@ labels:
   - ui
   - cli
   - safety
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/src/runtime/confirm.rs

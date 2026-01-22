@@ -3,9 +3,9 @@ title: 'Remove Unused Bootstrap Panel Set'
 type: Task
 layer: 5
 domain: core
-component: rotappo-tui-bootstrap
+component: phenome-tui-bootstrap
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Remove the unused bootstrap panel implementation under panels/
@@ -13,12 +13,12 @@ description: |
   panel systems.
 
 deliverables:
-  - Remove or consolidate lib/ui/rotappo-ui-tui/src/panels/bootstrap
+  - Remove or consolidate lib/ui/phenome-ui-tui/src/panels/bootstrap
   - Ensure bootstrap runbook references only the active panel path
   - No duplicate bootstrap panel types remain
 
 acceptance_criteria:
-  - rotappo-ui-tui compiles without the unused bootstrap panels
+  - phenome-ui-tui compiles without the unused bootstrap panels
   - Bootstrap TUI behavior remains unchanged
   - Documentation points to the active bootstrap panel set
 
@@ -36,9 +36,9 @@ labels:
   - cleanup
 
 source_files:
-  - file: lib/ui/rotappo-ui-tui/src/panels/bootstrap
+  - file: lib/ui/phenome-ui-tui/src/panels/bootstrap
     context: "Unused bootstrap panel implementation"
-  - file: lib/ui/rotappo-ui-tui/src/bootstrap/panels
+  - file: lib/ui/phenome-ui-tui/src/bootstrap/panels
     context: "Active bootstrap panel implementation"
   - file: docs/book/runbooks/bootstrap-tui.md
     context: "Bootstrap TUI documentation"

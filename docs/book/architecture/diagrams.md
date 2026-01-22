@@ -33,12 +33,12 @@ digraph RuntimeComponents {
   subgraph cluster_interfaces {
     label="ui interfaces";
     style="rounded";
-    terminal [label="ui/rotappo-ui-terminal\nformat output\ncli dispatch"];
-    ui [label="ui/rotappo-ui-tui\nrender panels\nhandle input"];
+    terminal [label="ui/phenome-ui-terminal\nformat output\ncli dispatch"];
+    ui [label="ui/phenome-ui-tui\nrender panels\nhandle input"];
   }
 
-  presentation [label="ui/rotappo-ui-presentation\nformatting\nlogging cfg"];
-  application [label="core/rotappo-application\nruntime loop"];
+  presentation [label="ui/phenome-ui-presentation\nformatting\nlogging cfg"];
+  application [label="core/phenome-application\nruntime loop"];
   ports [label="core/phenome-ports\nAssemblyPort\nHealthPort\nLogPort"];
   adapters [label="core/phenome-adapter-primer"];
 

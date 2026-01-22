@@ -3,9 +3,9 @@ title: 'Prune Unused TUI Layout Infrastructure'
 type: Task
 layer: 5
 domain: core
-component: rotappo-tui-layout-cleanup
+component: phenome-tui-layout-cleanup
 cli_surface:
-  - rotappo ui
+  - phenome ui
 
 description: |
   Remove unused layout helpers (cache/renderer/spin lock) and trim
@@ -18,7 +18,7 @@ deliverables:
   - Update tests and docs that reference removed layout pieces
 
 acceptance_criteria:
-  - rotappo-ui-tui compiles with no dead layout modules
+  - phenome-ui-tui compiles with no dead layout modules
   - Layout tests cover only the active grid specs
   - No references remain to removed slot ids or helpers
 
@@ -36,15 +36,15 @@ labels:
   - cleanup
 
 source_files:
-  - file: lib/ui/rotappo-ui-tui/src/layout/grid/cache.rs
+  - file: lib/ui/phenome-ui-tui/src/layout/grid/cache.rs
     context: "Grid layout cache (unused)"
-  - file: lib/ui/rotappo-ui-tui/src/layout/renderer.rs
+  - file: lib/ui/phenome-ui-tui/src/layout/renderer.rs
     context: "LayoutRenderer wrapper (unused)"
-  - file: lib/ui/rotappo-ui-tui/src/layout/grid/spin_lock.rs
+  - file: lib/ui/phenome-ui-tui/src/layout/grid/spin_lock.rs
     context: "Spin lock helper (unused)"
-  - file: lib/ui/rotappo-ui-tui/src/layout/shell_spec/specs.rs
+  - file: lib/ui/phenome-ui-tui/src/layout/shell_spec/specs.rs
     context: "Unused shell spec helpers"
-  - file: lib/ui/rotappo-ui-tui/src/layout/shell_spec/slots.rs
+  - file: lib/ui/phenome-ui-tui/src/layout/shell_spec/slots.rs
     context: "Unused slot ids"
 
 status: MustHaves

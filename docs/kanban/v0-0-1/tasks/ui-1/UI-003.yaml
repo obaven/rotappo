@@ -1,12 +1,12 @@
 id: UI-003
-title: 'UI-1B: Rotappo CLI Parity + Action Registry'
+title: 'UI-1B: Phenome CLI Parity + Action Registry'
 type: Epic
 layer: 5
 domain: core
-component: rotappo-cli
+component: phenome-cli
 cli_surface:
-  - rotappo ui
-  - rotappo server
+  - phenome ui
+  - phenome server
   - bootstrappo assembly validate
   - bootstrappo reconcile
   - bootstrappo rotate
@@ -17,12 +17,12 @@ description: |
   Upgrade the CLI surface so it aligns with UI runtime actions and
   exposes structured output modes. The CLI remains the automation
   backbone, but shares metadata and safety behaviors with other UIs.
-  The action registry lives in lib/rotappo and is adapted for the
+  The action registry lives in lib/phenome and is adapted for the
   Bootstrappo CLI.
 
 deliverables:
-  - Rotappo action registry with CLI metadata and help text
-  - Bootstrappo CLI adapter to the Rotappo registry
+  - Phenome action registry with CLI metadata and help text
+  - Bootstrappo CLI adapter to the Phenome registry
   - Structured output modes (json, ndjson, plain)
   - Consistent confirmation and dry-run guardrails
 
@@ -50,7 +50,7 @@ labels:
   - cli
   - automation
   - safety
-  - rotappo
+  - phenome
 
 status: MustHaves
 state: Backlog

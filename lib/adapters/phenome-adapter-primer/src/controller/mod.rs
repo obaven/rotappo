@@ -20,14 +20,14 @@ pub struct BootstrappoConfigSummary {
 }
 
 pub fn load_config_summary() -> BootstrappoConfigSummary {
-    if let Err(err) = bootstrappo::application::config::load() {
+    if let Err(err) = primer::application::config::load() {
         return BootstrappoConfigSummary {
             host_domain: "unknown".to_string(),
             metallb_pools: Vec::new(),
             load_error: Some(err.to_string()),
         };
     }
-    let config = bootstrappo::application::config::instance();
+    let config = primer::application::config::instance();
     let metallb_pools = config
         .network
         .metallb

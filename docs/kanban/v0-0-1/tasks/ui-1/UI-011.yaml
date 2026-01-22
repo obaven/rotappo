@@ -1,12 +1,12 @@
 id: UI-011
-title: 'Rotappo CLI Action Registry + UI Mapping'
+title: 'Phenome CLI Action Registry + UI Mapping'
 type: Story
 layer: 5
 domain: core
-component: rotappo-cli-registry
+component: phenome-cli-registry
 cli_surface:
-  - rotappo ui
-  - rotappo server
+  - phenome ui
+  - phenome server
   - bootstrappo assembly validate
   - bootstrappo reconcile
   - bootstrappo rotate
@@ -17,10 +17,10 @@ description: |
   Create a command registry that lists all CLI actions with metadata
   used by the UI runtime. This is the single source of truth for action
   IDs, help text, parameters, and safety requirements. The registry
-  lives in lib/rotappo and is adapted for Bootstrappo.
+  lives in lib/phenome and is adapted for Bootstrappo.
 
 deliverables:
-  - Rotappo action registry with IDs, labels, and parameter schemas
+  - Phenome action registry with IDs, labels, and parameter schemas
   - Mapping between Bootstrappo CLI subcommands and runtime actions
   - Registry output for UI clients (json export)
 
@@ -42,7 +42,7 @@ labels:
   - cli
   - registry
   - actions
-  - rotappo
+  - phenome
 
 source_files:
   - file: lib/phenome/src/runtime/registry.rs
