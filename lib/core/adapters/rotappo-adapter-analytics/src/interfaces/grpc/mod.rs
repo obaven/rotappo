@@ -75,14 +75,8 @@ impl AnalyticsServiceTrait for GrpcAnalyticsService {
         request: Request<GetTimeSeriesRequest>,
     ) -> Result<Response<GetTimeSeriesResponse>, Status> {
         let req = request.into_inner();
-        let metric_type = req
-            .metric_type
-            .try_into() // i32
-            .map_err(|_| Status::invalid_argument("Invalid metric type"))
-            .and_then(|t| {
-                MetricType::from_i32(t)
-                    .ok_or_else(|| Status::invalid_argument("Invalid metric type"))
-            })?
+        let metric_type = MetricType::try_from(req.metric_type)
+            .map_err(|_| Status::invalid_argument("Invalid metric type"))?
             .try_into()
             .map_err(|e: anyhow::Error| Status::invalid_argument(e.to_string()))?;
         let range = req
@@ -252,7 +246,7 @@ impl MlClient {
                 cluster_id: a.cluster_id,
                 resource_id: a.resource_id,
                 detected_at: a.detected_at,
-                metric_type: match analytics::MetricType::from_i32(a.metric_type) {
+                metric_type: match analytics::MetricType::try_from(a.metric_type).ok() {
                     Some(analytics::MetricType::CpuUsage) => domain::MetricType::CpuUsage,
                     Some(analytics::MetricType::MemoryUsage) => domain::MetricType::MemoryUsage,
                     Some(analytics::MetricType::NetworkIn) => domain::MetricType::NetworkIn,
@@ -391,10 +385,7 @@ impl TryFrom<QueryAggregatedRequest> for domain::AggregatedQuery {
             cluster_id: val.cluster_id,
             resource_type: val
                 .resource_type
-                .map(|t| {
-                    ResourceType::from_i32(t)
-                        .ok_or_else(|| anyhow::anyhow!("Invalid resource type"))
-                })
+                .map(|t| ResourceType::try_from(t).map_err(|_| anyhow::anyhow!("Invalid resource type")))
                 .transpose()?
                 .map(|t| t.try_into())
                 .transpose()?,
@@ -402,8 +393,8 @@ impl TryFrom<QueryAggregatedRequest> for domain::AggregatedQuery {
                 .metric_types
                 .into_iter()
                 .map(|t| {
-                    let mt = MetricType::from_i32(t)
-                        .ok_or_else(|| anyhow::anyhow!("Invalid metric type"))?;
+                    let mt = MetricType::try_from(t)
+                        .map_err(|_| anyhow::anyhow!("Invalid metric type"))?;
                     mt.try_into()
                 })
                 .collect::<Result<_, _>>()?,
@@ -479,10 +470,10 @@ impl From<GetAnomaliesRequest> for domain::AnomalyFilter {
             resource_id: val.resource_id,
             metric_type: val
                 .metric_type
-                .and_then(|t| MetricType::from_i32(t).and_then(|t| t.try_into().ok())),
+                .and_then(|t| MetricType::try_from(t).ok().and_then(|t| t.try_into().ok())),
             severity: val
                 .severity
-                .and_then(|s| Severity::from_i32(s).and_then(|s| s.try_into().ok())),
+                .and_then(|s| Severity::try_from(s).ok().and_then(|s| s.try_into().ok())),
             time_range: val.time_range.map(Into::into),
             limit: val.limit,
         }

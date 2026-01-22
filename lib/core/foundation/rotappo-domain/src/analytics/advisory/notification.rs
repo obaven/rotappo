@@ -1,4 +1,4 @@
-use super::anomaly::Severity;
+use super::super::signal::anomaly::Severity;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

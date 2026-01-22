@@ -1,6 +1,6 @@
 use crate::state::HoverPanel;
 
-use super::App;
+use crate::app::App;
 
 mod actions;
 mod assembly;
@@ -25,13 +25,11 @@ impl App {
                 graph::update_graph_hover(self, column, row);
             } else {
                 self.ui.hover_panel = HoverPanel::Assembly;
-                self.ui.hover_action_index =
-                    assembly::hover_index_in_assembly(self, row);
+                self.ui.hover_action_index = assembly::hover_index_in_assembly(self, row);
             }
         } else if self.ui.capabilities_area.contains(pos) && !self.ui.collapsed_capabilities {
             self.ui.hover_panel = HoverPanel::Capabilities;
-            self.ui.hover_capability_index =
-                capabilities::hover_index_in_capabilities(self, row);
+            self.ui.hover_capability_index = capabilities::hover_index_in_capabilities(self, row);
         } else if self.ui.actions_area.contains(pos) && !self.ui.collapsed_actions {
             self.ui.hover_panel = HoverPanel::Actions;
             self.ui.hover_action_index = actions::hover_index_in_actions(self, row);

@@ -13,9 +13,9 @@ tokio = { version = "1.48.0", features = ["full"] }
 tonic = "0.12.3"
 tracing = "0.1.44"
 
-rotappo-domain = { path = "../foundation/rotappo-domain" }
-rotappo-ml = { path = "../runtime/rotappo-ml" }
-rotappo-ports = { path = "../foundation/rotappo-ports" }
+rotappo-domain = { path = "../../foundation/rotappo-domain" }
+rotappo-ml = { path = "../../runtime/rotappo-ml" }
+rotappo-ports = { path = "../../foundation/rotappo-ports" }
 
 [build-dependencies]
 protoc-bin-vendored = "3.0"

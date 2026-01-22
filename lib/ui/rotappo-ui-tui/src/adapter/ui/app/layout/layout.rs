@@ -1,6 +1,6 @@
 //! Layout-driven helpers for panel sizing and visibility.
 
-use super::{App, PanelId};
+use crate::app::{App, PanelId};
 
 impl App {
     /// Resolve whether a panel is collapsed from the UI state.

@@ -1,6 +1,7 @@
 use bootstrappo::application::api::BootstrappoApi;
 use bootstrappo::application::flows::reconcile::ops::hooks::registry::all_hook_specs;
 use bootstrappo::domain::models::module::EngineMeta;
+use bootstrappo::domain::models::signal::SignalRef;
 
 pub async fn explain(module: String) -> anyhow::Result<()> {
     bootstrappo::application::config::load()?;
@@ -37,7 +38,8 @@ pub async fn explain(module: String) -> anyhow::Result<()> {
     if spec.provides.is_empty() {
         println!("Provides: none");
     } else {
-        println!("Provides: {}", spec.provides.join(", "));
+        let provides_str: Vec<_> = spec.provides.iter().map(|s| s.as_str()).collect();
+        println!("Provides: {}", provides_str.join(", "));
     }
 
     if spec.checks.is_empty() {
@@ -86,7 +88,7 @@ fn print_engine(engine: &Option<EngineMeta>) {
     }
 }
 
-fn show_hooks(provides: &[&'static str]) {
+fn show_hooks(provides: &[SignalRef]) {
     let mut hooks = all_hook_specs();
     hooks.sort_by(|a, b| a.id.cmp(&b.id));
     let mut matches = Vec::new();
@@ -94,7 +96,7 @@ fn show_hooks(provides: &[&'static str]) {
     for hook in hooks {
         if provides
             .iter()
-            .any(|capability| hook.capability_required == *capability)
+            .any(|capability| hook.capability_required == capability.as_str())
         {
             matches.push(hook);
         }

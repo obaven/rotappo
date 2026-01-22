@@ -6,5 +6,5 @@ publish = false
 
 [dependencies]
 anyhow = "1.0.100"
-rotappo-domain = { path = "../foundation/rotappo-domain" }
-rotappo-ports = { path = "../foundation/rotappo-ports" }
+rotappo-domain = { path = "../../foundation/rotappo-domain" }
+rotappo-ports = { path = "../../foundation/rotappo-ports" }

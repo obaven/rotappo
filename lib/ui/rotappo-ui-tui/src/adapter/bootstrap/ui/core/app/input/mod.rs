@@ -1,20 +1,13 @@
 use anyhow::Result;
 use crossterm::event::{KeyCode, KeyEvent};
 
-use super::super::BootstrapApp;
+use super::BootstrapApp;
 
 mod logs;
 mod menu;
 
 impl BootstrapApp {
     pub fn handle_key_event(&mut self, key: KeyEvent) -> Result<()> {
-        if self.ui.show_logs {
-            return self.handle_logs_input(key);
-        }
-        if self.ui.menu_state.active {
-            return self.handle_menu_input(key);
-        }
-
         if self.ui.show_summary {
             match key.code {
                 KeyCode::Char('q') | KeyCode::Esc => self.should_quit = true,
@@ -22,6 +15,14 @@ impl BootstrapApp {
                 _ => {}
             }
             return Ok(());
+        }
+
+        if self.ui.show_logs {
+            return self.handle_logs_input(key);
+        }
+
+        if self.ui.menu_state.active {
+            return self.handle_menu_input(key);
         }
 
         match key.code {

@@ -38,7 +38,7 @@ impl AnalyticsEngine {
         Ok(df)
     }
 
-    pub fn aggregate_by_window(df: &DataFrame, window_ms: i64) -> Result<DataFrame> {
+    pub fn aggregate_by_window(_df: &DataFrame, _window_ms: i64) -> Result<DataFrame> {
         // Example Polars aggregation
         // This is where "Analytics-Enhanced" power comes in.
         // But for now just simple conversion is enough for "Integration".

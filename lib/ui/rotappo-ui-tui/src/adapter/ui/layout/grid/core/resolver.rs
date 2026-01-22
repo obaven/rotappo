@@ -5,7 +5,10 @@ use std::time::Instant;
 
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 
-use super::{GridLayout, GridSlot, GridSpec, TrackSize};
+use crate::adapter::ui::layout::grid::core::layout::GridLayout;
+use crate::adapter::ui::layout::grid::model::slot::GridSlot;
+use crate::adapter::ui::layout::grid::model::spec::GridSpec;
+use crate::adapter::ui::layout::grid::model::track::TrackSize;
 
 /// Resolves a grid spec into rectangles for the given area.
 pub struct GridResolver;

@@ -23,12 +23,15 @@ pub(super) async fn fetch_recommendations(client: &AnalyticsClient) -> Result<Ve
 
     Ok(recs
         .into_iter()
-        .map(|r| Recommendation {
-            id: r.id,
-            cluster_id: r.cluster_id,
-            created_at: r.created_at,
-            recommendation_type: map_type(r.recommendation_type()),
-            priority: map_priority(r.priority()),
+        .map(|r| {
+            let recommendation_type = map_type(r.recommendation_type());
+            let priority = map_priority(r.priority());
+            Recommendation {
+                id: r.id,
+                cluster_id: r.cluster_id,
+                created_at: r.created_at,
+                recommendation_type,
+                priority,
             confidence: r.confidence,
             title: r.title,
             description: r.description,
@@ -51,6 +54,7 @@ pub(super) async fn fetch_recommendations(client: &AnalyticsClient) -> Result<Ve
                 .and_then(|s| s.status)
                 .map(map_status)
                 .unwrap_or(RecommendationStatus::Pending),
+            }
         })
         .collect())
 }

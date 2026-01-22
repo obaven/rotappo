@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use crate::scaling_prediction::ScalingPredictor;
+use crate::scaling::scaling_prediction::ScalingPredictor;
 
 #[test]
 fn predicts_average_for_history() {

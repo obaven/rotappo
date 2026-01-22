@@ -4,7 +4,7 @@ use crossterm::event::{KeyCode, KeyEvent};
 use super::super::BootstrapApp;
 
 impl BootstrapApp {
-    fn handle_logs_input(&mut self, key: KeyEvent) -> Result<()> {
+    pub fn handle_logs_input(&mut self, key: KeyEvent) -> Result<()> {
         match key.code {
             KeyCode::Char('q') | KeyCode::Esc => {
                 self.ui.show_logs = false;

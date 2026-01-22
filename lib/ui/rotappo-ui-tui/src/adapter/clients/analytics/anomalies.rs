@@ -16,20 +16,24 @@ pub(super) async fn fetch_anomalies(client: &AnalyticsClient) -> Result<Vec<Anom
 
     Ok(anomalies
         .into_iter()
-        .map(|a| Anomaly {
-            id: a.id,
-            cluster_id: a.cluster_id,
-            resource_id: a.resource_id,
-            detected_at: a.detected_at,
-            metric_type: map_metric_type(a.metric_type()),
-            severity: map_severity(a.severity()),
-            confidence: a.confidence,
-            description: a.description,
-            baseline_value: a.baseline_value,
-            observed_value: a.observed_value,
-            deviation_sigma: a.deviation_sigma,
-            related_metrics: a.related_metrics,
-            root_cause: a.root_cause,
+        .map(|a| {
+            let metric_type = map_metric_type(a.metric_type());
+            let severity = map_severity(a.severity());
+            Anomaly {
+                id: a.id,
+                cluster_id: a.cluster_id,
+                resource_id: a.resource_id,
+                detected_at: a.detected_at,
+                metric_type,
+                severity,
+                confidence: a.confidence,
+                description: a.description,
+                baseline_value: a.baseline_value,
+                observed_value: a.observed_value,
+                deviation_sigma: a.deviation_sigma,
+                related_metrics: a.related_metrics,
+                root_cause: a.root_cause,
+            }
         })
         .collect())
 }
@@ -41,7 +45,9 @@ fn map_metric_type(metric: rotappo_adapter_analytics::grpc::analytics::MetricTyp
             MetricType::MemoryUsage
         }
         rotappo_adapter_analytics::grpc::analytics::MetricType::NetworkIn => MetricType::NetworkIn,
-        rotappo_adapter_analytics::grpc::analytics::MetricType::NetworkOut => MetricType::NetworkOut,
+        rotappo_adapter_analytics::grpc::analytics::MetricType::NetworkOut => {
+            MetricType::NetworkOut
+        }
         rotappo_adapter_analytics::grpc::analytics::MetricType::DiskRead => MetricType::DiskRead,
         rotappo_adapter_analytics::grpc::analytics::MetricType::DiskWrite => MetricType::DiskWrite,
         _ => MetricType::CpuUsage,

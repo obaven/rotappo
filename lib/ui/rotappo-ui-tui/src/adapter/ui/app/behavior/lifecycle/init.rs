@@ -3,7 +3,7 @@ use std::time::Instant;
 
 use rotappo_domain::{Event, EventLevel};
 
-use super::super::{App, AppContext};
+use crate::app::{App, AppContext};
 
 impl App {
     pub fn new(mut runtime: rotappo_application::Runtime, context: AppContext) -> Self {

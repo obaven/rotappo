@@ -129,6 +129,10 @@ pub enum Commands {
         /// Launch the bootstrap TUI dashboard
         #[arg(long = "bootstrap-tui", default_value_t = false)]
         bootstrap_tui: bool,
+
+        /// Enable interactive controls (pause/resume/skip)
+        #[arg(long, default_value_t = false)]
+        interactive: bool,
     },
 
     /// Cluster lifecycle utilities
@@ -380,6 +384,7 @@ async fn dispatch(command: Commands, gitops_dir: String) -> anyhow::Result<()> {
             concurrency,
             force,
             bootstrap_tui,
+            interactive,
         } => {
             adapter_controller::reconcile::reconcile(adapter_controller::reconcile::ReconcileArgs {
                 assembly_path: assembly,
@@ -392,6 +397,7 @@ async fn dispatch(command: Commands, gitops_dir: String) -> anyhow::Result<()> {
                 concurrency,
                 force,
                 bootstrap_tui,
+                interactive,
             })
             .await
         }

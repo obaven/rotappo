@@ -1,6 +1,7 @@
 //! Grid specification definitions.
 
-use super::{GridSlot, TrackSize};
+use super::slot::GridSlot;
+use super::track::TrackSize;
 
 /// Grid definition with rows, columns, and slots.
 ///

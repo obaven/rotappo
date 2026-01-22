@@ -36,7 +36,7 @@ pub(super) fn render_dot_plain(dot: &str) -> Result<String> {
 #[cfg(test)]
 mod tests {
     use super::render_dot_plain;
-    use crate::app::{GraphRenderState, GraphRenderStatus, TerminalImageProtocol};
+    use crate::app::{GraphRenderState, TerminalImageProtocol, graph::GraphRenderStatus};
     use ratatui::layout::Rect;
 
     #[test]

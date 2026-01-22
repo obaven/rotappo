@@ -9,7 +9,7 @@ use crate::panels::views::main::shared::section_title;
 use crate::util::format_age;
 use rotappo_domain::EventLevel;
 
-pub(super) fn render_terminal_events(frame: &mut Frame, area: Rect, app: &mut App) {
+pub fn render_terminal_events(frame: &mut Frame, area: Rect, app: &mut App) {
     app.ui.logs_area = area;
     app.ui.collapsed_logs = false;
     let mut lines = Vec::new();

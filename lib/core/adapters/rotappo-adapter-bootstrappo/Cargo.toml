@@ -14,8 +14,8 @@ serde = { version = "1.0.219", features = ["derive"] }
 tokio = { version = "1.48.0", features = ["rt-multi-thread", "sync", "time"] }
 tracing = "0.1.44"
 validator = "0.20.0"
-bootstrappo = { path = "../../../../bootstrappo" }
-bootstrappo-api = { path = "../../../../bootstrappo/lib/api" }
-rotappo-domain = { path = "../foundation/rotappo-domain" }
-rotappo-ports = { path = "../foundation/rotappo-ports" }
-rotappo-ui-tui = { path = "../../ui/rotappo-ui-tui" }
+bootstrappo = { path = "../../../../../bootstrappo" }
+bootstrappo-api = { path = "../../../../../bootstrappo/lib/api" }
+rotappo-domain = { path = "../../foundation/rotappo-domain" }
+rotappo-ports = { path = "../../foundation/rotappo-ports" }
+rotappo-ui-tui = { path = "../../../ui/rotappo-ui-tui" }

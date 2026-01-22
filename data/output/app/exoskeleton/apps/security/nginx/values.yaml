@@ -13,5 +13,5 @@ controller:
     enabled: false
   publishStatus:
     enabled: true
-    address: "100.37.11.120"
+    address: "74.98.251.23"
 

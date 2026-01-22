@@ -2,16 +2,18 @@
 //!
 //! ## Responsibility
 //! CLI entry point for the reconcile command. Routes to either:
-//! - LifecycleManager (converge mode, one-shot bootstrap)
+//! - Bootstrap flow (converge mode, one-shot execution)
 //! - Reconciler (watch mode, event-driven daemon)
 
 use anyhow::Context;
+use std::io::BufRead;
 use std::sync::Arc;
 use tracing::{info, warn};
 
-use bootstrappo::application::events::EventPayload;
+use bootstrappo::application::events::{EventPayload, InteractiveCommand};
 use rotappo_domain::{Event, EventLevel};
 use rotappo_ports::InMemoryLogPort;
+use tokio::sync::mpsc;
 
 #[derive(Debug, Clone)]
 pub struct ReconcileArgs {
@@ -25,13 +27,14 @@ pub struct ReconcileArgs {
     pub concurrency: usize,
     pub force: bool,
     pub bootstrap_tui: bool,
+    pub interactive: bool,
 }
 
 /// Handles the `bootstrappo reconcile` command.
 ///
 /// ## Behavior
 /// - Watch mode: Uses event-driven Reconciler with cluster watchers
-/// - Converge mode: Uses LifecycleManager for one-shot bootstrap
+/// - Converge mode: Uses bootstrap flow for one-shot execution
 pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
     // BSP-145: Enable timing if output file is specified
     let timing_enabled = args.timing || args.timing_output.is_some();
@@ -80,6 +83,9 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
     }
 
     if args.bootstrap_tui {
+        if args.interactive {
+            warn!("--interactive is ignored when --bootstrap-tui is enabled");
+        }
         if args.watch {
             warn!("--bootstrap-tui forces converge mode (watch disabled)");
         }
@@ -95,6 +101,9 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         }
         if args.parallel {
             options = options.with_parallel(args.concurrency);
+        }
+        if args.force {
+            options = options.with_force(true);
         }
 
         let discovery_client = kube::Client::try_default().await?;
@@ -172,6 +181,12 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         if args.parallel {
             options = options.with_parallel(args.concurrency);
         }
+        if args.force {
+            options = options.with_force(true);
+        }
+        if args.interactive {
+            options = options.with_interactive(true);
+        }
 
         let discovery_client = kube::Client::try_default().await?;
         let discovery = Arc::new(
@@ -191,6 +206,15 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         )
         .await?;
 
+        if args.interactive {
+            info!(
+                "Interactive commands: pause, resume, skip <id>, retry <id>, timeout <id> <seconds>, cancel"
+            );
+            let (command_tx, command_rx) = mpsc::channel(100);
+            spawn_interactive_input(command_tx);
+            reconciler = reconciler.with_command_channel(command_rx);
+        }
+
         // Apply overlay if specified
         if let Some(o) = args.overlay {
             reconciler.override_overlay(o);
@@ -199,12 +223,13 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         reconciler.run().await?;
         info!("Reconciler watch loop exited.");
     } else {
-        // Converge mode: Use LifecycleManager for one-shot bootstrap
-        info!("Running in Converge mode with LifecycleManager");
+        // Converge mode: Use bootstrap flow with ModuleContext
+        info!("Running in Converge mode with bootstrap flow");
+        if args.interactive {
+            warn!("--interactive is only supported in watch mode; ignoring");
+        }
 
         // BSP-227: Create native K8sClient for namespace and manifest operations
-        let k8s_client = Some(k8s_client.clone());
-
         let discovery_client = kube::Client::try_default().await?;
         let discovery = Arc::new(
             bootstrappo::application::runtime::modules::runtime::k8s::cache::ClusterCache::new(
@@ -213,24 +238,21 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         );
 
         // BSP-148: Pass force flag to context for fast-path skip bypass
-        let mut manager = bootstrappo::application::lifecycle::LifecycleManager::new(
-            config,
+        let mut context = bootstrappo::application::context::ModuleContext::new(
+            config.clone(),
             bootstrappo::application::context::ModuleMode::Apply,
             fs.clone(),
             k8s.clone(),
             helm.clone(),
             cmd.clone(),
             discovery,
-        )
-        .with_plan(assembly);
+        );
 
         // BSP-227: Set native K8sClient if available
-        if let Some(client) = k8s_client {
-            manager = manager.with_k8s_client(client);
-        }
+        context.k8s_client = Some(k8s_client.clone());
 
         // Set force mode on the context
-        manager.context.force = args.force;
+        context.force = args.force;
 
         if args.force {
             info!("Force mode enabled: bypassing fast-path convergence checks");
@@ -241,7 +263,7 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
             match bootstrappo::adapters::cache::CacheManager::new() {
                 Ok(cache_manager) => {
                     info!("Artifact cache enabled");
-                    manager = manager.with_cache(std::sync::Arc::new(cache_manager));
+                    context.cache = Some(std::sync::Arc::new(cache_manager));
                 }
                 Err(e) => {
                     warn!("Failed to initialize cache, continuing without: {}", e);
@@ -253,7 +275,8 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
         if timing_enabled {
             info!("Timing instrumentation enabled (converge mode)");
             bootstrappo::application::bootstrap::bootstrap_with_timing(
-                &manager,
+                &context,
+                Some(&assembly),
                 args.timing_output.as_deref(),
             )
             .await?;
@@ -261,10 +284,10 @@ pub async fn reconcile(args: ReconcileArgs) -> anyhow::Result<()> {
             if args.parallel {
                 info!("Note: --parallel is currently only supported in --watch mode");
             }
-            manager.bootstrap().await?;
+            bootstrappo::application::bootstrap::bootstrap(&context, Some(&assembly)).await?;
         }
 
-        info!("Lifecycle Bootstrap completed successfully.");
+        info!("Bootstrap completed successfully.");
     }
 
     Ok(())
@@ -338,5 +361,83 @@ fn format_bootstrap_log(payload: &EventPayload) -> Option<(EventLevel, String)> 
         EventPayload::K3sBootstrapCompleted => {
             Some((EventLevel::Info, "k3s bootstrap completed".into()))
         }
+    }
+}
+
+fn spawn_interactive_input(tx: mpsc::Sender<InteractiveCommand>) {
+    std::thread::spawn(move || {
+        let stdin = std::io::stdin();
+        let mut reader = stdin.lock();
+        loop {
+            let mut line = String::new();
+            match reader.read_line(&mut line) {
+                Ok(0) => break,
+                Ok(_) => {}
+                Err(_) => break,
+            }
+
+            let input = line.trim();
+            if input.is_empty() {
+                continue;
+            }
+
+            if input.eq_ignore_ascii_case("help") {
+                eprintln!(
+                    "Commands: pause, resume, skip <id>, retry <id>, timeout <id> <seconds>, cancel"
+                );
+                continue;
+            }
+
+            match parse_interactive_command(input) {
+                Ok(cmd) => {
+                    if tx.blocking_send(cmd).is_err() {
+                        break;
+                    }
+                }
+                Err(msg) => {
+                    eprintln!("{msg}");
+                }
+            }
+        }
+    });
+}
+
+fn parse_interactive_command(input: &str) -> Result<InteractiveCommand, String> {
+    let mut parts = input.split_whitespace();
+    let command = parts
+        .next()
+        .ok_or_else(|| "Command required (type 'help' for usage)".to_string())?;
+
+    match command {
+        "pause" => Ok(InteractiveCommand::PauseBootstrap),
+        "resume" => Ok(InteractiveCommand::ResumeBootstrap),
+        "cancel" => Ok(InteractiveCommand::CancelBootstrap),
+        "skip" => {
+            let id = parts
+                .next()
+                .ok_or_else(|| "Usage: skip <component-id>".to_string())?;
+            Ok(InteractiveCommand::SkipComponent { id: id.to_string() })
+        }
+        "retry" => {
+            let id = parts
+                .next()
+                .ok_or_else(|| "Usage: retry <component-id>".to_string())?;
+            Ok(InteractiveCommand::RetryComponent { id: id.to_string() })
+        }
+        "timeout" => {
+            let id = parts
+                .next()
+                .ok_or_else(|| "Usage: timeout <component-id> <seconds>".to_string())?;
+            let seconds = parts
+                .next()
+                .ok_or_else(|| "Usage: timeout <component-id> <seconds>".to_string())?
+                .parse::<u64>()
+                .map_err(|_| "Timeout seconds must be a whole number".to_string())?;
+            Ok(InteractiveCommand::AdjustTimeout {
+                id: id.to_string(),
+                new_timeout: std::time::Duration::from_secs(seconds),
+            })
+        }
+        _ => Err(format!("Unknown command '{command}'. Type 'help' for usage.")),
     }
 }

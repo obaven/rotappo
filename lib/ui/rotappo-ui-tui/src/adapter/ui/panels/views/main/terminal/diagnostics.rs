@@ -7,7 +7,7 @@ use crate::app::App;
 use crate::panels::views::main::shared::section_title;
 use crate::util::collect_problems;
 
-pub(super) fn render_terminal_diagnostics(frame: &mut Frame, area: Rect, app: &mut App) {
+pub fn render_terminal_diagnostics(frame: &mut Frame, area: Rect, app: &mut App) {
     let mut lines = Vec::new();
     lines.push(section_title("Diagnostics"));
     let problems = collect_problems(app);

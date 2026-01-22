@@ -1,12 +1,14 @@
 use ratatui::layout::{Constraint, Direction, Layout};
 use ratatui::prelude::Frame;
 
-use crate::bootstrap::panels::{dependency_tree, header, logs, menu as menu_panel, status, summary};
+use crate::bootstrap::panels::{
+    dependency_tree, header, logs as logs_panel, menu as menu_panel, status, summary,
+};
 use crate::bootstrap::state::BootstrapUiState;
 use rotappo_ports::PortSet;
 
 mod input;
-mod logs;
+mod log_logic;
 mod menu;
 mod navigation;
 
@@ -59,7 +61,7 @@ impl BootstrapApp {
         }
 
         if self.ui.show_logs {
-            logs::render(frame, frame.area(), &mut self.ui);
+            logs_panel::render(frame, frame.area(), &mut self.ui);
         }
     }
 }

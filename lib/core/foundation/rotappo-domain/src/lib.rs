@@ -4,7 +4,7 @@ mod analytics;
 mod infra;
 mod ops;
 
-pub use analytics::{analytics, anomaly, metrics, notification, recommendation};
+pub use analytics::{anomaly, metrics, notification, recommendation};
 pub use infra::{cluster, config, health};
 pub use ops::{actions, assembly, events, snapshot};
 

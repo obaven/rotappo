@@ -201,7 +201,7 @@ impl AnalyticsClient {
 
                 domain::MetricSample {
                     cluster_id: s.cluster_id,
-                    resource_type: match analytics::ResourceType::from_i32(r_type) {
+                    resource_type: match analytics::ResourceType::try_from(r_type).ok() {
                         Some(analytics::ResourceType::Pod) => domain::ResourceType::Pod,
                         Some(analytics::ResourceType::Node) => domain::ResourceType::Node,
                         Some(analytics::ResourceType::Container) => domain::ResourceType::Container,
@@ -209,7 +209,7 @@ impl AnalyticsClient {
                         _ => domain::ResourceType::Pod, // Fallback
                     },
                     resource_id: s.resource_id,
-                    metric_type: match analytics::MetricType::from_i32(m_type) {
+                    metric_type: match analytics::MetricType::try_from(m_type).ok() {
                         Some(analytics::MetricType::CpuUsage) => domain::MetricType::CpuUsage,
                         Some(analytics::MetricType::MemoryUsage) => domain::MetricType::MemoryUsage,
                         Some(analytics::MetricType::NetworkIn) => domain::MetricType::NetworkIn,
@@ -256,8 +256,8 @@ impl TryFrom<analytics::TimeSeries> for domain::TimeSeries {
         Ok(domain::TimeSeries {
             cluster_id: val.cluster_id,
             resource_id: val.resource_id,
-            metric_type: analytics::MetricType::from_i32(val.metric_type)
-                .ok_or_else(|| anyhow::anyhow!("invalid metric type"))?
+            metric_type: analytics::MetricType::try_from(val.metric_type)
+                .map_err(|_| anyhow::anyhow!("invalid metric type"))?
                 .try_into()?,
             unit: val.unit,
             points: val.points.into_iter().map(Into::into).collect(),

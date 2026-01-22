@@ -8,4 +8,4 @@ publish = false
 anyhow = "1.0.100"
 async-trait = "0.1.83"
 rotappo-domain = { path = "../rotappo-domain" }
-bootstrappo = { path = "../../../../bootstrappo" }
+bootstrappo = { path = "../../../../../bootstrappo" }

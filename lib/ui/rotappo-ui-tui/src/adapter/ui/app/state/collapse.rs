@@ -1,6 +1,6 @@
 //! Manual panel collapse helpers backed by UiState.
 
-use super::{App, PanelId};
+use crate::app::{App, PanelId};
 
 impl App {
     pub fn toggle_notifications_panel(&mut self) {

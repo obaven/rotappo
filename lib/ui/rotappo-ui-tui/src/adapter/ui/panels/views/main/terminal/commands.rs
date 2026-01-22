@@ -7,7 +7,7 @@ use ratatui::widgets::{List, ListItem, Scrollbar, ScrollbarOrientation, Scrollba
 use crate::app::App;
 use rotappo_domain::ActionSafety;
 
-pub(super) fn render_terminal_commands(frame: &mut Frame, area: Rect, app: &mut App) {
+pub fn render_terminal_commands(frame: &mut Frame, area: Rect, app: &mut App) {
     render_action_list(frame, area, app);
 }
 

@@ -4,7 +4,7 @@ use super::build::{GraphEdgeRaw, build_layout};
 use super::super::types::GraphNode;
 use super::tokens::split_plain_tokens;
 
-pub(super) fn parse_plain_layout(text: &str) -> Result<super::GraphLayout> {
+pub fn parse_plain_layout(text: &str) -> Result<super::GraphLayout> {
     let mut width = 0.0;
     let mut height = 0.0;
     let mut nodes = Vec::new();

@@ -1,4 +1,4 @@
-use super::App;
+use crate::app::App;
 use crate::state::Tooltip;
 
 impl App {

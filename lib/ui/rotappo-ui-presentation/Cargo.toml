@@ -5,5 +5,5 @@ edition = "2024"
 publish = false
 
 [dependencies]
-rotappo-domain = { path = "../../core/rotappo-domain" }
+rotappo-domain = { path = "../../core/foundation/rotappo-domain" }
 serde = { version = "1.0.210", features = ["derive"] }

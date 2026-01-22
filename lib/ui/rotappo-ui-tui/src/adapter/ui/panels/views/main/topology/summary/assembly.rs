@@ -5,7 +5,7 @@ use ratatui::widgets::{Paragraph, Wrap};
 use crate::app::App;
 use crate::util::assembly_lines;
 
-pub(super) fn render_topology_assembly(frame: &mut Frame, area: Rect, app: &mut App) {
+pub fn render_topology_assembly(frame: &mut Frame, area: Rect, app: &mut App) {
     app.ui.assembly_area = area;
     app.ui.collapsed_assembly_steps = false;
     let lines = assembly_lines(app.runtime.snapshot())

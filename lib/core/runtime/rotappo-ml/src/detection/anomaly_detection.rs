@@ -53,16 +53,18 @@ impl AnomalyDetector {
                 if deviation >= self.sigma_threshold {
                     // Z-score anomaly
                     let confidence = (deviation / (self.sigma_threshold * 1.5)).min(0.99);
-                    let severity = if confidence > 0.9 {
-                        Severity::Critical
-                    } else {
-                        Severity::Warning
-                    };
-                    detected_anomaly = Some((
-                        severity,
-                        confidence,
-                        format!("{:.2} sigma deviation", deviation),
-                    ));
+                    if confidence >= self.min_confidence {
+                        let severity = if confidence > 0.9 {
+                            Severity::Critical
+                        } else {
+                            Severity::Warning
+                        };
+                        detected_anomaly = Some((
+                            severity,
+                            confidence,
+                            format!("{:.2} sigma deviation", deviation),
+                        ));
+                    }
                 }
             }
 

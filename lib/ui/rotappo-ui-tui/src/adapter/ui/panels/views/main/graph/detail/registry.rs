@@ -6,7 +6,7 @@ use ratatui::widgets::{Paragraph, Wrap};
 
 use crate::app::App;
 
-use super::helpers::{classify_dependency, DepCategory};
+use super::helpers::{DepCategory, classify_dependency};
 
 pub(super) fn render_registry_detail(
     frame: &mut Frame,
@@ -27,31 +27,31 @@ pub(super) fn render_registry_detail(
 
     let mut lines = Vec::new();
     lines.push(Line::from(vec![
-        Span::styled(
-            "Registry Module: ",
-            Style::default().fg(Color::LightCyan),
-        ),
-        Span::styled(spec.name.as_ref(), Style::default().add_modifier(Modifier::BOLD)),
+        Span::styled("Registry Module: ", Style::default().fg(Color::LightCyan)),
+        Span::styled(spec.name, Style::default().add_modifier(Modifier::BOLD)),
     ]));
 
     lines.push(Line::from(""));
     lines.push(Line::from(vec![
         Span::raw("Description: "),
-        Span::styled(spec.description.as_ref(), Style::default().fg(Color::White)),
+        Span::styled(spec.description, Style::default().fg(Color::White)),
     ]));
     lines.push(Line::from(vec![
         Span::raw("Domain:      "),
-        Span::styled(spec.domain.as_ref(), Style::default().fg(Color::Cyan)),
+        Span::styled(spec.domain, Style::default().fg(Color::Cyan)),
     ]));
-    lines.push(Line::from(vec![Span::raw("Version:     "), Span::raw(spec.version.as_ref())]));
+    lines.push(Line::from(vec![
+        Span::raw("Version:     "),
+        Span::raw(spec.version),
+    ]));
     lines.push(Line::from(vec![
         Span::raw("Maintainer:  "),
-        Span::raw(spec.maintainer.as_ref()),
+        Span::raw(spec.maintainer),
     ]));
     if let Some(url) = spec.url.as_ref() {
         lines.push(Line::from(vec![
             Span::raw("URL:         "),
-            Span::styled(url.as_ref(), Style::default().fg(Color::Blue)),
+            Span::styled(*url, Style::default().fg(Color::Blue)),
         ]));
     }
 

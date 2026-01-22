@@ -6,7 +6,7 @@ use std::time::Duration;
 use super::super::BootstrapApp;
 
 impl BootstrapApp {
-    fn handle_menu_input(&mut self, key: KeyEvent) -> Result<()> {
+    pub fn handle_menu_input(&mut self, key: KeyEvent) -> Result<()> {
         if self.ui.menu_state.confirming {
             match key.code {
                 KeyCode::Char('y') | KeyCode::Char('Y') => {

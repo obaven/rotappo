@@ -1,6 +1,6 @@
 use crate::state::HoverPanel;
 
-use super::App;
+use crate::app::App;
 
 mod actions;
 mod assembly;

@@ -8,7 +8,7 @@ use ratatui::{
 use rotappo_domain::{AssemblyStepStatus, CapabilityStatus};
 use rotappo_ui_presentation::formatting;
 
-use super::spinner_frame;
+use crate::adapter::ui::support::util::spinner_frame;
 
 /// Rendered line for an assembly view.
 pub struct AssemblyLine {

@@ -7,7 +7,7 @@ use crate::app::App;
 use crate::panels::views::main::shared::section_title;
 use crate::util::capability_icon;
 
-pub(super) fn render_topology_capabilities(frame: &mut Frame, area: Rect, app: &mut App) {
+pub fn render_topology_capabilities(frame: &mut Frame, area: Rect, app: &mut App) {
     app.ui.capabilities_area = area;
     app.ui.collapsed_capabilities = false;
     let snapshot = app.runtime.snapshot();

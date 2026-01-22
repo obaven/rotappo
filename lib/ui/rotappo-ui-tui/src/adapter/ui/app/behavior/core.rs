@@ -5,7 +5,7 @@ use std::path::PathBuf;
 use std::time::Instant;
 // use tokio::sync::mpsc;
 
-use super::{GraphRenderState, NavSection, NavView};
+use crate::app::{GraphRenderState, NavSection, NavView};
 use crate::state::UiState;
 use rotappo_application::Runtime;
 use rotappo_domain::{ActionId, ActionSafety, Anomaly, MetricSample, Recommendation};

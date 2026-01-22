@@ -1,6 +1,6 @@
 use rotappo_domain::{MetricType, TimeSeries, TimeSeriesData, TimeSeriesPoint};
 
-use crate::anomaly_detection::AnomalyDetector;
+use crate::detection::anomaly_detection::AnomalyDetector;
 
 #[test]
 fn detects_simple_anomaly() {

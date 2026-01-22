@@ -13,4 +13,4 @@ serde = { version = "1.0.228", features = ["derive"] }
 chrono = "0.4.42"
 smartcore = "0.4.9"
 
-rotappo-domain = { path = "../foundation/rotappo-domain" }
+rotappo-domain = { path = "../../foundation/rotappo-domain" }

@@ -5,14 +5,20 @@ use ratatui::prelude::Frame;
 use ratatui::widgets::Clear;
 
 use crate::app::{App, PanelId};
-use crate::layout::{GridResolver, SLOT_BODY, SLOT_FOOTER, SLOT_NAVBAR, tui_shell_spec_with_footer};
+use crate::layout::{
+    GridResolver, SLOT_BODY, SLOT_FOOTER, SLOT_NAVBAR, tui_shell_spec_with_footer,
+};
 
-use super::panels;
+use crate::adapter::ui::panels;
 
 pub(crate) fn render(frame: &mut Frame, app: &mut App) {
     let size = frame.area();
     app.ui.screen_area = size;
-    let help_height = if app.panel_collapsed(PanelId::Help) { 2 } else { 6 };
+    let help_height = if app.panel_collapsed(PanelId::Help) {
+        2
+    } else {
+        6
+    };
     let shell = GridResolver::resolve(size, &tui_shell_spec_with_footer(help_height));
     let body_area = shell
         .rect(SLOT_BODY)

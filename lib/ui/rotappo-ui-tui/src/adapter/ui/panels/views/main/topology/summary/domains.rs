@@ -7,7 +7,7 @@ use crate::app::App;
 use crate::panels::views::main::shared::section_title;
 use rotappo_ui_presentation::formatting;
 
-pub(super) fn render_topology_domains(frame: &mut Frame, area: Rect, app: &mut App) {
+pub fn render_topology_domains(frame: &mut Frame, area: Rect, app: &mut App) {
     let snapshot = app.runtime.snapshot();
     let mut lines = Vec::new();
     lines.push(section_title("Domains"));

@@ -5,7 +5,7 @@ use std::time::Instant;
 
 use ratatui::layout::Rect;
 
-use super::SlotId;
+use crate::adapter::ui::layout::grid::model::slot::SlotId;
 
 /// Resolved rectangles for a grid specification.
 ///

@@ -63,4 +63,4 @@ impl GraphLayout {
     }
 }
 
-pub(super) use parse::parse_plain_layout;
+pub use parse::parse_plain_layout;

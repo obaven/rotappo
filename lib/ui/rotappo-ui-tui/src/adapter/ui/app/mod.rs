@@ -20,8 +20,8 @@ pub mod layout;
 pub mod state;
 
 pub use behavior::{actions, core, graph, lifecycle};
-pub use input::{input, keyboard};
-pub use layout::{layout, navigation, panel};
+pub use input::{input as process_input, keyboard};
+pub use layout::{layout as update_layout, navigation, panel};
 pub use state::{collapse, hover, scroll, tooltips};
 
 pub(crate) use graph::{GraphDirection, GraphRenderState, TerminalImageProtocol};

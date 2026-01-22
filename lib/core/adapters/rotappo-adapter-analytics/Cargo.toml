@@ -28,8 +28,8 @@ tokio-postgres = { version = "0.7.12", optional = true }
 tonic = "0.12.3"
 tracing = "0.1.44"
 
-rotappo-domain = { path = "../foundation/rotappo-domain" }
-rotappo-ports = { path = "../foundation/rotappo-ports" }
+rotappo-domain = { path = "../../foundation/rotappo-domain" }
+rotappo-ports = { path = "../../foundation/rotappo-ports" }
 uuid = { version = "1.19.0", features = ["v4"] }
 
 [dev-dependencies]

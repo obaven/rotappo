@@ -19,7 +19,7 @@ image:
 auth:
   enabled: true
   sentinel: true
-  password: "AE5RXAb1ZjshHJsaBmzkDWiAmZuDmnLanWMmUs0W7v4="
+  password: "thbKTO3qeaoIPtTtuAiHaS+dABN3VKxgmbH/zNqoWN0="
 
 volumePermissions:
   enabled: true
