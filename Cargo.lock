@@ -444,16 +444,16 @@ dependencies = [
 ]
 
 [[package]]
-name = "bootstrappo-adapters"
+name = "primer-adapters"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
  "base64",
- "bootstrappo-domain",
- "bootstrappo-macros",
- "bootstrappo-ports",
- "bootstrappo-shared",
+ "primer-domain",
+ "primer-macros",
+ "primer-ports",
+ "primer-shared",
  "chrono",
  "fluvio-helm",
  "futures",
@@ -472,25 +472,25 @@ dependencies = [
 ]
 
 [[package]]
-name = "bootstrappo-api"
+name = "primer-api"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "bootstrappo-adapters",
- "bootstrappo-domain",
- "bootstrappo-ports",
- "bootstrappo-shared",
+ "primer-adapters",
+ "primer-domain",
+ "primer-ports",
+ "primer-shared",
  "serde",
  "serde_json",
 ]
 
 [[package]]
-name = "bootstrappo-domain"
+name = "primer-domain"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "base64",
- "bootstrappo-shared",
+ "primer-shared",
  "chrono",
  "hex",
  "inventory",
@@ -509,7 +509,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "bootstrappo-macros"
+name = "primer-macros"
 version = "0.1.0"
 dependencies = [
  "proc-macro2",
@@ -518,18 +518,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "bootstrappo-ports"
+name = "primer-ports"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-trait",
- "bootstrappo-domain",
+ "primer-domain",
  "inventory",
  "serde",
 ]
 
 [[package]]
-name = "bootstrappo-shared"
+name = "primer-shared"
 version = "0.1.0"
 dependencies = [
  "anyhow",
@@ -3074,7 +3074,7 @@ name = "phenome-adapter-primer"
 version = "0.0.1"
 dependencies = [
  "anyhow",
- "bootstrappo-api",
+ "primer-api",
  "inventory",
  "k8s-openapi",
  "kube",
@@ -3741,11 +3741,11 @@ dependencies = [
  "async-trait",
  "async-walkdir",
  "base64",
- "bootstrappo-adapters",
- "bootstrappo-domain",
- "bootstrappo-macros",
- "bootstrappo-ports",
- "bootstrappo-shared",
+ "primer-adapters",
+ "primer-domain",
+ "primer-macros",
+ "primer-ports",
+ "primer-shared",
  "chrono",
  "clap",
  "cloudflare",

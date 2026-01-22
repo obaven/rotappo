@@ -10,7 +10,7 @@ description: |
   Deliver a cross-platform desktop app that wraps the web UI with
   native packaging, local runtime integration, and OS-level features.
   This becomes the primary long-lived operator console. The desktop
-  app lives in lib/phenome to keep it independent from Bootstrappo.
+  app lives in lib/phenome to keep it independent from Primer.
 
 deliverables:
   - Desktop shell using Tauri or Dioxus

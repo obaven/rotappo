@@ -7,22 +7,22 @@ component: phenome-cli
 cli_surface:
   - phenome ui
   - phenome server
-  - bootstrappo assembly validate
-  - bootstrappo reconcile
-  - bootstrappo rotate
-  - bootstrappo debug
-  - bootstrappo nuke
+  - primer assembly validate
+  - primer reconcile
+  - primer rotate
+  - primer debug
+  - primer nuke
 
 description: |
   Upgrade the CLI surface so it aligns with UI runtime actions and
   exposes structured output modes. The CLI remains the automation
   backbone, but shares metadata and safety behaviors with other UIs.
   The action registry lives in lib/phenome and is adapted for the
-  Bootstrappo CLI.
+  Primer CLI.
 
 deliverables:
   - Phenome action registry with CLI metadata and help text
-  - Bootstrappo CLI adapter to the Phenome registry
+  - Primer CLI adapter to the Phenome registry
   - Structured output modes (json, ndjson, plain)
   - Consistent confirmation and dry-run guardrails
 

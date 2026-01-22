@@ -15,7 +15,7 @@ description: |
 
 deliverables:
   - Port traits for runtime status, health, and logs
-  - Adapters implementing ports (Bootstrappo + in-memory)
+  - Adapters implementing ports (Primer + in-memory)
   - TUI modules split by panel and state
   - Shared UI utilities to reduce duplication
 

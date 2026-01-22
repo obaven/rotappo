@@ -95,7 +95,7 @@ Notes:
 - Formatting/logging -> `lib/ui/phenome-ui-presentation/`
 - Ports -> `lib/ports/phenome-ports/`
 - Interfaces -> `lib/ui/phenome-ui-*`
-- Bootstrappo adapter -> `lib/adapters/phenome-adapter-primer/`
+- Primer adapter -> `lib/adapters/phenome-adapter-primer/`
 - Analytics adapter -> `lib/adapters/phenome-adapter-analytics/`
 - ML adapter -> `lib/adapters/phenome-adapter-ml/`
 - Notification adapter -> `lib/adapters/phenome-adapter-notification/`

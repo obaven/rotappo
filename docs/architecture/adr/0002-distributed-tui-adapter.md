@@ -4,7 +4,7 @@
 Accepted (2026-01-06)
 
 ## Context
-The TUI adapter orchestrates multiple tool adapters (bootstrappo today) and
+The TUI adapter orchestrates multiple tool adapters (primer today) and
 relies on long-running loops for polling, notifications, and scheduling.
 Without clear backpressure and exit rules, these loops risk runaway work,
 missed frames, and ambiguous ownership.

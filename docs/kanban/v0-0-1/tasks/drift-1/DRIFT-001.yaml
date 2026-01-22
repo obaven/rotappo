@@ -5,10 +5,10 @@ layer: 5
 domain: core
 component: phenome-cli-primer
 cli_surface:
-  - bootstrappo [status|diff|explain|catalog]
+  - primer [status|diff|explain|catalog]
 
 description: |
-  Deliver the Meta-17 CLI surface in phenome for bootstrappo module
+  Deliver the Meta-17 CLI surface in phenome for primer module
   registry and validation flows. Add status/diff/explain/catalog
   commands that use the new module/assembly APIs and expose a stable
   operator-facing output format.
@@ -43,7 +43,7 @@ risk: med
 labels:
   - drift
   - cli
-  - bootstrappo
+  - primer
   - meta-17
 
 status: MustHaves

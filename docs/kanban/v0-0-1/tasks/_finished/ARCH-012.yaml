@@ -6,16 +6,16 @@ domain: core
 component: migration-cli-inventory
 cli_surface:
   - terminal [actions|snapshot|action|problems|logs]
-  - bootstrappo [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
+  - primer [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
 
 description: |
-  Document the CLI surfaces for phenome and bootstrappo, including
+  Document the CLI surfaces for phenome and primer, including
   commands, flags, and output modes. This inventory serves as the
   reference for parity reviews and test updates.
 
 deliverables:
   - CLI inventory doc with command/flag lists
-  - Mapping table between phenome and bootstrappo actions
+  - Mapping table between phenome and primer actions
   - Update checklist for CLI changes
 
 acceptance_criteria:
@@ -41,7 +41,7 @@ source_files:
   - file: src/bin/terminal.rs
     context: "Phenome CLI entry"
   - file: ../primer/src/cli/commands
-    context: "Bootstrappo CLI commands"
+    context: "Primer CLI commands"
 
 status: MustHaves
 state: Done

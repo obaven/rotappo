@@ -14,7 +14,7 @@ description: |
 deliverables:
   - Workspace Cargo.toml with member crates
   - New crates for domain, ports, application, ui-presentation, ui-core,
-    ui-terminal, ui-tui, adapter-bootstrappo
+    ui-terminal, ui-tui, adapter-primer
   - Incremental migration checklist and staging action
 
 acceptance_criteria:

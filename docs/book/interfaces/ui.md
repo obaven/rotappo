@@ -3,7 +3,7 @@
 TUI code lives in `lib/ui/phenome-ui-tui/` and is split into:
 - app: application state and interactions
 - analytics_client: analytics gRPC client + cache updates
-- bootstrap: bootstrappo bootstrap UI panels and state
+- bootstrap: primer bootstrap UI panels and state
 - layout: grid layout and shell specs
 - panels: renderers for each UI panel
 - state: hover, tooltips, and UI state

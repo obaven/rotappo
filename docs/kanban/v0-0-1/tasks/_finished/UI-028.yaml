@@ -8,7 +8,7 @@ cli_surface:
   - phenome ui
 
 description: |
-  Split Bootstrappo adapter logic into focused modules and remove
+  Split Primer adapter logic into focused modules and remove
   duplicated data mapping. Align adapter layout with ports definitions.
 
 deliverables:

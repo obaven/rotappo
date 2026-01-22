@@ -4,7 +4,7 @@
 Define the canonical repository layout for phenome, including module
 boundaries, ownership, and where shared macros/helpers live. This document
 anchors ARCH-4 and aligns the distributed TUI adapter with the hex app
-adapter model (bootstrappo today).
+adapter model (primer today).
 
 ## Layout Principles
 1) Layers are explicit: domain -> ports -> application -> adapters -> interfaces.
@@ -48,7 +48,7 @@ docs/
 | `lib/domain/phenome-domain` | domain | Core models + invariants | none | core |
 | `lib/ports/phenome-ports` | ports | Port traits + contracts | domain | core |
 | `lib/runtime/phenome-application` | application | Runtime orchestration | domain, ports | core |
-| `lib/adapters/phenome-adapter-primer` | adapters | Bootstrappo integration | domain, ports | integrations |
+| `lib/adapters/phenome-adapter-primer` | adapters | Primer integration | domain, ports | integrations |
 | `lib/adapters/phenome-adapter-analytics` | adapters | Analytics service adapter | domain, ports | integrations |
 | `lib/adapters/phenome-adapter-ml` | adapters | ML service adapter | domain, ports | integrations |
 | `lib/adapters/phenome-adapter-notification` | adapters | Notification adapter | domain, ports | integrations |
@@ -63,7 +63,7 @@ docs/
 - `app/`: input, navigation, and state transitions.
 - `layout/`: grid specs + resolver helpers.
 - `panels/`: renderers for active views and overlays.
-- `bootstrap/`: bootstrappo-specific bootstrap TUI panels + state.
+- `bootstrap/`: primer-specific bootstrap TUI panels + state.
 - `state/`: UI state types shared across panels and handlers.
 - `util/`: rendering helpers that stay within the TUI adapter.
 

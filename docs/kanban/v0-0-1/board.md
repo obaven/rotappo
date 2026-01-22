@@ -125,7 +125,7 @@
 ### Backlog
 - ARCH-008 — [Epic] MIG-1: CLI Stability + Non-Migration Guardrails
 - ARCH-009 — [Story] MIG-1A: Rotappo CLI Contract Snapshots + Golden Tests
-- ARCH-010 — [Story] MIG-1B: Bootstrappo CLI Contract Snapshots + Golden Tests
+- ARCH-010 — [Story] MIG-1B: Primer CLI Contract Snapshots + Golden Tests
 - ARCH-011 — [Task] MIG-1C: CLI Boundary Checks (No Cross-Migration)
 - ARCH-012 — [Task] MIG-1D: CLI Surface Inventory + Mapping Doc
 - ARCH-013 — [Task] MIG-1E: CLI Stability Test Harness + CI Gate
@@ -169,7 +169,7 @@
 - ARCH-030 — [Story] ARCH-3I: UI Core Crate Migration
 - ARCH-031 — [Story] ARCH-3J: Terminal Interface Crate Migration
 - ARCH-032 — [Story] ARCH-3K: TUI Interface Crate Migration
-- ARCH-033 — [Story] ARCH-3L: Bootstrappo Adapter Crate Migration
+- ARCH-033 — [Story] ARCH-3L: Primer Adapter Crate Migration
 
 ## M. v0.0.1 UI-2 Board (UI-2) TUI Simplification + Debt Cleanup
 ### Backlog

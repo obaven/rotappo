@@ -13,15 +13,15 @@ pub struct MetallbPoolSummary {
 }
 
 #[derive(Debug, Clone)]
-pub struct BootstrappoConfigSummary {
+pub struct PrimerConfigSummary {
     pub host_domain: String,
     pub metallb_pools: Vec<MetallbPoolSummary>,
     pub load_error: Option<String>,
 }
 
-pub fn load_config_summary() -> BootstrappoConfigSummary {
+pub fn load_config_summary() -> PrimerConfigSummary {
     if let Err(err) = primer::application::config::load() {
-        return BootstrappoConfigSummary {
+        return PrimerConfigSummary {
             host_domain: "unknown".to_string(),
             metallb_pools: Vec::new(),
             load_error: Some(err.to_string()),
@@ -39,7 +39,7 @@ pub fn load_config_summary() -> BootstrappoConfigSummary {
         })
         .collect::<Vec<_>>();
 
-    BootstrappoConfigSummary {
+    PrimerConfigSummary {
         host_domain: config.network.host_domain.clone(),
         metallb_pools,
         load_error: None,

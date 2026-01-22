@@ -41,7 +41,7 @@ cargo make doc
 cargo make docbook
 ```
 
-Bootstrappo CLI (phenome, source of truth):
+Primer CLI (phenome, source of truth):
 
 ```
 cargo run --features cli,module-primer --bin cli -- --help

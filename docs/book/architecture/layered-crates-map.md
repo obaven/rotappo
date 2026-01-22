@@ -33,4 +33,4 @@ Key rules:
 - domain does not import adapters, presentation, or interfaces.
 - ui-presentation does not import adapters or interfaces.
 - ui interfaces only depend on application, ports, domain, and ui-presentation.
-- `phenome-ui-terminal` may depend on the bootstrappo adapter for CLI dispatch.
+- `phenome-ui-terminal` may depend on the primer adapter for CLI dispatch.

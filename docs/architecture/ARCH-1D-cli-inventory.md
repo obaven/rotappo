@@ -18,7 +18,7 @@ Output modes (formatting helpers):
 - `json`
 - `ndjson`
 
-## Bootstrappo CLI (phenome)
+## Primer CLI (phenome)
 
 Phenome CLI entrypoint:
 - `cargo run --features cli,module-primer --bin cli -- --help`
@@ -41,9 +41,9 @@ Flags and output modes:
 - Capture from `primer --help` and `primer <cmd> --help`
 - Document any output format flags (json, yaml, etc.) here
 
-## Mapping (Bootstrappo -> Phenome)
+## Mapping (Primer -> Phenome)
 
-| Bootstrappo command | Phenome surface | Notes |
+| Primer command | Phenome surface | Notes |
 | --- | --- | --- |
 | `assembly` | `assembly` | Phenome assembly renders from snapshot; keep parity with primer assembly output. |
 | `reconcile` | `actions` | Action registry should list reconcile; execution remains in primer. |
@@ -62,7 +62,7 @@ Flags and output modes:
 4) Keep guardrail checks and CI in sync with the CLI surface.
 5) When migrating primer CLI logic, keep the phenome CLI in sync.
 
-## META-11 Bootstrappo self-serve migration notes
+## META-11 Primer self-serve migration notes
 
 - Capture CLI help snapshots in the primer repo:
   - `primer --help`
@@ -78,5 +78,5 @@ Flags and output modes:
   rewrite fixtures intentionally.
 - For optional output snapshots, only use local fixture inputs (assembly,
   config, cache) and avoid live cluster access.
-- Update the Bootstrappo section of this doc after any CLI change.
+- Update the Primer section of this doc after any CLI change.
 - Keep primer CLI modules isolated (no phenome CLI imports).

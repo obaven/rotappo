@@ -6,15 +6,15 @@ domain: core
 component: migration-cli
 cli_surface:
   - terminal [actions|snapshot|action|problems|logs]
-  - bootstrappo [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
+  - primer [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
 
 description: |
-  Preserve the CLI surface for both phenome and bootstrappo while the
+  Preserve the CLI surface for both phenome and primer while the
   runtime architecture evolves. Establish guardrails so CLI behavior
   stays stable and neither repo migrates CLI logic into the other.
 
 deliverables:
-  - CLI contract snapshots for phenome and bootstrappo
+  - CLI contract snapshots for phenome and primer
   - Golden tests for CLI outputs and help text
   - Boundary checks that prevent cross-repo CLI dependencies
   - CI/cargo-make tasks that enforce the guardrails
@@ -43,9 +43,9 @@ source_files:
   - file: src/bin/terminal.rs
     context: "Phenome CLI entry"
   - file: ../primer/src/cli
-    context: "Bootstrappo CLI surface"
+    context: "Primer CLI surface"
   - file: ../primer/src/main.rs
-    context: "Bootstrappo CLI entry"
+    context: "Primer CLI entry"
   - file: Makefile.toml
     context: "Guardrail task wiring"
 

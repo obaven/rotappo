@@ -7,15 +7,15 @@ component: phenome-cli-safety
 cli_surface:
   - phenome ui
   - phenome server
-  - bootstrappo rotate
-  - bootstrappo nuke
-  - bootstrappo reconcile
+  - primer rotate
+  - primer nuke
+  - primer reconcile
 
 description: |
   Standardize CLI confirmations and dry-run safeguards to align with
   UI action safety gates. This reduces operator error and keeps behavior
   consistent across surfaces. Implement shared helpers in lib/phenome
-  and adapt Bootstrappo prompts to use them.
+  and adapt Primer prompts to use them.
 
 deliverables:
   - Shared confirmation prompt utility
@@ -44,7 +44,7 @@ source_files:
   - file: lib/phenome/src/runtime/confirm.rs
     context: "Create shared prompt helper"
   - file: lib/phenome/src/adapters/primer/confirm.rs
-    context: "Add shared confirmation guard for Bootstrappo commands"
+    context: "Add shared confirmation guard for Primer commands"
   - file: lib/phenome/src/adapters/primer/rotate.rs
     context: "Apply dry-run and prompt conventions"
 

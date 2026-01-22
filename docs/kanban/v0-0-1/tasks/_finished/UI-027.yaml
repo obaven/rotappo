@@ -11,12 +11,12 @@ cli_surface:
 description: |
   Define ports for action status, health checks, and log streaming so the
   runtime can swap adapters without refactors. Provide in-memory and
-  Bootstrappo implementations.
+  Primer implementations.
 
 deliverables:
   - Port traits for action status and health reporting
   - In-memory adapter for tests and offline use
-  - Bootstrappo adapter implementing the ports
+  - Primer adapter implementing the ports
 
 acceptance_criteria:
   - Runtime depends on trait objects or generics, not concrete adapters

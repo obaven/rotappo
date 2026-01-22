@@ -11,7 +11,7 @@ description: |
   lib/ports, lib/runtime, lib/adapters, and lib/ui, including naming
   rules, module boundaries, and the intended ownership for each folder.
   Highlight adapter boundaries for the distributed TUI and tool ports
-  (bootstrappo today).
+  (primer today).
 
 deliverables:
   - `docs/architecture/ARCH-4-structure.md` module map and layout rules

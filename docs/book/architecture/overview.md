@@ -20,7 +20,7 @@ Crate layout (in progress):
 - `lib/domain/phenome-domain` (domain types)
 - `lib/ports/phenome-ports` (ports)
 - `lib/runtime/phenome-application` (runtime orchestration)
-- `lib/adapters/phenome-adapter-primer` (bootstrappo adapter)
+- `lib/adapters/phenome-adapter-primer` (primer adapter)
 - `lib/adapters/phenome-adapter-analytics` (analytics adapter)
 - `lib/adapters/phenome-adapter-ml` (ML adapter)
 - `lib/adapters/phenome-adapter-notification` (notification adapter)

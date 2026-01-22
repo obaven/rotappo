@@ -1,5 +1,5 @@
 use anyhow::Result;
-use bootstrappo_api::contract::config::core::system::{StorageSystemConfig, SystemConfig};
+use primer_api::contract::config::core::system::{StorageSystemConfig, SystemConfig};
 use tracing::info;
 
 #[derive(Debug, Clone)]

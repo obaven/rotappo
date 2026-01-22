@@ -1,22 +1,22 @@
 id: ARCH-033
-title: 'ARCH-3L: Bootstrappo Adapter Crate Migration'
+title: 'ARCH-3L: Primer Adapter Crate Migration'
 type: Story
 layer: 5
 domain: core
-component: adapter-bootstrappo-migration
+component: adapter-primer-migration
 cli_surface: []
 
 description: |
-  Move the Bootstrappo adapter into phenome-adapter-primer so
+  Move the Primer adapter into phenome-adapter-primer so
   external integration stays isolated from UI and application layers.
 
 deliverables:
-  - Bootstrappo adapter moved into `lib/adapters/phenome-adapter-primer`
+  - Primer adapter moved into `lib/adapters/phenome-adapter-primer`
   - `phenome-adapter-primer` depends on `phenome-domain` and `phenome-ports`
   - Imports updated to use `phenome_adapter_primer`
 
 acceptance_criteria:
-  - No `src/adapters/bootstrappo` module remains in the root crate
+  - No `src/adapters/primer` module remains in the root crate
   - Adapter compiles without depending on interface or application crates
   - `cargo check -p phenome` succeeds after migration
 
@@ -37,7 +37,7 @@ source_files:
   - file: src/adapters/primer
     context: "Adapter implementation to migrate"
   - file: lib/adapters/phenome-adapter-primer
-    context: "Target crate for bootstrappo adapter"
+    context: "Target crate for primer adapter"
   - file: src/bin
     context: "Composition roots that wire the adapter"
 

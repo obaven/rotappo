@@ -11,7 +11,7 @@ Output modes:
 - json
 - ndjson
 
-Bootstrappo CLI:
+Primer CLI:
 - `cargo run --features cli,module-primer --bin cli -- --help`
 
 Runbook:

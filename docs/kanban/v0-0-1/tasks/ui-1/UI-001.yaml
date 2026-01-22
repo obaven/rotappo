@@ -7,19 +7,19 @@ component: phenome-platform
 cli_surface:
   - phenome ui
   - phenome server
-  - bootstrappo assembly validate
-  - bootstrappo reconcile
+  - primer assembly validate
+  - primer reconcile
 
 description: |
   Deliver a unified UX across CLI, terminal UI, web dashboard, and desktop
   app by introducing a shared action/runtime model, consistent state
   snapshots, and standard safety controls. This is packaged as Phenome,
-  an independent UI toolkit/app that plugs into Bootstrappo and the
+  an independent UI toolkit/app that plugs into Primer and the
   Rotato GitOps app at /home/jdean/gitops/apps/security/rotato.
 
 deliverables:
   - Phenome crate under lib/phenome with shared UI runtime
-  - Bootstrappo + Rotato adapters to surface actions and state
+  - Primer + Rotato adapters to surface actions and state
   - Terminal UI surface for local operations and monitoring
   - Web UI surface for remote dashboards and collaboration
   - Cross-platform desktop app packaging and distribution action
@@ -30,7 +30,7 @@ acceptance_criteria:
   - State and logs are consistent across CLI, TUI, and web views
   - Destructive actions require explicit confirmation or permissions
   - UI surfaces remain optional; CLI workflows continue to work unchanged
-  - Phenome can run independently while integrating Bootstrappo state
+  - Phenome can run independently while integrating Primer state
 
 dependencies:
   - BSP-101

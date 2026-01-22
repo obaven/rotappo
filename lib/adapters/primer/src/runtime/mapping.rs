@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
 use primer::application::runtime::modules::runtime::k8s::cache::ClusterCache;
-use bootstrappo_api::contract::assembly::{Check, Step};
-use bootstrappo_api::contract::config::Config;
+use primer_api::contract::assembly::{Check, Step};
+use primer_api::contract::config::Config;
 use validator::Validate;
 
 pub fn module_specs() -> HashMap<String, (String, Option<String>)> {

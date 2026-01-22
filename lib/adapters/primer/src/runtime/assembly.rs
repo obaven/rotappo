@@ -3,22 +3,22 @@ use std::sync::Arc;
 use super::health::LiveStatus;
 use crate::mapping;
 use anyhow::{Context, Result};
-use bootstrappo_api::contract::assembly::Assembly as BootstrappoAssembly;
-use bootstrappo_api::contract::config::Config as BootstrappoConfig;
+use primer_api::contract::assembly::Assembly as PrimerAssembly;
+use primer_api::contract::config::Config as PrimerConfig;
 use phenome_domain::{Assembly, AssemblyStepDef};
 use phenome_ports::AssemblyPort;
 
 #[derive(Clone)]
-pub struct BootstrappoAssemblyPort {
+pub struct PrimerAssemblyPort {
     assembly: Option<Assembly>,
-    raw_assembly: Option<BootstrappoAssembly>,
+    raw_assembly: Option<PrimerAssembly>,
     assembly_error: Option<String>,
     live_status: Option<LiveStatus>,
-    config: Arc<BootstrappoConfig>,
+    config: Arc<PrimerConfig>,
 }
 
-impl BootstrappoAssemblyPort {
-    pub fn load(live_status: Option<LiveStatus>, config: Arc<BootstrappoConfig>) -> Self {
+impl PrimerAssemblyPort {
+    pub fn load(live_status: Option<LiveStatus>, config: Arc<PrimerConfig>) -> Self {
         let (raw_assembly, assembly_error) = match build_assembly(config.as_ref()) {
             Ok(assembly) => (Some(assembly), None),
             Err(err) => (None, Some(err.to_string())),
@@ -41,12 +41,12 @@ impl BootstrappoAssemblyPort {
         self.assembly_error.clone()
     }
 
-    pub fn bootstrappo_assembly(&self) -> Option<BootstrappoAssembly> {
+    pub fn primer_assembly(&self) -> Option<PrimerAssembly> {
         self.raw_assembly.clone()
     }
 }
 
-impl AssemblyPort for BootstrappoAssemblyPort {
+impl AssemblyPort for PrimerAssemblyPort {
     fn assembly(&self) -> Option<Assembly> {
         self.assembly.clone()
     }
@@ -73,7 +73,7 @@ impl AssemblyPort for BootstrappoAssemblyPort {
     }
 }
 
-fn build_assembly(config: &BootstrappoConfig) -> Result<BootstrappoAssembly> {
+fn build_assembly(config: &PrimerConfig) -> Result<PrimerAssembly> {
     let modules = primer::application::runtime::registry::get_all_modules(config);
     primer::application::composition::assembly::builder::AssemblyBuilder::new(config.clone())
         .with_modules(modules)
@@ -81,7 +81,7 @@ fn build_assembly(config: &BootstrappoConfig) -> Result<BootstrappoAssembly> {
         .context("Failed to build assembly from config")
 }
 
-fn map_assembly(assembly: &BootstrappoAssembly) -> Assembly {
+fn map_assembly(assembly: &PrimerAssembly) -> Assembly {
     let spec_map = mapping::module_specs();
     let steps = assembly
         .steps

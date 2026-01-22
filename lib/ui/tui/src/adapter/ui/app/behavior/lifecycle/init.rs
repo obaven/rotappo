@@ -11,7 +11,7 @@ impl App {
         let assembly_path = context.assembly_path.display();
         runtime.events_mut().push(Event::new(
             EventLevel::Info,
-            format!("Connected to Bootstrappo ({host_domain})"),
+            format!("Connected to Primer ({host_domain})"),
         ));
         runtime.events_mut().push(Event::new(
             EventLevel::Info,

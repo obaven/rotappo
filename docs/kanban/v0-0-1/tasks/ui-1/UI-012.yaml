@@ -7,17 +7,17 @@ component: phenome-cli-output
 cli_surface:
   - phenome ui
   - phenome server
-  - bootstrappo assembly validate
-  - bootstrappo reconcile
-  - bootstrappo rotate
-  - bootstrappo debug
-  - bootstrappo nuke
+  - primer assembly validate
+  - primer reconcile
+  - primer rotate
+  - primer debug
+  - primer nuke
 
 description: |
   Provide structured output modes (json, ndjson) for CLI commands so
   UI surfaces and automation can parse results reliably. Preserve
   the existing human-readable output by default. Implement output
-  schemas inside lib/phenome and adapt Bootstrappo output as needed.
+  schemas inside lib/phenome and adapt Primer output as needed.
 
 deliverables:
   - Output mode flags shared across commands
@@ -47,7 +47,7 @@ source_files:
   - file: lib/phenome/src/runtime/output.rs
     context: "Define structured output schemas and encoders"
   - file: lib/phenome/src/adapters/primer/output.rs
-    context: "Render Bootstrappo results in structured formats"
+    context: "Render Primer results in structured formats"
   - file: lib/phenome/src/adapters/primer/commands.rs
     context: "Emit action results through shared output helpers"
 

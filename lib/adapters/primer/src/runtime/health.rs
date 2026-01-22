@@ -7,7 +7,7 @@ use std::time::Duration;
 use primer::application::runtime::modules::runtime::k8s::cache::ClusterCache;
 use primer::application::runtime::registry;
 use primer::ports::module::{HealthStatus, ModuleContext, ModuleMode};
-use bootstrappo_api::contract::config::Config;
+use primer_api::contract::config::Config;
 use kube::Client;
 
 use phenome_domain::{ComponentHealthStatus, HealthSnapshot};
@@ -117,17 +117,17 @@ impl LiveStatus {
 }
 
 #[derive(Clone)]
-pub struct BootstrappoHealthPort {
+pub struct PrimerHealthPort {
     live_status: Option<LiveStatus>,
 }
 
-impl BootstrappoHealthPort {
+impl PrimerHealthPort {
     pub fn new(live_status: Option<LiveStatus>) -> Self {
         Self { live_status }
     }
 }
 
-impl HealthPort for BootstrappoHealthPort {
+impl HealthPort for PrimerHealthPort {
     fn snapshot(&self) -> HealthSnapshot {
         let Some(live) = &self.live_status else {
             return HealthSnapshot::default();

@@ -5,7 +5,7 @@ layer: 5
 domain: core
 component: phenome-docs-tests
 cli_surface:
-  - bootstrappo [status|diff|explain|catalog]
+  - primer [status|diff|explain|catalog]
 
 description: |
   Update runbooks and add tests for the new CLI commands. Ensure the

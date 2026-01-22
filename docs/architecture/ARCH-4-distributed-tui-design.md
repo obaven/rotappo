@@ -2,14 +2,14 @@
 
 ## Purpose
 Define world-class system design principles for the distributed TUI adapter
-that speaks to multi-tool hex apps (bootstrappo today). This document focuses
+that speaks to multi-tool hex apps (primer today). This document focuses
 on latency, resilience, state synchronization, and extensibility so the TUI
 remains responsive as more tools and adapters come online.
 
 ## Scope
 - Applies to the TUI adapter in `lib/ui/phenome-ui-tui`.
 - Assumes the hex boundary pattern: interface adapters talk to tool ports.
-- Bootstrappo is the current tool adapter; additional tools should follow the
+- Primer is the current tool adapter; additional tools should follow the
   same contract.
 
 ## Non-goals
@@ -22,7 +22,7 @@ remains responsive as more tools and adapters come online.
 - TUI adapter: event loop, input handling, render pipeline, view state.
 - Tool ports: typed access to snapshot, logs, actions, and metadata.
 - Runtime: orchestrates ports and provides a stable snapshot surface.
-- Tool adapters: bootstrappo today, future tools later.
+- Tool adapters: primer today, future tools later.
 
 ### Component diagram (ASCII)
 ```
@@ -68,7 +68,7 @@ remains responsive as more tools and adapters come online.
   wiring, not a new adapter architecture.
 - Shared UI patterns are exposed via documented helpers/macros.
 
-## Adapter Contract (Bootstrappo today)
+## Adapter Contract (Primer today)
 Minimum expectations for each tool port:
 - Snapshot access: cheap, fast, and consistent within a frame.
 - Event stream: bounded drain, monotonic timestamps, and clear severity.

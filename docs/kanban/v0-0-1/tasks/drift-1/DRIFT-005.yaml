@@ -5,7 +5,7 @@ layer: 5
 domain: core
 component: phenome-adapter-primer
 cli_surface:
-  - bootstrappo [status|diff]
+  - primer [status|diff]
 
 description: |
   Build the status/diff data pipeline using the Meta-17 assembly and
@@ -33,7 +33,7 @@ effort: L
 risk: med
 
 labels:
-  - bootstrappo
+  - primer
   - assembly
   - validation
   - status

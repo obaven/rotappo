@@ -19,7 +19,7 @@ Feature flags:
 - `module-primer` enables the primer CLI surface (with `cli`)
 - `module-plasmid` enables the plasmid CLI surface (with `cli`)
 
-Bootstrappo CLI:
+Primer CLI:
 - `src/bin/cli.rs` (enabled via `cli` + `module-primer`)
 
 New UI surface checklist:

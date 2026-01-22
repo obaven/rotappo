@@ -5,7 +5,7 @@ layer: 5
 domain: core
 component: phenome-ui-terminal
 cli_surface:
-  - bootstrappo [status|diff|explain]
+  - primer [status|diff|explain]
 
 description: |
   Add the status, diff, and explain commands to the primer CLI
@@ -32,7 +32,7 @@ risk: low
 
 labels:
   - cli
-  - bootstrappo
+  - primer
   - clap
 
 source_files:

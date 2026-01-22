@@ -46,7 +46,7 @@ source_files:
   - file: src/ports
     context: "Ports surface"
   - file: src/adapters
-    context: "Bootstrappo adapters"
+    context: "Primer adapters"
   - file: src/interfaces/tui
     context: "TUI interface layer"
   - file: src/interfaces/terminal

@@ -1,4 +1,4 @@
-use phenome_adapter_primer::BootstrappoBackend;
+use phenome_adapter_primer::PrimerBackend;
 use phenome_application::Runtime;
 use phenome_domain::ActionRegistry;
 use phenome_ui_tui as tui;
@@ -6,7 +6,7 @@ use phenome_ui_tui::app::AppContext;
 
 fn main() -> anyhow::Result<()> {
     // 1. Initialize backend (Sync) - do this before starting any global runtime
-    let backend = BootstrappoBackend::from_env()?;
+    let backend = PrimerBackend::from_env()?;
     let ports = backend.ports();
     let runtime = Runtime::new_with_ports(ActionRegistry::default(), ports.clone());
     let context = AppContext {

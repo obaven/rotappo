@@ -80,7 +80,7 @@ pub struct ActionRegistry {
 }
 
 impl ActionRegistry {
-    pub fn bootstrappo_default() -> Self {
+    pub fn primer_default() -> Self {
         Self {
             actions: vec![
                 ActionDefinition::new(
@@ -133,6 +133,6 @@ impl ActionRegistry {
 
 impl Default for ActionRegistry {
     fn default() -> Self {
-        Self::bootstrappo_default()
+        Self::primer_default()
     }
 }

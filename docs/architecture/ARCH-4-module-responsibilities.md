@@ -8,7 +8,7 @@ canonical layout in `docs/architecture/ARCH-4-structure.md`.
 - `phenome-domain`: Domain models, enums, invariants, and identifiers.
 - `phenome-ports`: Port traits + contracts that adapters implement.
 - `phenome-application`: Runtime orchestration, pipelines, and state sync.
-- `phenome-adapter-primer`: Bootstrappo adapter implementations.
+- `phenome-adapter-primer`: Primer adapter implementations.
 - `phenome-adapter-analytics`: Analytics service adapter + schedulers.
 - `phenome-adapter-ml`: ML service adapter and inference hooks.
 - `phenome-adapter-notification`: Notification adapter.

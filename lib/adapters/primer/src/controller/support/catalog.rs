@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-use primer::application::api::BootstrappoApi;
+use primer::application::api::PrimerApi;
 use primer::domain::models::module::EngineMeta;
 
 #[derive(Serialize)]
@@ -47,7 +47,7 @@ enum CatalogEngine {
 }
 
 pub async fn catalog(output: Option<String>) -> anyhow::Result<()> {
-    let api = BootstrappoApi::new();
+    let api = PrimerApi::new();
     let mut specs = api.list_modules();
     specs.sort_by(|a, b| a.name.cmp(b.name));
 

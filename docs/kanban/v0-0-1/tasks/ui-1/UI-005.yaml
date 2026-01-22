@@ -8,7 +8,7 @@ cli_surface:
   - phenome server
 
 description: |
-  Provide a web dashboard for Bootstrappo with a local API server and
+  Provide a web dashboard for Primer with a local API server and
   live event streaming. This enables remote visibility, collaboration,
   and browser-based operations. Package the web UI as Phenome under
   lib/phenome and integrate with the Rotato GitOps app at

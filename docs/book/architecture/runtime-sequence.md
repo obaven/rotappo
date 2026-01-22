@@ -7,7 +7,7 @@ digraph RuntimeFlow {
   rankdir=TB;
   node [shape=box, style="rounded,filled", fillcolor="#f5f5f5"];
 
-  adapter [label="Adapter (bootstrappo)\nassembly(), snapshot(), drain_events()"];
+  adapter [label="Adapter (primer)\nassembly(), snapshot(), drain_events()"];
   ports [label="Ports\nAssemblyPort / HealthPort / LogPort"];
   application [label="Application Runtime\nbuild Snapshot + assembly steps"];
   presentation [label="Presentation\nformat assembly/problems/logs"];

@@ -8,7 +8,7 @@ cli_surface:
   - phenome ui
 
 description: |
-  Build an htop-style terminal UI for Bootstrappo using ratatui,
+  Build an htop-style terminal UI for Primer using ratatui,
   enabling live status monitoring and action triggers from a single
   screen. This is the primary local operator experience. Implement
   the TUI in the lib/phenome crate to keep it decoupled from the CLI.

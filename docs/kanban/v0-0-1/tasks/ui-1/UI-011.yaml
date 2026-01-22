@@ -7,21 +7,21 @@ component: phenome-cli-registry
 cli_surface:
   - phenome ui
   - phenome server
-  - bootstrappo assembly validate
-  - bootstrappo reconcile
-  - bootstrappo rotate
-  - bootstrappo debug
-  - bootstrappo nuke
+  - primer assembly validate
+  - primer reconcile
+  - primer rotate
+  - primer debug
+  - primer nuke
 
 description: |
   Create a command registry that lists all CLI actions with metadata
   used by the UI runtime. This is the single source of truth for action
   IDs, help text, parameters, and safety requirements. The registry
-  lives in lib/phenome and is adapted for Bootstrappo.
+  lives in lib/phenome and is adapted for Primer.
 
 deliverables:
   - Phenome action registry with IDs, labels, and parameter schemas
-  - Mapping between Bootstrappo CLI subcommands and runtime actions
+  - Mapping between Primer CLI subcommands and runtime actions
   - Registry output for UI clients (json export)
 
 acceptance_criteria:
@@ -48,7 +48,7 @@ source_files:
   - file: lib/phenome/src/runtime/registry.rs
     context: "Define action registry for UI surfaces"
   - file: lib/phenome/src/adapters/primer/registry.rs
-    context: "Expose Bootstrappo CLI actions via registry metadata"
+    context: "Expose Primer CLI actions via registry metadata"
   - file: lib/phenome/src/runtime/actions.rs
     context: "Bind registry entries to runtime actions"
 

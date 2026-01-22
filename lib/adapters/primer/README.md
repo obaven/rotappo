@@ -3,7 +3,7 @@
 Layer: adapters
 
 Purpose:
-- Bootstrappo integration implementing port contracts.
+- Primer integration implementing port contracts.
 
 Dependencies:
 - phenome-domain

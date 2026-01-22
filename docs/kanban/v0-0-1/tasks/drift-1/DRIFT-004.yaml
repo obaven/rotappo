@@ -5,10 +5,10 @@ layer: 5
 domain: core
 component: phenome-adapter-primer
 cli_surface:
-  - bootstrappo [explain|status|diff]
+  - primer [explain|status|diff]
 
 description: |
-  Use the bootstrappo module registry and hook registry to enrich CLI
+  Use the primer module registry and hook registry to enrich CLI
   output. The explain command should include module requirements,
   provides signals, checks, and engine metadata, plus hooks that depend
   on the module's capabilities.
@@ -31,7 +31,7 @@ effort: M
 risk: med
 
 labels:
-  - bootstrappo
+  - primer
   - registry
   - hooks
 

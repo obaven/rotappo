@@ -8,7 +8,7 @@ cli_surface: []
 
 description: |
   Enforce that phenome does not depend on primer CLI modules and
-  bootstrappo does not import phenome CLI logic. Add automated checks
+  primer does not import phenome CLI logic. Add automated checks
   so accidental cross-repo coupling is caught early.
 
 deliverables:
@@ -18,7 +18,7 @@ deliverables:
 
 acceptance_criteria:
   - Checks fail if phenome references primer CLI modules
-  - Checks fail if bootstrappo references phenome CLI modules
+  - Checks fail if primer references phenome CLI modules
   - Boundary checks run in CI and locally
 
 dependencies:
@@ -40,7 +40,7 @@ source_files:
   - file: src
     context: "Phenome codebase"
   - file: ../primer/src/cli
-    context: "Bootstrappo CLI modules"
+    context: "Primer CLI modules"
 
 status: MustHaves
 state: Done

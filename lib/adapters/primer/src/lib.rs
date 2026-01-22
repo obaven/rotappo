@@ -16,8 +16,8 @@ use tokio::sync::mpsc;
 pub use runtime::bootstrap::BootstrapAdapter;
 pub use runtime::health::LiveStatus;
 
-pub struct BootstrappoBackend {
-    pub config: Arc<bootstrappo_api::contract::config::Config>,
+pub struct PrimerBackend {
+    pub config: Arc<primer_api::contract::config::Config>,
     pub config_path: PathBuf,
     pub assembly_path: PathBuf,
     pub assembly: Option<phenome_domain::Assembly>,
@@ -30,7 +30,7 @@ pub struct BootstrappoBackend {
     bootstrap_runtime: Option<tokio::runtime::Runtime>,
 }
 
-impl BootstrappoBackend {
+impl PrimerBackend {
     pub fn from_env() -> Result<Self> {
         let config_path = std::env::var("PRIMER_CONFIG_PATH")
             .map(PathBuf::from)
@@ -83,7 +83,7 @@ impl BootstrappoBackend {
         let config =
             primer::application::config::load_from_file(&config_path).with_context(|| {
                 format!(
-                    "Failed to load Bootstrappo config at {}",
+                    "Failed to load Primer config at {}",
                     config_path.display()
                 )
             })?;
@@ -92,15 +92,15 @@ impl BootstrappoBackend {
         let config = Arc::new(config);
         let live_status = Some(LiveStatus::spawn(Arc::clone(&config)));
         let assembly_port =
-            assembly::BootstrappoAssemblyPort::load(live_status.clone(), Arc::clone(&config));
+            assembly::PrimerAssemblyPort::load(live_status.clone(), Arc::clone(&config));
         let assembly = assembly_port.assembly();
         let assembly_error = assembly_port.assembly_error();
-        let bootstrap_assembly = assembly_port.bootstrappo_assembly().unwrap_or_default();
-        let health_port = health::BootstrappoHealthPort::new(live_status.clone());
+        let bootstrap_assembly = assembly_port.primer_assembly().unwrap_or_default();
+        let health_port = health::PrimerHealthPort::new(live_status.clone());
         let mut ports = PortSet::empty();
         ports.assembly = Arc::new(assembly_port);
         ports.health = Arc::new(health_port);
-        ports.logs = Arc::new(BootstrappoLogPort);
+        ports.logs = Arc::new(PrimerLogPort);
         let (bootstrap_runtime, handle) = match tokio::runtime::Handle::try_current() {
             Ok(handle) => (None, handle),
             Err(_) => {
@@ -160,9 +160,9 @@ impl BootstrappoBackend {
 }
 
 #[derive(Clone, Copy)]
-struct BootstrappoLogPort;
+struct PrimerLogPort;
 
-impl LogPort for BootstrappoLogPort {
+impl LogPort for PrimerLogPort {
     fn drain_events(&self) -> Vec<Event> {
         Vec::new()
     }

@@ -1,4 +1,4 @@
-use primer::application::api::BootstrappoApi;
+use primer::application::api::PrimerApi;
 use primer::application::flows::reconcile::ops::hooks::registry::all_hook_specs;
 use primer::domain::models::module::EngineMeta;
 use primer::domain::models::signal::SignalRef;
@@ -6,7 +6,7 @@ use primer::domain::models::signal::SignalRef;
 pub async fn explain(module: String) -> anyhow::Result<()> {
     primer::application::config::load()?;
     let config = primer::application::config::instance();
-    let api = BootstrappoApi::new();
+    let api = PrimerApi::new();
 
     let spec = api
         .explain(config.as_ref().clone(), &module)

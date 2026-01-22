@@ -1,7 +1,7 @@
 //! Debug Command
 //!
 //! ## Responsibility
-//! Provides introspection into the Bootstrappo runtime state.
+//! Provides introspection into the Primer runtime state.
 //!
 //! ## Subcommands
 //! - `registry`: List all registered modules from the component registry.

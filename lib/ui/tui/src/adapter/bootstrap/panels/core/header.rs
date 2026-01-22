@@ -48,7 +48,7 @@ pub fn render(frame: &mut Frame, area: Rect, ports: &PortSet) {
     let lines = vec![
         Line::from(vec![
             Span::styled(
-                "Bootstrappo - Bootstrap",
+                "Primer - Bootstrap",
                 Style::default().fg(Color::Cyan).bold(),
             ),
             Span::raw("  "),

@@ -1,8 +1,8 @@
-use primer::application::api::BootstrappoApi;
+use primer::application::api::PrimerApi;
 
 pub async fn diff() -> anyhow::Result<()> {
     let (config, discovery) = super::status::load_config_and_discovery().await?;
-    let api = BootstrappoApi::new();
+    let api = PrimerApi::new();
     let report = api.diff(config.as_ref().clone(), discovery)?;
 
     println!("=== Diff ===");

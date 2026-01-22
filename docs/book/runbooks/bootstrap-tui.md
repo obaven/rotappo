@@ -1,8 +1,8 @@
-# Bootstrap TUI (Bootstrappo)
+# Bootstrap TUI (Primer)
 
 ## Purpose
 
-Document how the Bootstrappo bootstrap TUI is wired and how to add new panels
+Document how the Primer bootstrap TUI is wired and how to add new panels
 safely without breaking the event-driven UI contract.
 
 ## Current layout
@@ -35,7 +35,7 @@ The bootstrap UI renders:
 ## Data flow
 
 - `phenome-ports` defines `BootstrapPort` and component state shapes.
-- `phenome-adapter-primer` subscribes to bootstrappo events and updates
+- `phenome-adapter-primer` subscribes to primer events and updates
   `ComponentState`.
 - The TUI reads state via `PortSet::bootstrap` every tick (200ms).
 

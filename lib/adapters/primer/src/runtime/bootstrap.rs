@@ -1,7 +1,7 @@
-//! Bootstrappo adapter: event stream -> UI state projection.
+//! Primer adapter: event stream -> UI state projection.
 //!
 //! ## Responsibility
-//! - Subscribe to the Bootstrappo EventBus.
+//! - Subscribe to the Primer EventBus.
 //! - Maintain component state and bootstrap summary for the TUI.
 //! - Provide access to dependency graphs, timing history, and access URLs.
 //!
@@ -54,7 +54,7 @@ use phenome_ports::{
 
 const CACHE_TTL: Duration = Duration::from_secs(5);
 
-/// Adapter that projects Bootstrappo events into TUI-ready state.
+/// Adapter that projects Primer events into TUI-ready state.
 ///
 /// ## Why
 /// Decouple UI rendering from the bootstrap engine by maintaining a local

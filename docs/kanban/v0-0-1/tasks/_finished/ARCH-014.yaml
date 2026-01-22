@@ -11,7 +11,7 @@ description: |
   Separate CLI- and ratatui-specific concerns from the interface/ui
   layer so future UI surfaces (web, desktop, etc.) can reuse the
   interface contracts without pulling in CLI or ratatui dependencies.
-  Keep bootstrappo structure unchanged.
+  Keep primer structure unchanged.
 
 deliverables:
   - UI core contracts that are UI-framework agnostic
@@ -24,7 +24,7 @@ deliverables:
 acceptance_criteria:
   - Non-ratatui UI surfaces can build without ratatui dependencies
   - CLI surface remains stable and unchanged
-  - Bootstrappo codebase remains untouched for this refactor
+  - Primer codebase remains untouched for this refactor
   - UI core layer has no CLI-specific dependencies
 
 dependencies: []

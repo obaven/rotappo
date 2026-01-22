@@ -1,19 +1,19 @@
 id: ARCH-010
-title: 'MIG-1B: Bootstrappo CLI Contract Snapshots + Golden Tests'
+title: 'MIG-1B: Primer CLI Contract Snapshots + Golden Tests'
 type: Story
 layer: 5
 domain: core
 component: migration-cli-primer
 cli_surface:
-  - bootstrappo [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
+  - primer [action|reconcile|rotate|debug|nuke|cache|generate|visualize]
 
 description: |
   Record primer CLI outputs and help text to prevent accidental
-  drift during phenome refactors. Tests live alongside bootstrappo but
+  drift during phenome refactors. Tests live alongside primer but
   are tracked here to keep parity with phenome expectations.
 
 deliverables:
-  - CLI help/usage snapshots for bootstrappo commands
+  - CLI help/usage snapshots for primer commands
   - Optional fixture-driven outputs for non-destructive commands
   - Test harness that diffs current output against snapshots
 
@@ -33,13 +33,13 @@ labels:
   - migration
   - cli
   - testing
-  - bootstrappo
+  - primer
 
 source_files:
   - file: ../primer/src/cli
-    context: "Bootstrappo CLI surface"
+    context: "Primer CLI surface"
   - file: ../primer/src/main.rs
-    context: "Bootstrappo CLI entry"
+    context: "Primer CLI entry"
   - file: ../primer/tests
     context: "Golden tests and fixtures"
 

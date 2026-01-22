@@ -13,14 +13,14 @@ description: |
   event streams for all UI surfaces. This runtime becomes the single
   source of truth for UI data and command execution. Implement the
   runtime inside phenome so it can be developed independently and
-  adapted for Bootstrappo and Rotato.
+  adapted for Primer and Rotato.
 
 deliverables:
   - Phenome runtime modules under phenome/src/runtime
   - Action router and command registry used by all surfaces
   - State snapshot model aggregating action, capabilities, and health
   - Event bus for logs and step transitions
-  - Bootstrappo + Rotato adapters for runtime data
+  - Primer + Rotato adapters for runtime data
   - UI configuration schema and persistence
 
 acceptance_criteria:
@@ -52,7 +52,7 @@ labels:
 
 source_files:
   - file: ../primer/src/main.rs
-    context: "CLI entry point; invokes bootstrappo::cli::Cli::run"
+    context: "CLI entry point; invokes primer::cli::Cli::run"
   - file: ../primer/src/cli/mod.rs
     context: "CLI parser and dispatch wiring"
   - file: ../primer/src/cli/context.rs
@@ -60,21 +60,21 @@ source_files:
   - file: ../primer/src/cli/commands/mod.rs
     context: "CLI command registry"
   - file: ../primer/src/cli/commands/action.rs
-    context: "bootstrappo assembly command handler"
+    context: "primer assembly command handler"
   - file: ../primer/src/cli/commands/reconcile.rs
-    context: "bootstrappo reconcile command handler"
+    context: "primer reconcile command handler"
   - file: ../primer/src/cli/commands/rotate.rs
-    context: "bootstrappo rotate command handler"
+    context: "primer rotate command handler"
   - file: ../primer/src/cli/commands/nuke.rs
-    context: "bootstrappo nuke command handler"
+    context: "primer nuke command handler"
   - file: ../primer/src/cli/commands/debug.rs
-    context: "bootstrappo debug command handler"
+    context: "primer debug command handler"
   - file: ../primer/src/cli/commands/cache.rs
-    context: "bootstrappo cache command handler"
+    context: "primer cache command handler"
   - file: ../primer/src/cli/commands/generate.rs
-    context: "bootstrappo generate command handler"
+    context: "primer generate command handler"
   - file: ../primer/src/cli/commands/visualize.rs
-    context: "bootstrappo visualize command handler"
+    context: "primer visualize command handler"
   - file: ../primer/src/bin/test_action_load.rs
     context: "CLI test harness for action loading"
 

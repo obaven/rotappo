@@ -26,4 +26,4 @@ Cleanup verification (ARCH-4C):
 - Scheduler loop caps per-tick executions and logs when deferring work
 - Notification anomaly loop caps per tick and logs errors on query/send
 - TUI analytics background updates are capped to avoid UI starvation
-- Bootstrappo live status loop has an explicit stop path
+- Primer live status loop has an explicit stop path

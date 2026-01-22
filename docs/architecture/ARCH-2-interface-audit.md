@@ -24,7 +24,7 @@ Legend:
 
 | Module/Path | Dependencies | Classification | Notes |
 | --- | --- | --- | --- |
-| `lib/ui/phenome-ui-terminal/` | domain, presentation, adapter-bootstrappo | CLI | CLI formatting + dispatch. |
+| `lib/ui/phenome-ui-terminal/` | domain, presentation, adapter-primer | CLI | CLI formatting + dispatch. |
 | `lib/ui/phenome-ui-core/` | domain, presentation | UI-CORE | Framework-agnostic UI contracts. |
 | `lib/ui/phenome-ui-tui/runner.rs` | ratatui, crossterm | TUI-ADAPTER | TUI entrypoint wiring. |
 | `lib/ui/phenome-ui-tui/terminal.rs` | ratatui, crossterm | TUI-ADAPTER | Terminal guard + shared run loop. |

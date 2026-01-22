@@ -5,10 +5,10 @@ layer: 5
 domain: core
 component: phenome-adapter-primer
 cli_surface:
-  - bootstrappo [catalog]
+  - primer [catalog]
 
 description: |
-  Add the catalog command to list all registered bootstrappo modules
+  Add the catalog command to list all registered primer modules
   and export their ModuleSpec metadata as YAML. Support stdout output
   and an optional --output path.
 
@@ -33,7 +33,7 @@ risk: low
 
 labels:
   - cli
-  - bootstrappo
+  - primer
   - catalog
   - yaml
 

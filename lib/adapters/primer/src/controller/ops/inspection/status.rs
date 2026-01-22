@@ -2,7 +2,7 @@ use std::collections::HashSet;
 use std::sync::Arc;
 use std::time::Duration;
 
-use primer::application::api::BootstrappoApi;
+use primer::application::api::PrimerApi;
 use primer::application::flows::reconcile::core::assembly::validation::{
     Severity, ValidationReport,
 };
@@ -11,7 +11,7 @@ use primer::ports::discovery::ClusterDiscoveryPort;
 
 pub async fn status() -> anyhow::Result<()> {
     let (config, discovery) = load_config_and_discovery().await?;
-    let api = BootstrappoApi::new();
+    let api = PrimerApi::new();
     let report = api.status(config.as_ref().clone(), discovery)?;
 
     println!("=== Status ===");

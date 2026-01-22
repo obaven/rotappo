@@ -11,7 +11,7 @@ description: |
   structure by standardizing folder layout, consolidating macros and
   shared helpers, reducing code smell, and documenting the rationale.
   Apply world-class system design principles for the distributed TUI
-  adapter that speaks to multi-tool hex apps (bootstrappo today).
+  adapter that speaks to multi-tool hex apps (primer today).
 
 deliverables:
   - Directory layout canon and module index

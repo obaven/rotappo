@@ -9,7 +9,7 @@ cli_surface:
 
 description: |
   Define world-class system design principles for the distributed TUI
-  adapter that speaks to multi-tool hex apps (bootstrappo today),
+  adapter that speaks to multi-tool hex apps (primer today),
   covering state synchronization, backpressure, resilience, and
   extensibility.
 
@@ -22,7 +22,7 @@ deliverables:
 acceptance_criteria:
   - Docs include component diagrams and event-flow sequencing
   - State sync, caching, and backpressure strategies are specified
-  - Bootstrappo integration is documented as the current tool adapter
+  - Primer integration is documented as the current tool adapter
   - Extensibility plan for additional tools is explicit
 
 dependencies:
